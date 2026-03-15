@@ -9,53 +9,53 @@
         :root { --primaria: #0f2621; --detalhe: #d4af37; --whatsapp: #25d366; --fundo: #fcfcfc; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
         body { background-color: var(--fundo); padding-bottom: 80px; }
-        header { background: var(--primaria); color: white; padding: 20px; text-align: center; position: sticky; top: 0; z-index: 1000; border-bottom: 3px solid var(--detalhe); }
+        header { background: var(--primaria); color: white; padding: 20px; text-align: center; border-bottom: 3px solid var(--detalhe); }
         
-        /* SEÇÃO DE LOGOS - TODOS IGUAIS */
-        .area-catalogos { background: white; padding: 15px; border-bottom: 1px solid #eee; }
-        .titulo-secao { font-size: 12px; font-weight: bold; color: #666; text-transform: uppercase; text-align: center; margin-bottom: 15px; letter-spacing: 1px; }
-        .grade-logos { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
-        .item-logo { text-decoration: none; text-align: center; width: 80px; }
-        .item-logo img { width: 60px; height: 60px; object-fit: contain; border-radius: 50%; border: 2px solid #f0f0f0; padding: 5px; background: white; transition: 0.3s; }
-        .item-logo:hover img { border-color: var(--detalhe); transform: scale(1.1); }
-        .item-logo span { display: block; font-size: 10px; font-weight: bold; color: #333; margin-top: 5px; text-transform: uppercase; }
+        /* SEÇÃO DE LOGOS - CORRIGIDA */
+        .area-catalogos { background: white; padding: 20px; border-bottom: 1px solid #eee; text-align: center; }
+        .titulo-secao { font-size: 11px; font-weight: bold; color: #999; text-transform: uppercase; margin-bottom: 15px; letter-spacing: 2px; }
+        .grade-logos { display: flex; justify-content: center; gap: 25px; flex-wrap: wrap; }
+        .item-logo { text-decoration: none; display: flex; flex-direction: column; align-items: center; width: 70px; }
+        
+        /* Garantindo que as logos apareçam e tenham o mesmo tamanho */
+        .img-container { width: 65px; height: 65px; border-radius: 50%; border: 1px solid #ddd; display: flex; align-items: center; justify-content: center; background: white; margin-bottom: 8px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .item-logo img { width: 80%; height: 80%; object-fit: contain; }
+        .item-logo span { font-size: 10px; font-weight: 700; color: #333; text-transform: uppercase; }
 
-        .nav-categorias { background: white; padding: 10px; overflow-x: auto; display: flex; gap: 10px; border-bottom: 1px solid #eee; position: sticky; top: 105px; z-index: 999; }
-        .cat-btn { padding: 8px 15px; border-radius: 20px; border: 1px solid var(--primaria); background: transparent; font-size: 0.8rem; font-weight: bold; cursor: pointer; }
+        .nav-categorias { background: white; padding: 12px; overflow-x: auto; display: flex; gap: 10px; border-bottom: 1px solid #eee; position: sticky; top: 0; z-index: 999; }
+        .cat-btn { padding: 8px 18px; border-radius: 20px; border: 1px solid var(--primaria); background: transparent; font-size: 0.75rem; font-weight: bold; cursor: pointer; white-space: nowrap; }
         .cat-btn.active { background: var(--primaria); color: white; }
         .vitrine { max-width: 1100px; margin: 15px auto; display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px; padding: 0 15px; }
-        .p-card { background: white; border: 1px solid #eee; padding: 15px; text-align: center; border-radius: 12px; display: flex; flex-direction: column; justify-content: space-between; height: 100%; position: relative; }
-        .p-card img { width: 100%; height: 140px; object-fit: contain; }
-        .p-nome { font-weight: 600; font-size: 0.85rem; margin: 10px 0; min-height: 40px; display: flex; align-items: center; justify-content: center; }
-        .p-preco { font-size: 1.1rem; font-weight: 800; color: #333; }
-        .btn-add { background: var(--primaria); color: white; border: none; padding: 12px; border-radius: 6px; font-weight: bold; text-transform: uppercase; cursor: pointer; margin-top: 10px; }
+        .p-card { background: white; border: 1px solid #eee; padding: 15px; text-align: center; border-radius: 12px; display: flex; flex-direction: column; height: 100%; }
+        .p-card img { width: 100%; height: 130px; object-fit: contain; margin-bottom: 10px; }
+        .p-nome { font-size: 0.85rem; font-weight: 600; min-height: 40px; margin-bottom: 10px; }
+        .p-preco { font-weight: 800; color: #333; font-size: 1.1rem; }
     </style>
 </head>
 <body>
 
 <header>
-    <h1 style="font-size: 1.4rem; color: var(--detalhe);">GUI PERFUMARIA</h1>
-    <p style="font-size: 0.8rem;">Consultora: Aline Souza</p>
+    <h1 style="color: var(--detalhe); font-size: 1.5rem;">GUI PERFUMARIA</h1>
 </header>
 
 <div class="area-catalogos">
-    <p class="titulo-secao">Acesse os Catálogos Oficiais</p>
+    <p class="titulo-secao">Catálogos das Marcas</p>
     <div class="grade-logos">
         <a href="https://www.natura.com.br/consultoria/guiparfumaria" target="_blank" class="item-logo">
-            <img src="https://logodownload.org/wp-content/uploads/2014/10/natura-logo-2.png">
+            <div class="img-container"><img src="https://logopng.com.br/logos/natura-108.png" alt="Natura"></div>
             <span>Natura</span>
         </a>
         <a href="https://catalogo.oboticario.com.br/" target="_blank" class="item-logo">
-            <img src="https://logodownload.org/wp-content/uploads/2014/10/o-boticario-logo-8.png">
+            <div class="img-container"><img src="https://logopng.com.br/logos/o-boticario-109.png" alt="Boticário"></div>
             <span>Boticário</span>
         </a>
         <a href="https://www.eudora.com.br/guia-virtual/" target="_blank" class="item-logo">
-            <img src="https://logodownload.org/wp-content/uploads/2018/02/eudora-logo.png">
+            <div class="img-container"><img src="https://logopng.com.br/logos/eudora-187.png" alt="Eudora"></div>
             <span>Eudora</span>
         </a>
         <a href="https://www.ouiparis.com/guia-virtual" target="_blank" class="item-logo">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR6A6R_A6y9_7hDk6_8_2-V-uY6m2l0R4x2qg&s">
-            <span>O.U.i Paris</span>
+            <div class="img-container"><img src="https://res.cloudinary.com/beleza-na-web/image/upload/f_auto,fl_progressive,q_auto:best/v1/brands/oui/oui-logo.png" alt="O.U.i"></div>
+            <span>O.U.i</span>
         </a>
     </div>
 </div>
@@ -64,7 +64,7 @@
     <button class="cat-btn active" onclick="filtrar('TODOS', this)">Todos</button>
 </div>
 
-<div id="loading" style="text-align:center; padding:50px;">Sincronizando produtos...</div>
+<div id="loading" style="text-align:center; padding:50px;">Buscando produtos...</div>
 <div class="vitrine" id="vitrine" style="display:none;"></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
@@ -75,18 +75,16 @@ function carregarDados() {
     Papa.parse(URL_CSV, {
         download: true, header: true, skipEmptyLines: true,
         complete: function(results) {
-            window.PRODUTOS = results.data.map((item, index) => {
+            window.PRODUTOS = results.data.map(item => {
                 const v = Object.values(item);
-                if (v.length < 5) return null;
                 return {
-                    id: index,
                     marca: v[1] || "",
                     nome: v[3] || "",
                     preco: v[4] || "0,00",
                     img: v[5] || "",
                     estoque: parseInt(v[6]) || 0
                 };
-            }).filter(p => p && p.nome);
+            }).filter(p => p.nome);
             
             const marcas = [...new Set(window.PRODUTOS.map(p => p.marca))].filter(Boolean);
             marcas.forEach(m => document.getElementById('filtro-marcas').innerHTML += `<button class="cat-btn" onclick="filtrar('${m}', this)">${m}</button>`);
@@ -108,11 +106,10 @@ function render(filtro) {
     const v = document.getElementById('vitrine');
     const filtrados = filtro === 'TODOS' ? window.PRODUTOS : window.PRODUTOS.filter(p => p.marca === filtro);
     v.innerHTML = filtrados.map(p => `
-        <div class="p-card" style="opacity: ${p.estoque > 0 ? 1 : 0.5}">
+        <div class="p-card">
             <img src="${p.img}" onerror="this.src='https://via.placeholder.com/150?text=Sem+Foto'">
             <div class="p-nome">${p.nome}</div>
             <div class="p-preco">R$ ${p.preco}</div>
-            <button class="btn-add" ${p.estoque > 0 ? '' : 'disabled'}>${p.estoque > 0 ? 'Adicionar' : 'Esgotado'}</button>
         </div>`).join('');
 }
 carregarDados();
