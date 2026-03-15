@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gui Perfumaria | Catálogo Digital</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <style>
+        :root { --primaria: #0f2621; --detalhe: #d4af37; --whatsapp: #25d366; --fundo: #fcfcfc; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body { background-color: var(--fundo); padding-bottom: 80px; color: #333; }
+        
+        header { background: var(--primaria); color: white; padding: 25px 20px; text-align: center; position: sticky; top: 0; z-index: 1000; border-bottom: 3px solid var(--detalhe); }
+        .logo h1 { font-size: 1.6rem; letter-spacing: 3px; text-transform: uppercase; color: var(--detalhe); border: 2px solid var(--detalhe); display: inline-block; padding: 5px 20px; margin-bottom: 5px; }
+        
+        .badge-estoque { background: #fff3cd; color: #856404; text-align: center; padding: 10px; font-size: 0.8rem; font-weight: bold; text-transform: uppercase; }
+
+        #loading { text-align: center; padding: 60px; font-weight: bold; color: var(--primaria); }
+        
+        .vitrine { max-width: 1100px; margin: 15px auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 15px; padding: 0 15px; }
+        .p-card { background: white; border: 1px solid #eee; padding: 15px; text-align: center; border-radius: 12px; display: flex; flex-direction: column; transition: 0.3s; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .p-card img { width: 100%; height: 140px; object-fit: contain; margin-bottom: 10px; border-radius: 8px; }
+        .p-marca { font-size: 10px; font-weight: bold; color: #999; text-transform: uppercase; }
+        .p-preco { font-size: 1.1rem; font-weight: 800; color: var(--primaria); margin: 10px 0; }
+        
+        .btn-add { background: var(--primaria); color: white; border: none; padding: 12px; cursor: pointer; font-weight: bold; border-radius: 6px; text-transform: uppercase; font-size: 0.8rem; }
+        .btn-add:disabled { background: #ccc; cursor: not-allowed; }
+
+        .cart-icon { position: absolute; right: 15px; top: 25px; background: var(--detalhe); color: white; border: none; border-radius: 50%; width: 42px; height: 42px; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 3px 10px rgba(0,0,0,0.2); }
+        
+        #side-cart { position: fixed; right: -100%; top: 0; width: 100%; max-width: 360px; height: 100%; background: white; z-index: 2001; transition: 0.4s; padding: 25px; display: flex; flex-direction: column; box-shadow: -5px 0 20px rgba(0,0,0,0.1); }
+        #side-cart.open { right: 0; }
+        .c-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #f5f5f5; }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo"><h1>Gui Perfumaria</h1></div>
+    <p style="font-size: 0.8rem; opacity: 0.9;">Consultora: Aline Souza</p>
+    <button class="cart-icon" onclick="toggleCart()">
+        <span class="material-icons">shopping_bag</span>
+        <span id="c-count" style="position:absolute; top:-5px; right:-5px; background:#d9534f; border-radius:50%; width:20px; height:20px; font-size:11px; display:flex; align-items:center; justify-content:center; border:2px solid white">0</span>
+    </button>
+</header>
+
+<div class="badge-estoque">📦 Pronta Entrega - Salvador / BA</div>
+
+<div id="loading">
+    <span class="material-icons" style="animation: spin 2s linear infinite;">sync</span><br>
+    Carregando Catálogo...
+</div>
+
+<div class="vitrine" id="vitrine" style="display:none;"></div>
+
+<div id="side-cart">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+        <h3>🛍️ Meu Pedido</h3>
+        <span class="material-icons" onclick="toggleCart()" style="cursor:pointer; color:#999">close</span>
+    </div>
+    <div id="cart-list" style="flex-grow:1; overflow-y:auto;"></div>
+    <div style="border-top:2px solid #f0f0f0; padding-top:15px;">
+        <p style="font-size: 1.1rem; margin-bottom: 10px;">Total: <b>R$ <span id="cart-total">0,00</span></b></p>
+        <button onclick="send()" style="background:var(--whatsapp); color:white; border:none; width:100%; padding:18px; border-radius:10px; font-weight:bold; cursor:pointer;">FINALIZAR NO WHATSAPP</button>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+<script>
+const URL_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQZxhG0vIEsRAw40jA4v1vMauSy16U-qKuvOmzVTYHIdKLz89jzHvaKxbDA2NQI2xnYRgn2a-DFdUjc/pub?output=csv';
+const WHATSAPP_NUM = "5571987692157";
+
+let PRODUTOS = [];
+let cart = {};
+
+function carregarDados() {
+    Papa.parse(URL_CSV, {
+        download: true,
+        header: true,
+        skipEmptyLines: true,
+        complete: function(results) {
+            PRODUTOS = results.data.map((item, index) => {
+                const valores = Object.values(item);
+                if (valores.length < 5) return null;
+                
+                const limpar = (t) => t ? t.replace(/^"|"$/g, '').trim() : "";
+                // Remove R$, troca ponto de milhar por nada e vírgula por ponto
+                const precoLimpo = limpar(valores[4]).replace('R$', '').replace(/\./g, '').replace(',', '.').trim();
+
+                return {
+                    id: limpar(valores[0]) || index,
+                    marca: limpar(valores[1]),
+                    nome: limpar(valores[3]),
+                    preco: parseFloat(precoLimpo) || 0,
+                    img: limpar(valores[5]),
+                    estoque: parseInt(limpar(valores[6])) || 0
+                };
+            }).filter(p => p && p.nome);
+
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('vitrine').style.display = 'grid';
+            render();
+        },
+        error: function() {
+            document.getElementById('loading').innerHTML = "⚠️ Erro ao acessar a planilha.";
+        }
+    });
+}
+
+function render() {
+    const v = document.getElementById('vitrine');
+    v.innerHTML = PRODUTOS.map(p => {
+        const temEstoque = p.estoque > 0;
+        return `
+        <div class="p-card" style="opacity: ${temEstoque ? 1 : 0.6}">
+            <span class="p-marca">${p.marca}</span>
+            <img src="${p.img}" onerror="this.src='https://via.placeholder.com/200?text=${p.marca}'">
+            <span style="font-size:11px; font-weight:bold; color:#d9534f; margin-bottom:5px;">${temEstoque ? 'Restam ' + p.estoque : 'Esgotado'}</span>
+            <div style="font-weight:600; font-size:0.9rem; height:40px; overflow:hidden; margin-bottom:10px;">${p.nome}</div>
+            <div class="p-preco">R$ ${p.preco.toFixed(2).replace('.',',')}</div>
+            <button class="btn-add" onclick="add('${p.id}')" ${temEstoque ? '' : 'disabled'}>
+                ${temEstoque ? 'ADICIONAR' : 'INDISPONÍVEL'}
+            </button>
+        </div>`}).join('');
+}
+
+function add(id) {
+    const p = PRODUTOS.find(x => x.id == id);
+    if (cart[id]) {
+        if (cart[id].q < p.estoque) cart[id].q++; else alert("Limite de estoque atingido!");
+    } else { cart[id] = { ...p, q: 1 }; }
+    upd();
+}
+
+function upd() {
+    const l = document.getElementById('cart-list');
+    let t = 0; let c = 0; l.innerHTML = '';
+    for (let id in cart) {
+        const p = cart[id]; t += p.preco * p.q; c += p.q;
+        l.innerHTML += `<div class="c-item"><span>${p.nome} (${p.q}x)</span> <b>R$ ${(p.preco * p.q).toFixed(2).replace('.',',')}</b></div>`;
+    }
+    document.getElementById('cart-total').innerText = t.toFixed(2).replace('.',',');
+    document.getElementById('c-count').innerText = c;
+}
+
+function toggleCart() { document.getElementById('side-cart').classList.toggle('open'); }
+
+function send() {
+    const itens = Object.values(cart); if (!itens.length) return;
+    let txt = `🛍️ *NOVO PEDIDO - GUI PERFUMARIA*\n\n`;
+    itens.forEach(p => txt += `✅ ${p.q}x ${p.nome}\n`);
+    txt += `\n💰 *TOTAL: R$ ${document.getElementById('cart-total').innerText}*`;
+    window.open(`https://wa.me/${WHATSAPP_NUM}?text=${encodeURIComponent(txt)}`);
+}
+
+carregarDados();
+</script>
+</body>
+</html>
