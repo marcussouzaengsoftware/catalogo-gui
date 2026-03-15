@@ -11,7 +11,7 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
         body { background-color: var(--fundo); padding-top: 320px; padding-bottom: 80px; } 
 
-        /* TOPO E CABEÇALHO */
+        /* TOPO */
         .topo-fixo { position: fixed; top: 0; left: 0; width: 100%; z-index: 2000; background: white; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
         header { background: var(--primaria); color: white; padding: 40px 15px; text-align: center; border-bottom: 6px solid var(--detalhe); position: relative; }
         header h1 { font-family: 'Playfair Display', serif; font-size: 2.8rem; color: var(--detalhe); text-transform: uppercase; }
@@ -27,23 +27,30 @@
         .img-box { width: 75px; height: 75px; border-radius: 50%; border: 2px solid #f0f0f0; display: flex; align-items: center; justify-content: center; background: white; overflow: hidden; margin-bottom: 8px; }
         .img-box img { width: 80%; height: 80%; object-fit: contain; }
 
-        /* VITRINE E PREÇOS */
+        /* VITRINE E GATILHOS DE VENDA */
         .vitrine { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; padding: 12px; }
         .p-card { background: white; border: 1px solid #eee; padding: 15px; text-align: center; border-radius: 12px; display: flex; flex-direction: column; height: 100%; position: relative; }
         
-        /* Selo de Oferta */
-        .selo-promo { position: absolute; top: 10px; right: 10px; background: var(--promo); color: white; font-size: 9px; padding: 4px 8px; border-radius: 20px; font-weight: 800; text-transform: uppercase; }
+        /* Selo Oferta */
+        .selo-promo { position: absolute; top: 10px; right: 10px; background: var(--promo); color: white; font-size: 9px; padding: 4px 8px; border-radius: 20px; font-weight: 800; text-transform: uppercase; z-index: 10; }
 
         .p-card img { width: 100%; height: 130px; object-fit: contain; margin-bottom: 10px; }
         .p-nome { font-size: 0.85rem; font-weight: 700; min-height: 40px; margin-bottom: 5px; color: #333; }
         
-        /* Lógica do De/Por */
         .p-preco-de { font-size: 0.75rem; color: #999; text-decoration: line-through; display: block; height: 15px; }
         .p-preco-por { font-weight: 800; color: var(--primaria); font-size: 1.25rem; display: block; margin-bottom: 5px; }
         .p-preco-por.em-oferta { color: var(--promo); }
 
-        .p-estoque { font-size: 10px; color: var(--erro); font-weight: bold; margin-bottom: 10px; }
-        .btn-add { background: var(--primaria); color: white; border: none; padding: 12px; border-radius: 8px; font-weight: 800; cursor: pointer; margin-top: auto; }
+        /* GATILHO DE ESCASSEZ */
+        .area-escassez { margin-top: auto; padding-top: 10px; }
+        .txt-escassez { font-size: 9px; font-weight: 800; color: var(--erro); text-transform: uppercase; display: block; margin-bottom: 4px; animation: blink 1.5s infinite; }
+        .barra-estoque { width: 100%; height: 6px; background: #eee; border-radius: 10px; overflow: hidden; margin-bottom: 10px; }
+        .progresso-estoque { height: 100%; background: var(--erro); transition: width 0.5s; }
+        
+        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
+
+        .btn-add { background: var(--primaria); color: white; border: none; padding: 12px; border-radius: 8px; font-weight: 800; cursor: pointer; }
+        .btn-add:disabled { background: #ccc; }
 
         /* SUPORTE E MODAL */
         .btn-suporte { position: fixed; bottom: 20px; left: 20px; background: white; color: #333; padding: 10px 15px; border-radius: 30px; display: flex; align-items: center; gap: 8px; text-decoration: none; font-weight: 800; font-size: 0.8rem; box-shadow: 0 4px 15px rgba(0,0,0,0.15); border: 1px solid #eee; z-index: 3000; }
@@ -75,7 +82,7 @@
     </div>
 </div>
 
-<div id="loading" style="text-align:center; padding:100px; font-weight:800;">VERIFICANDO OFERTAS...</div>
+<div id="loading" style="text-align:center; padding:100px; font-weight:800;">SINCRONIZANDO ESTOQUE...</div>
 <div class="vitrine" id="vitrine"></div>
 
 <a href="https://wa.me/5571987692157?text=Olá Aline! Tenho uma dúvida sobre o catálogo." target="_blank" class="btn-suporte">
@@ -88,7 +95,7 @@
         <div id="lista-resumo"></div>
         <div id="modal-total" style="font-weight: 800; font-size: 1.6rem; text-align: right; margin-top: 20px;">Total: R$ 0,00</div>
         <button style="background:var(--whatsapp); color:white; width:100%; border:none; padding:18px; border-radius:12px; font-weight:800; margin-top:20px; cursor:pointer;" onclick="enviarWhatsapp()">CONCLUIR NO WHATSAPP</button>
-        <p onclick="fecharResumo()" style="text-align:center; margin-top:20px; cursor:pointer; color:#999; font-weight:800; font-size:12px;">VOLTAR</p>
+        <p onclick="fecharResumo()" style="text-align:center; margin-top:20px; cursor:pointer; color:#999; font-weight:800; font-size:12px;">VOLTAR AO CATÁLOGO</p>
     </div>
 </div>
 
@@ -115,16 +122,16 @@ function carregarDados() {
             window.PRODUTOS = results.data.map((item, idx) => {
                 const v = Object.values(item);
                 const pNormal = String(v[4] || "0,00").trim();
-                const pPromo = String(v[7] || "").trim(); // Nova Coluna 7
+                const pPromo = String(v[7] || "").trim();
                 
                 return { 
                     id: idx, 
                     nome: String(v[3] || "").trim(), 
                     precoOriginal: pNormal,
                     precoPromo: pPromo,
-                    // Se houver promo, o preço de venda é o promo
                     precoVendaCents: pPromo !== "" ? converterParaCentavos(pPromo) : converterParaCentavos(pNormal),
                     img: String(v[5] || "").trim(), 
+                    estoqueOriginal: parseInt(v[6]) || 0,
                     estoqueAtual: parseInt(v[6]) || 0
                 };
             }).filter(p => p.nome);
@@ -139,6 +146,9 @@ function render() {
     const v = document.getElementById('vitrine');
     v.innerHTML = window.PRODUTOS.map((p) => {
         const temPromo = p.precoPromo !== "";
+        const critico = p.estoqueAtual > 0 && p.estoqueAtual <= 3;
+        const porcentagemEstoque = (p.estoqueAtual / (p.estoqueOriginal || 1)) * 100;
+
         return `
         <div class="p-card">
             ${temPromo ? '<div class="selo-promo">Oferta</div>' : ''}
@@ -148,7 +158,14 @@ function render() {
             <div class="p-preco-por ${temPromo ? 'em-oferta' : ''}">
                 ${temPromo ? 'Por: R$ ' + p.precoPromo : 'R$ ' + p.precoOriginal}
             </div>
-            <div class="p-estoque" id="est-${p.id}">Estoque: ${p.estoqueAtual}</div>
+            
+            <div class="area-escassez">
+                ${critico ? `<span class="txt-escassez">🔥 Apenas ${p.estoqueAtual} restando!</span>` : `<span style="font-size:9px; color:#999; font-weight:700">Disponível: ${p.estoqueAtual}</span>`}
+                <div class="barra-estoque">
+                    <div class="progresso-estoque" id="prog-${p.id}" style="width: ${porcentagemEstoque}%"></div>
+                </div>
+            </div>
+
             <button class="btn-add" id="btn-${p.id}" onclick="addCart(${p.id})" ${p.estoqueAtual <= 0 ? 'disabled' : ''}>
                 ${p.estoqueAtual <= 0 ? 'ESGOTADO' : 'ADICIONAR'}
             </button>
@@ -197,9 +214,9 @@ function atualizarTudo() {
     document.getElementById('count-topo').innerText = totalItens;
 
     window.PRODUTOS.forEach(p => {
-        const est = document.getElementById(`est-${p.id}`);
+        const prog = document.getElementById(`prog-${p.id}`);
         const btn = document.getElementById(`btn-${p.id}`);
-        if(est) est.innerText = `Estoque: ${p.estoqueAtual}`;
+        if(prog) prog.style.width = `${(p.estoqueAtual / (p.estoqueOriginal || 1)) * 100}%`;
         if(btn) btn.disabled = p.estoqueAtual <= 0;
     });
 }
