@@ -306,12 +306,35 @@ function gerarBotoesFiltro() {
 }
 
 function fecharResumo() { document.getElementById('modal-resumo').style.display = 'none'; }
+
 function enviarWhatsapp() {
-    let msg = `🛍️ *PEDIDO - GUI PERFUMARIA*\n\n`;
-    for (let nome in carrinho) { msg += `✅ ${carrinho[nome].qtd}x ${nome}\n`; }
-    msg += `\n💰 *TOTAL: ${document.getElementById('modal-total').innerText}*`;
+    const cliente = prompt("Por favor, informe seu nome:");
+    if (!cliente || cliente.trim() === "") return alert("O nome é necessário para finalizar o pedido.");
+
+    const agora = new Date();
+    const dataF = agora.toLocaleDateString('pt-BR');
+    const horaF = agora.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+
+    let msg = `🛍️ *NOVO PEDIDO - GUI PERFUMARIA*\n`;
+    msg += `━━━━━━━━━━━━━━━━━━━━\n`;
+    msg += `👤 *CLIENTE:* ${cliente.toUpperCase()}\n`;
+    msg += `📅 *DATA:* ${dataF} às ${horaF}\n`;
+    msg += `━━━━━━━━━━━━━━━━━━━━\n\n`;
+
+    for (let nome in carrinho) {
+        let subtotal = formatarMoeda(carrinho[nome].precoCents * carrinho[nome].qtd);
+        msg += `✨ *${carrinho[nome].qtd}x ${nome.toUpperCase()}*\n`;
+        msg += `└ Vlr. Unit: R$ ${carrinho[nome].exibirPreco}\n`;
+        msg += `└ Subtotal: ${subtotal}\n\n`;
+    }
+
+    msg += `━━━━━━━━━━━━━━━━━━━━\n`;
+    msg += `💰 *VALOR TOTAL: ${document.getElementById('modal-total').innerText.replace('Total: ', '')}*\n\n`;
+    msg += `Olá Aline! Acabo de montar meu pedido pelo catálogo. Aguardo seu retorno!`;
+
     window.open(`https://wa.me/5571987692157?text=${encodeURIComponent(msg)}`, '_blank');
 }
+
 carregarDados();
 </script>
 </body>
