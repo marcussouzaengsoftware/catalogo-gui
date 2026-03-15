@@ -4,62 +4,77 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gui Perfumaria | Catálogo Digital</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root { --primaria: #0f2621; --detalhe: #d4af37; --fundo: #fcfcfc; }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
-        body { background-color: var(--fundo); padding-top: 195px; } 
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
+        body { background-color: var(--fundo); padding-top: 220px; } 
         
-        .topo-fixo { position: fixed; top: 0; left: 0; width: 100%; z-index: 2000; background: white; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        header { background: var(--primaria); color: white; padding: 12px; text-align: center; border-bottom: 3px solid var(--detalhe); }
+        .topo-fixo { position: fixed; top: 0; left: 0; width: 100%; z-index: 2000; background: white; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
         
-        .area-catalogos { background: white; padding: 10px 0; border-bottom: 1px solid #eee; text-align: center; }
-        .titulo-secao { font-size: 9px; font-weight: bold; color: #999; text-transform: uppercase; margin-bottom: 8px; letter-spacing: 1px; }
-        .grade-logos { display: flex; justify-content: center; gap: 15px; }
+        header { background: var(--primaria); color: white; padding: 25px 10px; text-align: center; border-bottom: 4px solid var(--detalhe); }
+        header h1 { 
+            font-family: 'Playfair Display', serif; 
+            font-size: 2.5rem; 
+            color: var(--detalhe); 
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+        header p { font-size: 1.2rem; font-weight: 700; color: #fff; }
         
-        .item-logo { text-decoration: none; display: flex; flex-direction: column; align-items: center; width: 70px; }
-        .img-box { width: 55px; height: 55px; border-radius: 50%; border: 1px solid #eee; display: flex; align-items: center; justify-content: center; background: white; margin-bottom: 4px; overflow: hidden; }
+        .area-catalogos { background: white; padding: 15px 0; border-bottom: 1px solid #eee; text-align: center; }
+        .titulo-secao { font-size: 10px; font-weight: bold; color: #999; text-transform: uppercase; margin-bottom: 12px; letter-spacing: 1px; }
+        .grade-logos { display: flex; justify-content: center; gap: 20px; }
         
-        /* Ajuste de tamanho para as logos aparecerem bem */
-        .img-box img { width: 70%; height: 70%; object-fit: contain; }
-        .item-logo span { font-size: 8px; font-weight: 800; color: #333; text-transform: uppercase; }
+        .item-logo { text-decoration: none; display: flex; flex-direction: column; align-items: center; width: 75px; }
+        .img-box { 
+            width: 65px; height: 65px; border-radius: 50%; border: 2px solid #eee; 
+            display: flex; align-items: center; justify-content: center; 
+            background: white; margin-bottom: 5px; overflow: hidden;
+        }
+        .img-box img { width: 80%; height: 80%; object-fit: contain; }
+        .item-logo span { font-size: 9px; font-weight: 800; color: #333; text-transform: uppercase; }
 
-        .nav-categorias { background: white; padding: 8px 10px; overflow-x: auto; display: flex; gap: 8px; border-bottom: 1px solid #eee; }
-        .cat-btn { padding: 6px 15px; border-radius: 20px; border: 1px solid var(--primaria); background: transparent; font-size: 0.7rem; font-weight: bold; cursor: pointer; white-space: nowrap; }
+        .nav-categorias { background: white; padding: 10px; overflow-x: auto; display: flex; gap: 8px; border-bottom: 1px solid #eee; }
+        .cat-btn { padding: 8px 18px; border-radius: 25px; border: 1px solid var(--primaria); background: transparent; font-size: 0.8rem; font-weight: bold; cursor: pointer; white-space: nowrap; }
         .cat-btn.active { background: var(--primaria); color: white; }
 
-        .vitrine { display: grid; grid-template-columns: repeat(auto-fill, minmax(145px, 1fr)); gap: 8px; padding: 8px; width: 100%; }
-        .p-card { background: white; border: 1px solid #eee; padding: 10px; text-align: center; border-radius: 8px; display: flex; flex-direction: column; height: 100%; }
-        .p-card img { width: 100%; height: 110px; object-fit: contain; margin-bottom: 5px; }
-        .p-nome { font-size: 0.75rem; font-weight: 600; min-height: 32px; line-height: 1.1; margin-bottom: 5px; color: #222; }
-        .p-preco { font-weight: 800; color: var(--primaria); font-size: 0.95rem; }
+        .vitrine { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; padding: 12px; width: 100%; }
+        .p-card { background: white; border: 1px solid #eee; padding: 15px; text-align: center; border-radius: 12px; display: flex; flex-direction: column; height: 100%; }
+        .p-card img { width: 100%; height: 130px; object-fit: contain; margin-bottom: 10px; }
+        .p-nome { font-size: 0.85rem; font-weight: 600; min-height: 40px; margin-bottom: 8px; color: #333; }
+        .p-preco { font-weight: 800; color: var(--primaria); font-size: 1.1rem; margin-bottom: 5px; }
+        
+        /* Estilo do Estoque */
+        .p-estoque { font-size: 11px; font-weight: 700; color: #666; background: #f0f0f0; padding: 4px; border-radius: 4px; display: inline-block; margin: 5px auto; }
+        .esgotado { color: #d9534f; background: #f9ebeb; }
     </style>
 </head>
 <body>
 
 <div class="topo-fixo">
     <header>
-        <h1 style="color: var(--detalhe); font-size: 1.2rem; letter-spacing: 1px;">GUI PERFUMARIA</h1>
-        <p style="font-size: 0.7rem; opacity: 0.9;">Consultora: Aline Nascimento</p>
+        <h1>Gui Perfumaria</h1>
+        <p>Consultora: Aline Nascimento</p>
     </header>
 
     <div class="area-catalogos">
-        <p class="titulo-secao">Catálogos de Revenda</p>
+        <p class="titulo-secao">Acesse os Catálogos Aline Nascimento</p>
         <div class="grade-logos">
             <a href="https://encurtador.naturaavon.com/hTUzboh" target="_blank" class="item-logo">
-                <div class="img-box"><img src="https://www.natura.com.br/static/media/natura-logo.9f886f32.svg" alt="Natura"></div>
+                <div class="img-box"><img src="https://upload.wikimedia.org/wikipedia/pt/thumb/b/b3/Natura_Logo.png/200px-Natura_Logo.png" alt="Natura"></div>
                 <span>Natura</span>
             </a>
             <a href="https://minhaloja.boticario.com.br/aline-nascimento?utm_source=app_divulgar&utm_medium=divulgar_catalogo&utm_campaign=ciclo_atual" target="_blank" class="item-logo">
-                <div class="img-box"><img src="https://upload.wikimedia.org/wikipedia/commons/b/b2/O_Botic%C3%A1rio_logo.pnm.png" alt="Boticário"></div>
+                <div class="img-box"><img src="https://logospng.org/wp-content/uploads/o-boticario.png" alt="Boticário"></div>
                 <span>Boticário</span>
             </a>
             <a href="https://minhaloja.eudora.com.br/aline-nascimento?utm_source=app_divulgar&utm_medium=divulgar_catalogo&utm_campaign=ciclo_atual" target="_blank" class="item-logo">
-                <div class="img-box"><img src="https://static.clube.eudora.com.br/static/media/logo-eudora.5b5f8841.svg" alt="Eudora"></div>
+                <div class="img-box"><img src="https://logodownload.org/wp-content/uploads/2018/02/eudora-logo.png" alt="Eudora"></div>
                 <span>Eudora</span>
             </a>
             <a href="https://minhaloja.ouiparis.com/aline-nascimento?utm_source=app_divulgar&utm_medium=divulgar_catalogo&utm_campaign=ciclo_atual" target="_blank" class="item-logo">
-                <div class="img-box"><img src="https://res.cloudinary.com/beleza-na-web/image/upload/f_auto,fl_progressive,q_auto:best/v1/brands/oui/oui-logo.png" alt="O.U.i"></div>
+                <div class="img-box"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR6A6R_A6y9_7hDk6_8_2-V-uY6m2l0R4x2qg&s" alt="O.U.i"></div>
                 <span>O.U.i</span>
             </a>
         </div>
@@ -70,7 +85,7 @@
     </div>
 </div>
 
-<div id="loading" style="text-align:center; padding:50px; font-size: 0.8rem; color: #666;">Buscando Vitrine...</div>
+<div id="loading" style="text-align:center; padding:100px; font-weight:bold;">Sincronizando Vitrine...</div>
 <div class="vitrine" id="vitrine" style="display:none;"></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
@@ -116,6 +131,9 @@ function render(filtro) {
             <img src="${p.img}" onerror="this.src='https://via.placeholder.com/150?text=Sem+Foto'">
             <div class="p-nome">${p.nome}</div>
             <div class="p-preco">R$ ${p.preco}</div>
+            <div class="p-estoque ${p.estoque > 0 ? '' : 'esgotado'}">
+                ${p.estoque > 0 ? 'Estoque: ' + p.estoque : 'Produto Esgotado'}
+            </div>
         </div>`).join('');
 }
 carregarDados();
