@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <style>
         :root { 
-            /* Cores Iniciais */
             --primaria: #6d2040; 
             --detalhe: #d4af37; 
             --whatsapp: #25d366; 
@@ -18,22 +17,19 @@
             --texto: #333;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; transition: all 0.4s ease; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; transition: background-color 0.4s, color 0.4s; }
         
         body { background-color: var(--fundo); padding-top: 410px; padding-bottom: 80px; color: var(--texto); }
 
         /* TOPO FIXO */
         .topo-fixo { position: fixed; top: 0; left: 0; width: 100%; z-index: 2000; background: white; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        
         header { background: var(--primaria); color: white; padding: 30px 15px; text-align: center; border-bottom: 6px solid var(--detalhe); position: relative; }
         header h1 { font-family: 'Playfair Display', serif; font-size: 2.2rem; color: var(--detalhe); text-transform: uppercase; }
         
-        /* CARRINHO */
         .cart-superior { position: absolute; top: 10px; right: 10px; display: flex; flex-direction: column; align-items: flex-end; gap: 5px; }
         .soma-topo { background: rgba(255,255,255,0.1); border: 1px solid var(--detalhe); color: var(--detalhe); padding: 4px 8px; border-radius: 6px; font-weight: 800; font-size: 0.8rem; }
         .btn-cart-topo { background: var(--whatsapp); color: white; border: none; padding: 8px 10px; border-radius: 8px; display: flex; align-items: center; gap: 5px; cursor: pointer; font-weight: 800; font-size: 0.75rem; }
 
-        /* AREA DE MARCAS */
         .area-catalogos { background: white; padding: 15px 0; border-bottom: 1px solid #f0f0f0; text-align: center; }
         .grade-logos { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
         .item-logo { text-decoration: none; display: flex; flex-direction: column; align-items: center; width: 70px; }
@@ -41,13 +37,11 @@
         .img-box img { width: 80%; height: 80%; object-fit: contain; }
         .item-logo span { font-size: 9px; font-weight: 800; color: #666; text-transform: uppercase; }
 
-        /* FILTROS */
         .filtros { display: flex; gap: 8px; overflow-x: auto; padding: 12px; background: #fbfbfb; border-bottom: 1px solid #eee; scrollbar-width: none; }
         .filtros::-webkit-scrollbar { display: none; }
         .btn-filtro { background: white; border: 1px solid #ddd; padding: 8px 16px; border-radius: 20px; font-size: 10px; font-weight: 800; white-space: nowrap; cursor: pointer; color: #666; text-transform: uppercase; }
         .btn-filtro.active { background: var(--primaria); color: white; border-color: var(--primaria); transform: scale(1.05); }
 
-        /* VITRINE */
         .vitrine { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; padding: 12px; }
         .p-card { background: white; border: 1px solid #eee; padding: 15px; text-align: center; border-radius: 12px; display: flex; flex-direction: column; height: 100%; position: relative; }
         .selo-promo { position: absolute; top: 10px; right: 10px; background: var(--promo); color: white; font-size: 10px; padding: 5px 10px; border-radius: 20px; font-weight: 800; text-transform: uppercase; z-index: 10; }
@@ -58,20 +52,20 @@
         .p-preco-por { font-weight: 800; color: var(--primaria); font-size: 1.25rem; margin-bottom: 10px; }
         .p-preco-por.em-oferta { color: var(--promo); }
 
-        /* ESTOQUE E ESCASSEZ (AUMENTADO AQUI) */
+        /* ESTOQUE E ESCASSEZ */
         .area-escassez { margin-top: auto; padding-top: 5px; padding-bottom: 10px; }
-        .txt-escassez { font-size: 11px; font-weight: 800; color: var(--erro); text-transform: uppercase; display: block; margin-bottom: 5px; animation: blink 1.5s infinite; letter-spacing: 0.5px; }
+        .txt-escassez { font-size: 11px; font-weight: 800; color: var(--erro); text-transform: uppercase; display: block; margin-bottom: 5px; animation: blink 1.5s infinite; }
         @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
         
         .txt-estoque-normal { font-size: 11px; color: #666; font-weight: 700; display: block; margin-bottom: 5px; }
+        .txt-esgotado { font-size: 11px; color: #999; font-weight: 800; text-transform: uppercase; display: block; margin-bottom: 5px; }
         
         .barra-estoque { width: 100%; height: 7px; background: #eee; border-radius: 10px; overflow: hidden; margin-bottom: 10px; }
         .progresso-estoque { height: 100%; background: var(--erro); transition: width 0.5s; }
 
         .btn-add { background: var(--primaria); color: white; border: none; padding: 12px; border-radius: 8px; font-weight: 800; cursor: pointer; font-size: 0.9rem; }
-        .btn-add:disabled { background: #ccc; }
+        .btn-add:disabled { background: #ccc !important; color: #666 !important; cursor: not-allowed; }
 
-        /* SUPORTE E MODAL */
         .btn-suporte { position: fixed; bottom: 20px; left: 20px; background: white; color: #333; padding: 10px 15px; border-radius: 30px; display: flex; align-items: center; gap: 8px; text-decoration: none; font-weight: 800; font-size: 0.75rem; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border: 1px solid #eee; z-index: 3000; }
         #modal-resumo { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 4000; align-items: center; justify-content: center; }
         .modal-content { background: white; width: 95%; max-width: 450px; border-radius: 20px; padding: 25px; }
@@ -85,7 +79,7 @@
             <div class="soma-topo" id="soma-topo">R$ 0,00</div>
             <button class="btn-cart-topo" onclick="abrirResumo()">
                 <i class="material-icons" style="font-size:16px;">shopping_basket</i>
-                PEDIDO (<span id="count-topo">0</span>)
+                (<span id="count-topo">0</span>)
             </button>
         </div>
         <h1>Gui Perfumaria</h1>
@@ -106,7 +100,7 @@
     </div>
 </div>
 
-<div id="loading" style="text-align:center; padding:100px; font-weight:800;">PERSONALIZANDO EXPERIÊNCIA...</div>
+<div id="loading" style="text-align:center; padding:100px; font-weight:800;">CARREGANDO ESTOQUE...</div>
 <div class="vitrine" id="vitrine"></div>
 
 <a href="https://wa.me/5571987692157?text=Olá Aline! Tenho uma dúvida sobre o catálogo." target="_blank" class="btn-suporte">
@@ -143,27 +137,10 @@ function formatarMoeda(centavos) {
 function aplicarTema(cat) {
     const root = document.documentElement;
     const n = cat.toLowerCase();
-
-    if (n.includes('feminino')) {
-        root.style.setProperty('--primaria', '#6d2040'); 
-        root.style.setProperty('--fundo', '#fff9fb');    
-        root.style.setProperty('--detalhe', '#d4af37');  
-    } 
-    else if (n.includes('masculino')) {
-        root.style.setProperty('--primaria', '#1a2a3a'); 
-        root.style.setProperty('--fundo', '#f4f7f9');    
-        root.style.setProperty('--detalhe', '#95a5a6');  
-    } 
-    else if (n.includes('cuidados') || n.includes('corpo') || n.includes('neutro')) {
-        root.style.setProperty('--primaria', '#2d5a27'); 
-        root.style.setProperty('--fundo', '#f7fff6');    
-        root.style.setProperty('--detalhe', '#a8dadc');  
-    }
-    else {
-        root.style.setProperty('--primaria', '#0f2621'); 
-        root.style.setProperty('--fundo', '#fcfcfc');
-        root.style.setProperty('--detalhe', '#d4af37');
-    }
+    if (n.includes('feminino')) { root.style.setProperty('--primaria', '#6d2040'); root.style.setProperty('--fundo', '#fff9fb'); } 
+    else if (n.includes('masculino')) { root.style.setProperty('--primaria', '#1a2a3a'); root.style.setProperty('--fundo', '#f4f7f9'); } 
+    else if (n.includes('cuidados') || n.includes('corpo')) { root.style.setProperty('--primaria', '#2d5a27'); root.style.setProperty('--fundo', '#f7fff6'); }
+    else { root.style.setProperty('--primaria', '#0f2621'); root.style.setProperty('--fundo', '#fcfcfc'); }
 }
 
 function carregarDados() {
@@ -175,6 +152,7 @@ function carregarDados() {
                 const pNormal = String(v[4] || "0,00").trim();
                 const pPromo = String(v[7] || "").trim();
                 const cat = String(v[2] || "Geral").trim(); 
+                const estoqueInicial = parseInt(v[6]) || 0;
                 
                 if(cat && cat !== "Categoria") categoriasUnicas.add(cat);
 
@@ -186,8 +164,8 @@ function carregarDados() {
                     precoPromo: pPromo,
                     precoVendaCents: pPromo !== "" ? converterParaCentavos(pPromo) : converterParaCentavos(pNormal),
                     img: String(v[5] || "").trim(), 
-                    estoqueOriginal: parseInt(v[6]) || 1,
-                    estoqueAtual: parseInt(v[6]) || 0
+                    estoqueOriginal: estoqueInicial,
+                    estoqueAtual: estoqueInicial
                 };
             }).filter(p => p.nome);
 
@@ -223,7 +201,8 @@ function render(lista) {
     v.innerHTML = lista.map((p) => {
         const temPromo = p.precoPromo !== "";
         const critico = p.estoqueAtual > 0 && p.estoqueAtual <= 3;
-        const porcentagem = (p.estoqueAtual / p.estoqueOriginal) * 100;
+        const esgotado = p.estoqueAtual <= 0;
+        const porcentagem = p.estoqueOriginal > 0 ? (p.estoqueAtual / p.estoqueOriginal) * 100 : 0;
 
         return `
         <div class="p-card">
@@ -234,12 +213,13 @@ function render(lista) {
             <div class="p-preco-por ${temPromo ? 'em-oferta' : ''}">
                 ${temPromo ? 'Por: R$ ' + p.precoPromo : 'R$ ' + p.precoOriginal}
             </div>
-            <div class="area-escassez">
-                ${critico ? `<span class="txt-escassez">🔥 Só restam ${p.estoqueAtual}!</span>` : `<span class="txt-estoque-normal">Em estoque: ${p.estoqueAtual}</span>`}
+            <div class="area-escassez" id="area-stock-${p.id}">
+                ${esgotado ? '<span class="txt-esgotado">ESGOTADO</span>' : 
+                  (critico ? `<span class="txt-escassez">🔥 Só restam ${p.estoqueAtual}!</span>` : `<span class="txt-estoque-normal">Estoque: ${p.estoqueAtual}</span>`)}
                 <div class="barra-estoque"><div class="progresso-estoque" id="prog-${p.id}" style="width: ${porcentagem}%"></div></div>
             </div>
-            <button class="btn-add" id="btn-${p.id}" onclick="addCart(${p.id})" ${p.estoqueAtual <= 0 ? 'disabled' : ''}>
-                ${p.estoqueAtual <= 0 ? 'ESGOTADO' : 'ADICIONAR'}
+            <button class="btn-add" id="btn-${p.id}" onclick="addCart(${p.id})" ${esgotado ? 'disabled' : ''}>
+                ${esgotado ? 'ESGOTADO' : 'ADICIONAR'}
             </button>
         </div>`;
     }).join('');
@@ -248,25 +228,15 @@ function render(lista) {
 function addCart(id) {
     const p = window.PRODUTOS.find(prod => prod.id === id);
     if (p.estoqueAtual <= 0) return;
+    
     if (!carrinho[p.nome]) {
         carrinho[p.nome] = { precoCents: p.precoVendaCents, exibirPreco: p.precoPromo !== "" ? p.precoPromo : p.precoOriginal, qtd: 1, id: id };
-    } else { carrinho[p.nome].qtd++; }
+    } else { 
+        carrinho[p.nome].qtd++; 
+    }
+    
     p.estoqueAtual--;
     atualizarTudo();
-}
-
-function mudarQtd(nome, delta) {
-    const item = carrinho[nome];
-    const p = window.PRODUTOS.find(prod => prod.id === item.id);
-    if (delta > 0) {
-        if (p.estoqueAtual <= 0) return;
-        item.qtd++; p.estoqueAtual--;
-    } else {
-        item.qtd--; p.estoqueAtual++;
-        if (item.qtd <= 0) delete carrinho[nome];
-    }
-    atualizarTudo();
-    if (Object.keys(carrinho).length === 0) fecharResumo();
 }
 
 function atualizarTudo() {
@@ -281,9 +251,45 @@ function atualizarTudo() {
     window.PRODUTOS.forEach(p => {
         const prog = document.getElementById(`prog-${p.id}`);
         const btn = document.getElementById(`btn-${p.id}`);
-        if(prog) prog.style.width = `${(p.estoqueAtual / p.estoqueOriginal) * 100}%`;
-        if(btn) btn.disabled = p.estoqueAtual <= 0;
+        const areaStock = document.getElementById(`area-stock-${p.id}`);
+        
+        if (prog) prog.style.width = `${p.estoqueOriginal > 0 ? (p.estoqueAtual / p.estoqueOriginal) * 100 : 0}%`;
+        
+        if (btn) {
+            if (p.estoqueAtual <= 0) {
+                btn.disabled = true;
+                btn.innerText = "ESGOTADO";
+                if (areaStock) areaStock.innerHTML = '<span class="txt-esgotado">ESGOTADO</span><div class="barra-estoque"><div class="progresso-estoque" style="width: 0%"></div></div>';
+            } else {
+                btn.disabled = false;
+                btn.innerText = "ADICIONAR";
+                // Atualiza o texto de escassez sem dar flash na tela toda
+                if (areaStock) {
+                    if (p.estoqueAtual <= 3) {
+                        areaStock.querySelector('span').className = 'txt-escassez';
+                        areaStock.querySelector('span').innerText = `🔥 Só restam ${p.estoqueAtual}!`;
+                    } else {
+                        areaStock.querySelector('span').className = 'txt-estoque-normal';
+                        areaStock.querySelector('span').innerText = `Estoque: ${p.estoqueAtual}`;
+                    }
+                }
+            }
+        }
     });
+}
+
+function mudarQtd(nome, delta) {
+    const item = carrinho[nome];
+    const p = window.PRODUTOS.find(prod => prod.id === item.id);
+    if (delta > 0) {
+        if (p.estoqueAtual <= 0) return;
+        item.qtd++; p.estoqueAtual--;
+    } else {
+        item.qtd--; p.estoqueAtual++;
+        if (item.qtd <= 0) delete carrinho[nome];
+    }
+    atualizarTudo();
+    if (Object.keys(carrinho).length === 0) fecharResumo();
 }
 
 function enviarWhatsapp() {
