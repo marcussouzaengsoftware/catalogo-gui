@@ -32,8 +32,7 @@
         .item-logo span { font-size: 8px; font-weight: 800; color: #666; text-transform: uppercase; }
 
         .filtros { display: flex; gap: 8px; overflow-x: auto; padding: 12px; background: #fbfbfb; border-bottom: 1px solid #eee; scrollbar-width: none; }
-        .filtros::-webkit-scrollbar { display: none; }
-        .btn-filtro { background: white; border: 1px solid #ddd; padding: 8px 16px; border-radius: 20px; font-size: 10px; font-weight: 800; white-space: nowrap; cursor: pointer; color: #666; text-transform: uppercase; }
+        .btn-filtro { background: white; border: 1px solid #ddd; padding: 8px 16px; border-radius: 20px; font-size: 10px; font-weight: 800; cursor: pointer; color: #666; text-transform: uppercase; }
         .btn-filtro.active { background: var(--primaria); color: white; border-color: var(--primaria); }
 
         /* BANNERS ROTATIVOS */
@@ -57,7 +56,7 @@
         .progresso-estoque { height: 100%; background: var(--detalhe); transition: width 0.5s; }
         .tarja { position: absolute; top: 10px; left: -30px; background: var(--detalhe); color: var(--primaria); padding: 5px 35px; font-weight: 900; font-size: 0.7rem; transform: rotate(-35deg); z-index: 5; }
 
-        /* INDICADORES */
+        /* DOTS */
         .dots-container { display: flex; justify-content: center; gap: 8px; margin-top: 10px; }
         .dot { width: 8px; height: 8px; background: #ccc; border-radius: 50%; }
         .dot.active { background: var(--primaria); width: 20px; border-radius: 10px; }
@@ -132,7 +131,7 @@
 <script>
 const URL_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQZxhG0vIEsRAw40jA4v1vMauSy16U-qKuvOmzVTYHIdKLz89jzHvaKxbDA2NQI2xnYRgn2a-DFdUjc/pub?output=csv&cachebust=' + new Date().getTime();
 
-let carrinho = {}; 
+let carrinho = JSON.parse(localStorage.getItem('carrinho_gui')) || {}; 
 let categoriasUnicas = new Set();
 let bannerIndex = 0;
 let bannerInterval;
@@ -158,11 +157,19 @@ function carregarDados() {
                 const pPromo = String(v[7] || "").trim();
                 const cat = String(v[2] || "Geral").trim(); 
                 if(cat && cat !== "Categoria") categoriasUnicas.add(cat);
+                
+                let estoqueOrig = parseInt(v[6]) || 0;
+                // Abatendo estoque do que já está no carrinho salvo
+                let noCarrinho = carrinho[String(v[3]).trim()] ? carrinho[String(v[3]).trim()].qtd : 0;
+
                 return { 
                     id: idx, nome: String(v[3] || "").trim(), categoria: cat,
                     precoOriginal: pNormal, precoPromo: pPromo,
                     precoVendaCents: pPromo !== "" ? converterParaCentavos(pPromo) : converterParaCentavos(pNormal),
-                    img: String(v[5] || "").trim(), estoqueOriginal: parseInt(v[6]) || 0, estoqueAtual: parseInt(v[6]) || 0, emOferta: pPromo !== ""
+                    img: String(v[5] || "").trim(), 
+                    estoqueOriginal: estoqueOrig, 
+                    estoqueAtual: estoqueOrig - noCarrinho, 
+                    emOferta: pPromo !== ""
                 };
             }).filter(p => p.nome);
 
@@ -170,7 +177,7 @@ function carregarDados() {
             gerarBotoesFiltro();
             document.getElementById('loading').style.display = 'none';
             document.getElementById('cart-ui').style.display = 'flex';
-            render(window.PRODUTOS);
+            atualizarTudo();
         }
     });
 }
@@ -181,7 +188,7 @@ function gerarBanners() {
     const wrapper = document.getElementById('banners-wrapper');
     const dots = document.getElementById('dots-wrapper');
     
-    wrapper.innerHTML = ""; dots.innerHTML = ""; // Limpa anterior
+    wrapper.innerHTML = ""; dots.innerHTML = "";
     if (ofertas.length === 0) { container.style.display = 'none'; return; }
     
     container.style.display = 'block';
@@ -203,26 +210,21 @@ function gerarBanners() {
                 <button class="btn-banner-add" id="banner-btn-${p.id}" onclick="addCart(${p.id})" ${esgotado ? 'disabled' : ''}>
                     ${esgotado ? 'ESGOTADO' : 'Adicionar ao Carrinho'}
                 </button>
-                <div class="barra-estoque"><div class="progresso-estoque" style="width: ${perc}%"></div></div>
-                ${ofertas.length > 5 && idx === topOfertas.length - 1 ? 
-                  `<button class="btn-ver-mais-promo" style="background:var(--detalhe); border:none; padding:5px 10px; border-radius:10px; font-size:10px; font-weight:800; margin-top:10px;" onclick="document.getElementById('btn-promo-filtro').click()">+ Ver mais ${ofertas.length - 5}</button>` : ''}
+                <div class="barra-estoque"><div class="progresso-estoque" id="banner-bar-${p.id}" style="width: ${perc}%"></div></div>
             </div>
         `;
         wrapper.appendChild(div);
-
         const dot = document.createElement('div');
         dot.className = 'dot' + (idx === 0 ? ' active' : '');
         dot.id = `dot-${idx}`;
         dots.appendChild(dot);
     });
-
     startBannerRotation(topOfertas.length);
 }
 
 function startBannerRotation(total) {
     if (bannerInterval) clearInterval(bannerInterval);
     if (total <= 1) { document.querySelector('.banner-promo').style.display = 'flex'; return; }
-    
     function showSlide(idx) {
         document.querySelectorAll('.banner-promo').forEach(b => b.style.display = 'none');
         document.querySelectorAll('.dot').forEach(d => d.classList.remove('active'));
@@ -231,7 +233,6 @@ function startBannerRotation(total) {
             document.getElementById(`dot-${idx}`).classList.add('active');
         }
     }
-
     showSlide(0);
     bannerInterval = setInterval(() => {
         bannerIndex = (bannerIndex + 1) % total;
@@ -267,6 +268,7 @@ function addCart(id) {
     }
     
     p.estoqueAtual--;
+    localStorage.setItem('carrinho_gui', JSON.stringify(carrinho));
     atualizarTudo();
 }
 
@@ -281,17 +283,14 @@ function atualizarTudo() {
     document.getElementById('modal-total').innerText = `Total: ${formatarMoeda(totalCents)}`;
     document.getElementById('count-topo').innerText = totalItens;
     
-    // RE-RENDERIZA PARA ATUALIZAR BARRAS E BOTÕES (ESGOTADO)
     render(window.PRODUTOS);
     
-    // ATUALIZA OS COMPONENTES DENTRO DO BANNER SEM REINICIAR O INTERVALO
-    const ofertas = window.PRODUTOS.filter(p => p.emOferta).slice(0, 5);
-    ofertas.forEach((p, idx) => {
-        const btnBanner = document.getElementById(`banner-btn-${p.id}`);
-        if(btnBanner && p.estoqueAtual <= 0) {
-            btnBanner.disabled = true;
-            btnBanner.innerText = "ESGOTADO";
-        }
+    // Atualiza botões e barras nos banners
+    window.PRODUTOS.filter(p => p.emOferta).slice(0, 5).forEach(p => {
+        const btnB = document.getElementById(`banner-btn-${p.id}`);
+        const barB = document.getElementById(`banner-bar-${p.id}`);
+        if(btnB && p.estoqueAtual <= 0) { btnB.disabled = true; btnB.innerText = "ESGOTADO"; }
+        if(barB) { barB.style.width = (p.estoqueAtual / p.estoqueOriginal * 100) + "%"; }
     });
 }
 
@@ -316,9 +315,26 @@ function gerarBotoesFiltro() {
 
 function abrirResumo() {
     const lista = document.getElementById('lista-resumo');
-    lista.innerHTML = Object.keys(carrinho).map(nome => `<div style="display:flex; justify-content:space-between; margin-bottom:10px;"><span>${carrinho[nome].qtd}x ${nome}</span><b>R$ ${carrinho[nome].exibirPreco}</b></div>`).join('');
+    lista.innerHTML = Object.keys(carrinho).map(nome => `
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; font-size:0.9rem;">
+            <span>${carrinho[nome].qtd}x ${nome}</span>
+            <div style="display:flex; gap:10px; align-items:center;">
+                <b>R$ ${carrinho[nome].exibirPreco}</b>
+                <i class="material-icons" style="color:var(--erro); cursor:pointer; font-size:18px;" onclick="removerItem('${nome}')">delete</i>
+            </div>
+        </div>`).join('');
     document.getElementById('modal-resumo').style.display = 'flex';
 }
+
+function removerItem(nome) {
+    const p = window.PRODUTOS.find(prod => prod.nome === nome);
+    if(p) p.estoqueAtual += carrinho[nome].qtd;
+    delete carrinho[nome];
+    localStorage.setItem('carrinho_gui', JSON.stringify(carrinho));
+    atualizarTudo();
+    abrirResumo();
+}
+
 function fecharResumo() { document.getElementById('modal-resumo').style.display = 'none'; }
 function enviarWhatsapp() {
     let msg = `🛍️ *PEDIDO - GUI PERFUMARIA*\n\n`;
