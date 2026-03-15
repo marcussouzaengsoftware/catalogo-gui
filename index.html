@@ -184,6 +184,7 @@ function carregarDados() {
 
 function formatarTextoEstoque(qtd) {
     if (qtd <= 0) return `<span class="alerta-estoque">ESGOTADO</span>`;
+    if (qtd === 1) return `<span class="alerta-estoque">RESTA APENAS 1 UN!</span>`;
     if (qtd <= 2) return `<span class="alerta-estoque">RESTAM APENAS ${qtd} UN!</span>`;
     return `Estoque disponível: ${qtd} un.`;
 }
@@ -355,7 +356,7 @@ function enviarWhatsapp() {
     msg += `Olá Aline! Acabo de montar meu pedido pelo catálogo. Aguardo seu retorno!`;
 
     fecharResumo();
-    alert(`Obrigado ${cliente} pela sua compra!`);
+    alert(`Obrigado! ${cliente} pela sua compra!`);
 
     carrinho = {};
     salvar();
