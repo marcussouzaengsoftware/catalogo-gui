@@ -7,10 +7,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <style>
-        :root { --primaria: #0f2621; --detalhe: #d4af37; --whatsapp: #25d366; --fundo: #fcfcfc; }
+        :root { --primaria: #0f2621; --detalhe: #d4af37; --whatsapp: #25d366; --fundo: #fcfcfc; --perigo: #d9534f; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
         body { background-color: var(--fundo); padding-top: 280px; padding-bottom: 120px; } 
 
+        /* Topo e Logos */
         .topo-fixo { position: fixed; top: 0; left: 0; width: 100%; z-index: 2000; background: white; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
         header { background: var(--primaria); color: white; padding: 30px 10px; text-align: center; border-bottom: 5px solid var(--detalhe); }
         header h1 { font-family: 'Playfair Display', serif; font-size: 2.5rem; color: var(--detalhe); text-transform: uppercase; }
@@ -21,34 +22,32 @@
         .item-logo { text-decoration: none; display: flex; flex-direction: column; align-items: center; width: 75px; }
         .img-box { width: 65px; height: 65px; border-radius: 50%; border: 2px solid #ddd; display: flex; align-items: center; justify-content: center; background: white; overflow: hidden; }
         .img-box img { width: 100%; height: 100%; object-fit: contain; }
-        .item-logo span { font-size: 10px; font-weight: 800; color: #333; margin-top: 5px; text-transform: uppercase; }
 
+        /* Vitrine */
         .vitrine { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; padding: 12px; }
-        .p-card { background: white; border: 1px solid #eee; padding: 15px; text-align: center; border-radius: 12px; display: flex; flex-direction: column; height: 100%; position: relative; }
-        
-        .info-icon { position: absolute; top: 8px; right: 8px; color: var(--detalhe); cursor: pointer; font-size: 20px; }
-        .p-desc { font-size: 0.75rem; color: #666; font-style: italic; margin: 10px 0; display: none; background: #f9f9f9; padding: 8px; border-radius: 5px; border: 1px solid #eee; }
-
+        .p-card { background: white; border: 1px solid #eee; padding: 15px; text-align: center; border-radius: 12px; display: flex; flex-direction: column; height: 100%; }
         .p-card img { width: 100%; height: 120px; object-fit: contain; margin-bottom: 10px; }
         .p-nome { font-size: 0.85rem; font-weight: 700; min-height: 40px; margin-bottom: 8px; color: #333; }
         .p-preco { font-weight: 800; color: var(--primaria); font-size: 1.2rem; margin-bottom: 5px; }
-        .p-estoque { font-size: 11px; color: #d9534f; font-weight: bold; margin-bottom: 10px; }
-        
-        .btn-add { background: var(--primaria); color: white; border: none; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 5px; margin-top: auto; }
-        .btn-add:disabled { background: #ccc; cursor: not-allowed; }
+        .p-estoque { font-size: 11px; color: var(--perigo); font-weight: bold; margin-bottom: 10px; }
+        .btn-add { background: var(--primaria); color: white; border: none; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: auto; }
+        .btn-add:disabled { background: #ccc; }
 
+        /* Carrinho Flutuante */
         .cart-container { position: fixed; bottom: 20px; right: 20px; z-index: 3000; display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
         .soma-flutuante { background: white; border: 2px solid var(--whatsapp); color: var(--whatsapp); padding: 8px 18px; border-radius: 25px; font-weight: 900; font-size: 1.2rem; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        .cart-fixo { background: var(--whatsapp); color: white; padding: 15px 25px; border-radius: 50px; display: flex; align-items: center; gap: 10px; box-shadow: 0 5px 20px rgba(0,0,0,0.3); border: none; cursor: pointer; }
-        .badge { background: white; color: var(--whatsapp); padding: 2px 8px; border-radius: 10px; font-weight: bold; }
+        .cart-fixo { background: var(--whatsapp); color: white; padding: 15px 25px; border-radius: 50px; display: flex; align-items: center; gap: 10px; border: none; cursor: pointer; font-weight: bold; }
 
+        /* Modal Resumo */
         #modal-resumo { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 4000; align-items: center; justify-content: center; }
-        .modal-content { background: white; width: 95%; max-width: 450px; border-radius: 15px; padding: 25px; max-height: 85vh; overflow-y: auto; }
-        .item-resumo { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid #eee; }
-        .controles-qtd { display: flex; align-items: center; gap: 12px; background: #f1f3f5; padding: 8px 15px; border-radius: 10px; }
-        .btn-qtd { cursor: pointer; font-size: 22px; color: var(--primaria); font-weight: bold; user-select: none; }
-        .total-resumo { font-weight: 900; font-size: 1.5rem; text-align: right; margin-top: 25px; color: var(--primaria); border-top: 2px dashed #eee; padding-top: 15px; }
-        .btn-confirmar { background: var(--whatsapp); color: white; width: 100%; border: none; padding: 18px; border-radius: 12px; font-weight: bold; margin-top: 20px; cursor: pointer; font-size: 1.1rem; }
+        .modal-content { background: white; width: 95%; max-width: 450px; border-radius: 15px; padding: 25px; }
+        .item-resumo { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #eee; }
+        
+        /* Botão Limpar */
+        .btn-limpar { background: none; border: 1px solid var(--perigo); color: var(--perigo); padding: 5px 10px; border-radius: 5px; font-size: 12px; cursor: pointer; font-weight: bold; margin-bottom: 15px; display: flex; align-items: center; gap: 5px; }
+        
+        .total-resumo { font-weight: 900; font-size: 1.5rem; text-align: right; margin-top: 20px; color: var(--primaria); }
+        .btn-confirmar { background: var(--whatsapp); color: white; width: 100%; border: none; padding: 18px; border-radius: 12px; font-weight: bold; margin-top: 20px; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -58,7 +57,6 @@
         <h1>Gui Perfumaria</h1>
         <p>Consultora: Aline Nascimento</p>
     </header>
-
     <div class="area-catalogos">
         <div class="grade-logos">
             <a href="#" class="item-logo"><div class="img-box"><img src="assets/natura.png"></div><span>Natura</span></a>
@@ -69,25 +67,28 @@
     </div>
 </div>
 
-<div id="loading" style="text-align:center; padding:100px; font-weight:bold; color:var(--primaria);">CARREGANDO PRODUTOS...</div>
+<div id="loading" style="text-align:center; padding:100px;">Carregando Catálogo...</div>
 <div class="vitrine" id="vitrine"></div>
 
 <div class="cart-container" id="cart-container" style="display:none;">
     <div class="soma-flutuante" id="soma-visivel">R$ 0,00</div>
     <button class="cart-fixo" onclick="abrirResumo()">
-        <i class="material-icons">shopping_cart</i>
-        <span>VER PEDIDO</span>
-        <span class="badge" id="cart-count">0</span>
+        <i class="material-icons">shopping_cart</i> VER PEDIDO
     </button>
 </div>
 
 <div id="modal-resumo">
     <div class="modal-content">
-        <h3 style="margin-bottom:15px; border-bottom:2px solid var(--detalhe); display:inline-block;">🛒 Seu Pedido</h3>
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+            <h3>🛒 Meu Pedido</h3>
+            <button class="btn-limpar" onclick="limparCarrinho()">
+                <i class="material-icons" style="font-size:16px;">delete_sweep</i> LIMPAR TUDO
+            </button>
+        </div>
         <div id="lista-resumo"></div>
         <div class="total-resumo" id="modal-total">Total: R$ 0,00</div>
-        <button class="btn-confirmar" onclick="enviarWhatsapp()">CONCLUIR NO WHATSAPP</button>
-        <p onclick="fecharResumo()" style="text-align:center; margin-top:20px; cursor:pointer; color:#666; font-weight:bold;">Voltar ao Catálogo</p>
+        <button class="btn-confirmar" onclick="enviarWhatsapp()">FECHAR PEDIDO</button>
+        <p onclick="fecharResumo()" style="text-align:center; margin-top:15px; cursor:pointer; font-weight:bold; color:#666;">Continuar Comprando</p>
     </div>
 </div>
 
@@ -96,21 +97,24 @@
 const URL_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQZxhG0vIEsRAw40jA4v1vMauSy16U-qKuvOmzVTYHIdKLz89jzHvaKxbDA2NQI2xnYRgn2a-DFdUjc/pub?output=csv';
 let carrinho = {}; 
 
+function converterParaCentavos(texto) {
+    if (!texto) return 0;
+    let limpo = texto.toString().replace(/[R$\s.]/g, '').replace(',', '.');
+    return Math.round(parseFloat(limpo) * 100) || 0;
+}
+
 function carregarDados() {
     Papa.parse(URL_CSV, {
         download: true, header: true, skipEmptyLines: true,
         complete: function(results) {
-            window.PRODUTOS = results.data.map(item => {
+            window.PRODUTOS = results.data.map((item, idx) => {
                 const v = Object.values(item);
                 return { 
-                    id: Math.random().toString(36), // ID único temporário
-                    marca: String(v[1] || "").trim(), 
-                    nome: String(v[3] || "").trim(), 
-                    precoStr: String(v[4] || "0,00").trim(), 
+                    id: idx, nome: String(v[3] || "").trim(), 
+                    precoTexto: String(v[4] || "0,00").trim(), 
                     img: String(v[5] || "").trim(), 
                     estoqueOriginal: parseInt(v[6]) || 0,
-                    estoqueAtual: parseInt(v[6]) || 0,
-                    descricao: String(v[7] || "Fragrância incrível!").trim()
+                    estoqueAtual: parseInt(v[6]) || 0
                 };
             }).filter(p => p.nome);
             document.getElementById('loading').style.display = 'none';
@@ -122,125 +126,102 @@ function carregarDados() {
 
 function render() {
     const v = document.getElementById('vitrine');
-    v.innerHTML = window.PRODUTOS.map((p, idx) => `
+    v.innerHTML = window.PRODUTOS.map((p) => `
         <div class="p-card">
-            <i class="material-icons info-icon" onclick="toggleDesc(${idx})">info_outline</i>
-            <img src="${p.img}" onerror="this.src='https://via.placeholder.com/150?text=Perfume'">
+            <img src="${p.img}">
             <div class="p-nome">${p.nome}</div>
-            <div id="desc-${idx}" class="p-desc">${p.descricao}</div>
-            <div class="p-preco">R$ ${p.precoStr}</div>
-            <div class="p-estoque" id="est-ui-${idx}">Estoque: ${p.estoqueAtual}</div>
-            <button class="btn-add" id="btn-ui-${idx}" onclick="addCart(${idx})" ${p.estoqueAtual <= 0 ? 'disabled' : ''}>
+            <div class="p-preco">R$ ${p.precoTexto}</div>
+            <div class="p-estoque" id="est-${p.id}">Estoque: ${p.estoqueAtual}</div>
+            <button class="btn-add" id="btn-${p.id}" onclick="addCart(${p.id})" ${p.estoqueAtual <= 0 ? 'disabled' : ''}>
                 ${p.estoqueAtual <= 0 ? 'ESGOTADO' : 'ADICIONAR'}
             </button>
         </div>`).join('');
 }
 
-function toggleDesc(id) {
-    const el = document.getElementById(`desc-${id}`);
-    el.style.display = el.style.display === 'block' ? 'none' : 'block';
-}
-
-function addCart(idx) {
-    const p = window.PRODUTOS[idx];
+function addCart(id) {
+    const p = window.PRODUTOS[id];
     if (p.estoqueAtual <= 0) return;
-
     if (!carrinho[p.nome]) {
-        carrinho[p.nome] = { precoStr: p.precoStr, qtd: 1, idxOriginal: idx };
+        carrinho[p.nome] = { precoCents: converterParaCentavos(p.precoTexto), precoOriginal: p.precoTexto, qtd: 1, id: id };
     } else {
         carrinho[p.nome].qtd++;
     }
-
     p.estoqueAtual--;
     atualizarTudo();
 }
 
 function mudarQtd(nome, delta) {
     const item = carrinho[nome];
-    const p = window.PRODUTOS[item.idxOriginal];
-
-    if (delta > 0) { // Tentando aumentar
-        if (p.estoqueAtual <= 0) return alert("Não temos mais em estoque!");
-        item.qtd++;
-        p.estoqueAtual--;
-    } else { // Tentando diminuir
-        item.qtd--;
-        p.estoqueAtual++;
+    const p = window.PRODUTOS[item.id];
+    if (delta > 0) {
+        if (p.estoqueAtual <= 0) return;
+        item.qtd++; p.estoqueAtual--;
+    } else {
+        item.qtd--; p.estoqueAtual++;
         if (item.qtd <= 0) delete carrinho[nome];
     }
-
     atualizarTudo();
     abrirResumo();
 }
 
+function limparCarrinho() {
+    if(!confirm("Deseja realmente limpar todo o carrinho?")) return;
+    for (let nome in carrinho) {
+        const item = carrinho[nome];
+        window.PRODUTOS[item.id].estoqueAtual += item.qtd;
+    }
+    carrinho = {};
+    atualizarTudo();
+    fecharResumo();
+}
+
 function atualizarTudo() {
     let totalCents = 0;
-    let totalItens = 0;
-
-    for (let nome in carrinho) {
-        // Limpeza rigorosa do valor para soma
-        const valorLimpo = carrinho[nome].precoStr.replace('R$', '').replace(/\./g, '').replace(',', '.').trim();
-        const precoCents = Math.round(parseFloat(valorLimpo) * 100);
-        totalCents += precoCents * carrinho[nome].qtd;
-        totalItens += carrinho[nome].qtd;
-    }
-
-    const totalFormatado = (totalCents / 100).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
+    for (let nome in carrinho) totalCents += carrinho[nome].precoCents * carrinho[nome].qtd;
+    const formatado = (totalCents/100).toLocaleString('pt-BR', {style:'currency', currency:'BRL'});
     
-    // Atualiza badges e somas visíveis
-    document.getElementById('cart-count').innerText = totalItens;
-    document.getElementById('soma-visivel').innerText = `R$ ${totalFormatado}`;
-    document.getElementById('modal-total').innerText = `Total: R$ ${totalFormatado}`;
+    document.getElementById('soma-visivel').innerText = formatado;
+    document.getElementById('modal-total').innerText = `Total: ${formatado}`;
 
-    // Atualiza a vitrine sem dar "flash" (re-render)
-    window.PRODUTOS.forEach((p, idx) => {
-        const estEl = document.getElementById(`est-ui-${idx}`);
-        const btnEl = document.getElementById(`btn-ui-${idx}`);
-        if(estEl) estEl.innerText = `Estoque: ${p.estoqueAtual}`;
-        if(btnEl) {
-            btnEl.disabled = p.estoqueAtual <= 0;
-            btnEl.innerText = p.estoqueAtual <= 0 ? 'ESGOTADO' : 'ADICIONAR';
+    window.PRODUTOS.forEach(p => {
+        const est = document.getElementById(`est-${p.id}`);
+        const btn = document.getElementById(`btn-${p.id}`);
+        if(est) est.innerText = `Estoque: ${p.estoqueAtual}`;
+        if(btn) {
+            btn.disabled = p.estoqueAtual <= 0;
+            btn.innerText = p.estoqueAtual <= 0 ? 'ESGOTADO' : 'ADICIONAR';
         }
     });
 }
 
 function abrirResumo() {
     const lista = document.getElementById('lista-resumo');
-    const nomesNoCart = Object.keys(carrinho);
-    if (nomesNoCart.length === 0) return fecharResumo();
-
-    lista.innerHTML = nomesNoCart.map(nome => `
+    const itens = Object.keys(carrinho);
+    if (itens.length === 0) return fecharResumo();
+    lista.innerHTML = itens.map(nome => `
         <div class="item-resumo">
-            <div style="max-width:60%">
-                <b style="font-size:0.9rem">${nome}</b><br>
-                <span style="color:var(--primaria); font-weight:bold">R$ ${carrinho[nome].precoStr}</span>
+            <div><b>${nome}</b><br><small>R$ ${carrinho[nome].precoOriginal}</small></div>
+            <div style="display:flex; align-items:center; gap:10px;">
+                <i class="material-icons" onclick="mudarQtd('${nome}', -1)" style="cursor:pointer">remove_circle</i>
+                <b>${carrinho[nome].qtd}</b>
+                <i class="material-icons" onclick="mudarQtd('${nome}', 1)" style="cursor:pointer">add_circle</i>
             </div>
-            <div class="controles-qtd">
-                <span class="btn-qtd" onclick="mudarQtd('${nome}', -1)">remove_circle_outline</span>
-                <b style="font-size:1.2rem">${carrinho[nome].qtd}</b>
-                <span class="btn-qtd" onclick="mudarQtd('${nome}', 1)">add_circle_outline</span>
-            </div>
-        </div>`).join('').replace(/remove_circle_outline/g, '<i class="material-icons">remove_circle_outline</i>').replace(/add_circle_outline/g, '<i class="material-icons">add_circle_outline</i>');
-    
+        </div>`).join('');
     document.getElementById('modal-resumo').style.display = 'flex';
 }
 
 function fecharResumo() { document.getElementById('modal-resumo').style.display = 'none'; }
 
 function enviarWhatsapp() {
-    let texto = "*PEDIDO - GUI PERFUMARIA*\n\n";
-    let totalCents = 0;
+    let msg = "*NOVO PEDIDO - GUI PERFUMARIA*\n\n";
+    let total = 0;
     for (let nome in carrinho) {
-        const item = carrinho[nome];
-        texto += `✅ ${item.qtd}x ${nome}\n   Subtotal: R$ ${item.precoStr}\n\n`;
-        const valorLimpo = item.precoStr.replace(/\./g, '').replace(',', '.').trim();
-        totalCents += Math.round(parseFloat(valorLimpo) * 100) * item.qtd;
+        msg += `✅ ${carrinho[nome].qtd}x ${nome}\n`;
+        total += carrinho[nome].precoCents * carrinho[nome].qtd;
     }
-    const totalFinal = (totalCents/100).toLocaleString('pt-BR', {minimumFractionDigits:2});
-    texto += `*TOTAL DO PEDIDO: R$ ${totalFinal}*`;
-    window.open(`https://wa.me/5571992795085?text=${encodeURIComponent(texto)}`);
+    msg += `\n*TOTAL: ${(total/100).toLocaleString('pt-BR', {style:'currency', currency:'BRL'})}*`;
+    window.open(`https://wa.me/5571992795085?text=${encodeURIComponent(msg)}`);
 }
-
 carregarDados();
 </script>
 </body>
