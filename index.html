@@ -339,6 +339,10 @@ function enviarWhatsapp() {
     msg += `💰 *VALOR TOTAL: ${document.getElementById('modal-total').innerText.replace('Total: ', '')}*\n\n`;
     msg += `Olá Aline! Acabo de montar meu pedido pelo catálogo. Aguardo seu retorno!`;
 
+    // Fecha o carrinho e abre o alerta de agradecimento
+    fecharResumo();
+    alert(`Obrigado! ${cliente} pela sua compra!`);
+
     window.open(`https://wa.me/5571987692157?text=${encodeURIComponent(msg)}`, '_blank');
 }
 
