@@ -13,8 +13,8 @@
 
         .topo-fixo { position: fixed; top: 0; left: 0; width: 100%; z-index: 2000; background: white; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
         header { background: var(--primaria); color: white; padding: 30px 10px; text-align: center; border-bottom: 5px solid var(--detalhe); }
-        header h1 { font-family: 'Playfair Display', serif; font-size: 2.8rem; color: var(--detalhe); text-transform: uppercase; }
-        header p { font-size: 1.3rem; font-weight: 700; color: #fff; margin-top: 5px; }
+        header h1 { font-family: 'Playfair Display', serif; font-size: 2.5rem; color: var(--detalhe); text-transform: uppercase; }
+        header p { font-size: 1.1rem; font-weight: 700; color: #fff; margin-top: 5px; }
         
         .area-catalogos { background: white; padding: 15px 0; border-bottom: 1px solid #eee; text-align: center; }
         .grade-logos { display: flex; justify-content: center; gap: 15px; }
@@ -26,28 +26,29 @@
         .vitrine { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; padding: 12px; }
         .p-card { background: white; border: 1px solid #eee; padding: 15px; text-align: center; border-radius: 12px; display: flex; flex-direction: column; height: 100%; position: relative; }
         
-        .info-icon { position: absolute; top: 10px; right: 10px; color: var(--detalhe); cursor: pointer; }
-        .p-desc { font-size: 0.75rem; color: #666; font-style: italic; margin-bottom: 10px; display: none; background: #f9f9f9; padding: 5px; border-radius: 5px; }
+        .info-icon { position: absolute; top: 8px; right: 8px; color: var(--detalhe); cursor: pointer; font-size: 20px; }
+        .p-desc { font-size: 0.75rem; color: #666; font-style: italic; margin: 10px 0; display: none; background: #f9f9f9; padding: 8px; border-radius: 5px; border: 1px solid #eee; }
 
-        .p-card img { width: 100%; height: 130px; object-fit: contain; margin-bottom: 10px; }
-        .p-nome { font-size: 0.85rem; font-weight: 600; min-height: 40px; margin-bottom: 8px; color: #333; }
-        .p-preco { font-weight: 800; color: var(--primaria); font-size: 1.15rem; margin-bottom: 5px; }
+        .p-card img { width: 100%; height: 120px; object-fit: contain; margin-bottom: 10px; }
+        .p-nome { font-size: 0.85rem; font-weight: 700; min-height: 40px; margin-bottom: 8px; color: #333; }
+        .p-preco { font-weight: 800; color: var(--primaria); font-size: 1.2rem; margin-bottom: 5px; }
         .p-estoque { font-size: 11px; color: #d9534f; font-weight: bold; margin-bottom: 10px; }
         
-        .btn-add { background: var(--primaria); color: white; border: none; padding: 10px; border-radius: 8px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 5px; margin-top: auto; }
+        .btn-add { background: var(--primaria); color: white; border: none; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 5px; margin-top: auto; }
+        .btn-add:disabled { background: #ccc; cursor: not-allowed; }
 
         .cart-container { position: fixed; bottom: 20px; right: 20px; z-index: 3000; display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
-        .soma-flutuante { background: white; border: 2px solid var(--whatsapp); color: var(--whatsapp); padding: 5px 15px; border-radius: 20px; font-weight: 800; font-size: 1.1rem; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .soma-flutuante { background: white; border: 2px solid var(--whatsapp); color: var(--whatsapp); padding: 8px 18px; border-radius: 25px; font-weight: 900; font-size: 1.2rem; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
         .cart-fixo { background: var(--whatsapp); color: white; padding: 15px 25px; border-radius: 50px; display: flex; align-items: center; gap: 10px; box-shadow: 0 5px 20px rgba(0,0,0,0.3); border: none; cursor: pointer; }
         .badge { background: white; color: var(--whatsapp); padding: 2px 8px; border-radius: 10px; font-weight: bold; }
 
-        #modal-resumo { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 4000; align-items: center; justify-content: center; }
-        .modal-content { background: white; width: 95%; max-width: 450px; border-radius: 15px; padding: 20px; max-height: 85vh; overflow-y: auto; }
-        .item-resumo { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #eee; }
-        .controles-qtd { display: flex; align-items: center; gap: 10px; background: #f8f9fa; padding: 5px 10px; border-radius: 8px; }
-        .btn-qtd { cursor: pointer; font-size: 20px; color: var(--primaria); user-select: none; }
-        .total-resumo { font-weight: bold; font-size: 1.3rem; text-align: right; margin-top: 20px; color: var(--primaria); }
-        .btn-confirmar { background: var(--whatsapp); color: white; width: 100%; border: none; padding: 15px; border-radius: 10px; font-weight: bold; margin-top: 20px; cursor: pointer; font-size: 1.1rem; }
+        #modal-resumo { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 4000; align-items: center; justify-content: center; }
+        .modal-content { background: white; width: 95%; max-width: 450px; border-radius: 15px; padding: 25px; max-height: 85vh; overflow-y: auto; }
+        .item-resumo { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid #eee; }
+        .controles-qtd { display: flex; align-items: center; gap: 12px; background: #f1f3f5; padding: 8px 15px; border-radius: 10px; }
+        .btn-qtd { cursor: pointer; font-size: 22px; color: var(--primaria); font-weight: bold; user-select: none; }
+        .total-resumo { font-weight: 900; font-size: 1.5rem; text-align: right; margin-top: 25px; color: var(--primaria); border-top: 2px dashed #eee; padding-top: 15px; }
+        .btn-confirmar { background: var(--whatsapp); color: white; width: 100%; border: none; padding: 18px; border-radius: 12px; font-weight: bold; margin-top: 20px; cursor: pointer; font-size: 1.1rem; }
     </style>
 </head>
 <body>
@@ -60,34 +61,33 @@
 
     <div class="area-catalogos">
         <div class="grade-logos">
-            <a href="https://encurtador.naturaavon.com/hTUzboh" target="_blank" class="item-logo"><div class="img-box"><img src="assets/natura.png"></div><span>Natura</span></a>
-            <a href="https://minhaloja.boticario.com.br/aline-nascimento" target="_blank" class="item-logo"><div class="img-box"><img src="assets/boticario.png"></div><span>Boticário</span></a>
-            <a href="https://minhaloja.eudora.com.br/aline-nascimento" target="_blank" class="item-logo"><div class="img-box"><img src="assets/eudora.jpeg"></div><span>Eudora</span></a>
-            <a href="https://minhaloja.ouiparis.com/aline-nascimento" target="_blank" class="item-logo"><div class="img-box"><img src="assets/oui.png"></div><span>O.U.i</span></a>
+            <a href="#" class="item-logo"><div class="img-box"><img src="assets/natura.png"></div><span>Natura</span></a>
+            <a href="#" class="item-logo"><div class="img-box"><img src="assets/boticario.png"></div><span>Boticário</span></a>
+            <a href="#" class="item-logo"><div class="img-box"><img src="assets/eudora.jpeg"></div><span>Eudora</span></a>
+            <a href="#" class="item-logo"><div class="img-box"><img src="assets/oui.png"></div><span>O.U.i</span></a>
         </div>
     </div>
-    <div class="nav-categorias" id="filtro-marcas"><button class="cat-btn active" onclick="filtrar('TODOS', this)">Todos</button></div>
 </div>
 
-<div id="loading" style="text-align:center; padding:100px; font-weight:bold;">Sincronizando fragrâncias...</div>
+<div id="loading" style="text-align:center; padding:100px; font-weight:bold; color:var(--primaria);">CARREGANDO PRODUTOS...</div>
 <div class="vitrine" id="vitrine"></div>
 
 <div class="cart-container" id="cart-container" style="display:none;">
     <div class="soma-flutuante" id="soma-visivel">R$ 0,00</div>
     <button class="cart-fixo" onclick="abrirResumo()">
         <i class="material-icons">shopping_cart</i>
-        <span>Meu Pedido</span>
+        <span>VER PEDIDO</span>
         <span class="badge" id="cart-count">0</span>
     </button>
 </div>
 
 <div id="modal-resumo">
     <div class="modal-content">
-        <h3>🛒 Resumo do Pedido</h3>
+        <h3 style="margin-bottom:15px; border-bottom:2px solid var(--detalhe); display:inline-block;">🛒 Seu Pedido</h3>
         <div id="lista-resumo"></div>
         <div class="total-resumo" id="modal-total">Total: R$ 0,00</div>
         <button class="btn-confirmar" onclick="enviarWhatsapp()">CONCLUIR NO WHATSAPP</button>
-        <p onclick="fecharResumo()" style="text-align:center; margin-top:15px; cursor:pointer; color:#666; font-size:14px;">Continuar Comprando</p>
+        <p onclick="fecharResumo()" style="text-align:center; margin-top:20px; cursor:pointer; color:#666; font-weight:bold;">Voltar ao Catálogo</p>
     </div>
 </div>
 
@@ -103,33 +103,36 @@ function carregarDados() {
             window.PRODUTOS = results.data.map(item => {
                 const v = Object.values(item);
                 return { 
-                    marca: v[1], 
-                    nome: v[3], 
-                    precoStr: v[4], 
-                    img: v[5], 
-                    estoque: parseInt(v[6]) || 0,
-                    descricao: v[7] || "Fragrância exclusiva. Consulte disponibilidade!"
+                    id: Math.random().toString(36), // ID único temporário
+                    marca: String(v[1] || "").trim(), 
+                    nome: String(v[3] || "").trim(), 
+                    precoStr: String(v[4] || "0,00").trim(), 
+                    img: String(v[5] || "").trim(), 
+                    estoqueOriginal: parseInt(v[6]) || 0,
+                    estoqueAtual: parseInt(v[6]) || 0,
+                    descricao: String(v[7] || "Fragrância incrível!").trim()
                 };
             }).filter(p => p.nome);
             document.getElementById('loading').style.display = 'none';
             document.getElementById('cart-container').style.display = 'flex';
-            render('TODOS');
+            render();
         }
     });
 }
 
-function render(filtro) {
+function render() {
     const v = document.getElementById('vitrine');
-    const filtrados = filtro === 'TODOS' ? window.PRODUTOS : window.PRODUTOS.filter(p => p.marca === filtro);
-    v.innerHTML = filtrados.map((p, idx) => `
+    v.innerHTML = window.PRODUTOS.map((p, idx) => `
         <div class="p-card">
             <i class="material-icons info-icon" onclick="toggleDesc(${idx})">info_outline</i>
-            <img src="${p.img}" onerror="this.src='https://via.placeholder.com/150'">
+            <img src="${p.img}" onerror="this.src='https://via.placeholder.com/150?text=Perfume'">
             <div class="p-nome">${p.nome}</div>
             <div id="desc-${idx}" class="p-desc">${p.descricao}</div>
             <div class="p-preco">R$ ${p.precoStr}</div>
-            <div class="p-estoque">${p.estoque > 0 ? 'Estoque: ' + p.estoque : 'ESGOTADO'}</div>
-            <button class="btn-add" onclick="addCart('${p.nome}', '${p.precoStr}', ${p.estoque})" ${p.estoque <= 0 ? 'disabled style="background:#ccc"' : ''}>ADICIONAR</button>
+            <div class="p-estoque" id="est-ui-${idx}">Estoque: ${p.estoqueAtual}</div>
+            <button class="btn-add" id="btn-ui-${idx}" onclick="addCart(${idx})" ${p.estoqueAtual <= 0 ? 'disabled' : ''}>
+                ${p.estoqueAtual <= 0 ? 'ESGOTADO' : 'ADICIONAR'}
+            </button>
         </div>`).join('');
 }
 
@@ -138,67 +141,106 @@ function toggleDesc(id) {
     el.style.display = el.style.display === 'block' ? 'none' : 'block';
 }
 
-function addCart(nome, precoStr, estoqueMax) {
-    if (!carrinho[nome]) {
-        carrinho[nome] = { precoStr, qtd: 1, estoqueMax };
+function addCart(idx) {
+    const p = window.PRODUTOS[idx];
+    if (p.estoqueAtual <= 0) return;
+
+    if (!carrinho[p.nome]) {
+        carrinho[p.nome] = { precoStr: p.precoStr, qtd: 1, idxOriginal: idx };
     } else {
-        if (carrinho[nome].qtd >= estoqueMax) return alert("Limite de estoque atingido!");
-        carrinho[nome].qtd++;
+        carrinho[p.nome].qtd++;
     }
-    atualizarInterface();
+
+    p.estoqueAtual--;
+    atualizarTudo();
 }
 
 function mudarQtd(nome, delta) {
     const item = carrinho[nome];
-    if (delta > 0 && item.qtd >= item.estoqueMax) return alert("Não temos mais em estoque!");
-    item.qtd += delta;
-    if (item.qtd <= 0) delete carrinho[nome];
-    atualizarInterface();
+    const p = window.PRODUTOS[item.idxOriginal];
+
+    if (delta > 0) { // Tentando aumentar
+        if (p.estoqueAtual <= 0) return alert("Não temos mais em estoque!");
+        item.qtd++;
+        p.estoqueAtual--;
+    } else { // Tentando diminuir
+        item.qtd--;
+        p.estoqueAtual++;
+        if (item.qtd <= 0) delete carrinho[nome];
+    }
+
+    atualizarTudo();
     abrirResumo();
 }
 
-function atualizarInterface() {
+function atualizarTudo() {
     let totalCents = 0;
     let totalItens = 0;
+
     for (let nome in carrinho) {
-        const precoCents = Math.round(parseFloat(carrinho[nome].precoStr.replace('.', '').replace(',', '.')) * 100);
+        // Limpeza rigorosa do valor para soma
+        const valorLimpo = carrinho[nome].precoStr.replace('R$', '').replace(/\./g, '').replace(',', '.').trim();
+        const precoCents = Math.round(parseFloat(valorLimpo) * 100);
         totalCents += precoCents * carrinho[nome].qtd;
         totalItens += carrinho[nome].qtd;
     }
+
     const totalFormatado = (totalCents / 100).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
+    
+    // Atualiza badges e somas visíveis
     document.getElementById('cart-count').innerText = totalItens;
     document.getElementById('soma-visivel').innerText = `R$ ${totalFormatado}`;
     document.getElementById('modal-total').innerText = `Total: R$ ${totalFormatado}`;
+
+    // Atualiza a vitrine sem dar "flash" (re-render)
+    window.PRODUTOS.forEach((p, idx) => {
+        const estEl = document.getElementById(`est-ui-${idx}`);
+        const btnEl = document.getElementById(`btn-ui-${idx}`);
+        if(estEl) estEl.innerText = `Estoque: ${p.estoqueAtual}`;
+        if(btnEl) {
+            btnEl.disabled = p.estoqueAtual <= 0;
+            btnEl.innerText = p.estoqueAtual <= 0 ? 'ESGOTADO' : 'ADICIONAR';
+        }
+    });
 }
 
 function abrirResumo() {
     const lista = document.getElementById('lista-resumo');
-    if (Object.keys(carrinho).length === 0) return fecharResumo();
-    lista.innerHTML = Object.keys(carrinho).map(nome => `
+    const nomesNoCart = Object.keys(carrinho);
+    if (nomesNoCart.length === 0) return fecharResumo();
+
+    lista.innerHTML = nomesNoCart.map(nome => `
         <div class="item-resumo">
-            <div style="max-width:60%"><b>${nome}</b><br><small>R$ ${carrinho[nome].precoStr}</small></div>
-            <div class="controles-qtd">
-                <span class="btn-qtd" onclick="mudarQtd('${nome}', -1)">-</span>
-                <b>${carrinho[nome].qtd}</b>
-                <span class="btn-qtd" onclick="mudarQtd('${nome}', 1)">+</span>
+            <div style="max-width:60%">
+                <b style="font-size:0.9rem">${nome}</b><br>
+                <span style="color:var(--primaria); font-weight:bold">R$ ${carrinho[nome].precoStr}</span>
             </div>
-        </div>`).join('');
+            <div class="controles-qtd">
+                <span class="btn-qtd" onclick="mudarQtd('${nome}', -1)">remove_circle_outline</span>
+                <b style="font-size:1.2rem">${carrinho[nome].qtd}</b>
+                <span class="btn-qtd" onclick="mudarQtd('${nome}', 1)">add_circle_outline</span>
+            </div>
+        </div>`).join('').replace(/remove_circle_outline/g, '<i class="material-icons">remove_circle_outline</i>').replace(/add_circle_outline/g, '<i class="material-icons">add_circle_outline</i>');
+    
     document.getElementById('modal-resumo').style.display = 'flex';
 }
 
 function fecharResumo() { document.getElementById('modal-resumo').style.display = 'none'; }
 
 function enviarWhatsapp() {
-    let texto = "Olá Aline! Gostaria deste pedido:\n\n";
+    let texto = "*PEDIDO - GUI PERFUMARIA*\n\n";
     let totalCents = 0;
     for (let nome in carrinho) {
         const item = carrinho[nome];
-        texto += `▪️ ${item.qtd}x ${nome} (R$ ${item.precoStr})\n`;
-        totalCents += Math.round(parseFloat(item.precoStr.replace('.', '').replace(',', '.')) * 100) * item.qtd;
+        texto += `✅ ${item.qtd}x ${nome}\n   Subtotal: R$ ${item.precoStr}\n\n`;
+        const valorLimpo = item.precoStr.replace(/\./g, '').replace(',', '.').trim();
+        totalCents += Math.round(parseFloat(valorLimpo) * 100) * item.qtd;
     }
-    texto += `\n💰 *Total: R$ ${(totalCents/100).toLocaleString('pt-BR', {minimumFractionDigits:2})}*`;
+    const totalFinal = (totalCents/100).toLocaleString('pt-BR', {minimumFractionDigits:2});
+    texto += `*TOTAL DO PEDIDO: R$ ${totalFinal}*`;
     window.open(`https://wa.me/5571992795085?text=${encodeURIComponent(texto)}`);
 }
+
 carregarDados();
 </script>
 </body>
