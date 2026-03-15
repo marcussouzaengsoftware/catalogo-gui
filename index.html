@@ -339,4 +339,31 @@ function abrirResumo() {
 }
 
 function filtrar(cat, btn) {
-    document.querySelectorAll('.btn-filtro
+    document.querySelectorAll('.btn-filtro').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    let filtrados = cat === 'todos' ? window.PRODUTOS : (cat === 'promo' ? window.PRODUTOS.filter(p => p.emOferta) : window.PRODUTOS.filter(p => p.categoria === cat));
+    document.getElementById('banner-container').style.display = (cat === 'todos') ? 'block' : 'none';
+    render(filtrados);
+}
+
+function gerarBotoesFiltro() {
+    const div = document.getElementById('lista-filtros');
+    categoriasUnicas.forEach(cat => {
+        const btn = document.createElement('button');
+        btn.className = 'btn-filtro'; btn.innerText = cat;
+        btn.onclick = () => filtrar(cat, btn);
+        div.appendChild(btn);
+    });
+}
+
+function fecharResumo() { document.getElementById('modal-resumo').style.display = 'none'; }
+function enviarWhatsapp() {
+    let msg = `🛍️ *PEDIDO - GUI PERFUMARIA*\n\n`;
+    for (let nome in carrinho) { msg += `✅ ${carrinho[nome].qtd}x ${nome}\n`; }
+    msg += `\n💰 *TOTAL: ${document.getElementById('modal-total').innerText}*`;
+    window.open(`https://wa.me/5571987692157?text=${encodeURIComponent(msg)}`, '_blank');
+}
+carregarDados();
+</script>
+</body>
+</html>
