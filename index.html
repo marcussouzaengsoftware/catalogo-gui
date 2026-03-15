@@ -8,79 +8,86 @@
     <style>
         :root { --primaria: #0f2621; --detalhe: #d4af37; --whatsapp: #25d366; --fundo: #fcfcfc; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
-        body { background-color: var(--fundo); padding-bottom: 50px; }
+        body { background-color: var(--fundo); padding-top: 195px; } /* Espaço para o topo fixo */
         
-        header { background: var(--primaria); color: white; padding: 15px; text-align: center; border-bottom: 3px solid var(--detalhe); }
-        
-        /* Layout de Tela Cheia */
-        .container-full { width: 100%; padding: 0 10px; }
+        /* TOPO FIXO COMPLETO */
+        .topo-fixo { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            z-index: 2000; 
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
 
-        /* SEÇÃO DE LOGOS PADRONIZADAS */
-        .area-catalogos { background: white; padding: 15px 0; border-bottom: 1px solid #eee; text-align: center; }
-        .titulo-secao { font-size: 10px; font-weight: bold; color: #999; text-transform: uppercase; margin-bottom: 12px; letter-spacing: 1px; }
-        .grade-logos { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
-        .item-logo { text-decoration: none; display: flex; flex-direction: column; align-items: center; width: 75px; }
+        header { background: var(--primaria); color: white; padding: 12px; text-align: center; border-bottom: 3px solid var(--detalhe); }
         
-        .img-box { width: 60px; height: 60px; border-radius: 50%; border: 1px solid #ddd; display: flex; align-items: center; justify-content: center; background: white; margin-bottom: 5px; overflow: hidden; }
-        .img-box img { width: 85%; height: 85%; object-fit: contain; }
-        .item-logo span { font-size: 9px; font-weight: 800; color: #333; text-transform: uppercase; }
+        .area-catalogos { background: white; padding: 10px 0; border-bottom: 1px solid #eee; text-align: center; }
+        .titulo-secao { font-size: 9px; font-weight: bold; color: #999; text-transform: uppercase; margin-bottom: 8px; letter-spacing: 1px; }
+        .grade-logos { display: flex; justify-content: center; gap: 12px; }
+        
+        .item-logo { text-decoration: none; display: flex; flex-direction: column; align-items: center; width: 70px; }
+        .img-box { width: 55px; height: 55px; border-radius: 50%; border: 1px solid #eee; display: flex; align-items: center; justify-content: center; background: white; margin-bottom: 4px; overflow: hidden; }
+        .img-box img { width: 80%; height: 80%; object-fit: contain; }
+        .item-logo span { font-size: 8px; font-weight: 800; color: #333; text-transform: uppercase; }
 
-        .nav-categorias { background: white; padding: 10px; overflow-x: auto; display: flex; gap: 8px; border-bottom: 1px solid #eee; position: sticky; top: 0; z-index: 999; }
+        .nav-categorias { background: white; padding: 8px 10px; overflow-x: auto; display: flex; gap: 8px; border-bottom: 1px solid #eee; }
         .cat-btn { padding: 6px 15px; border-radius: 20px; border: 1px solid var(--primaria); background: transparent; font-size: 0.7rem; font-weight: bold; cursor: pointer; white-space: nowrap; }
         .cat-btn.active { background: var(--primaria); color: white; }
 
-        /* Vitrine Ocupando a Tela Toda */
+        /* VITRINE TELA CHEIA */
         .vitrine { 
             display: grid; 
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); 
-            gap: 10px; 
-            padding: 10px 0;
+            grid-template-columns: repeat(auto-fill, minmax(145px, 1fr)); 
+            gap: 8px; 
+            padding: 8px;
             width: 100%;
         }
         
         .p-card { background: white; border: 1px solid #eee; padding: 10px; text-align: center; border-radius: 8px; display: flex; flex-direction: column; height: 100%; }
-        .p-card img { width: 100%; height: 120px; object-fit: contain; margin-bottom: 8px; }
-        .p-nome { font-size: 0.8rem; font-weight: 600; min-height: 35px; line-height: 1.2; margin-bottom: 8px; }
-        .p-preco { font-weight: 800; color: var(--primaria); font-size: 1rem; }
+        .p-card img { width: 100%; height: 110px; object-fit: contain; margin-bottom: 5px; }
+        .p-nome { font-size: 0.75rem; font-weight: 600; min-height: 32px; line-height: 1.1; margin-bottom: 5px; color: #222; }
+        .p-preco { font-weight: 800; color: var(--primaria); font-size: 0.95rem; }
     </style>
 </head>
 <body>
 
-<header>
-    <h1 style="color: var(--detalhe); font-size: 1.3rem; letter-spacing: 2px;">GUI PERFUMARIA</h1>
-    <p style="font-size: 0.75rem;">Consultora: Aline Nascimento</p>
-</header>
+<div class="topo-fixo">
+    <header>
+        <h1 style="color: var(--detalhe); font-size: 1.2rem; letter-spacing: 1px;">GUI PERFUMARIA</h1>
+        <p style="font-size: 0.7rem; opacity: 0.9;">Consultora: Aline Nascimento</p>
+    </header>
 
-<div class="area-catalogos">
-    <p class="titulo-secao">Catálogos Aline Nascimento</p>
-    <div class="grade-logos">
-        <a href="https://www.natura.com.br/consultoria/alinenascimento" target="_blank" class="item-logo">
-            <div class="img-box"><img src="https://upload.wikimedia.org/wikipedia/pt/thumb/b/b3/Natura_Logo.png/200px-Natura_Logo.png"></div>
-            <span>Natura</span>
-        </a>
-        <a href="https://catalogo.oboticario.com.br/" target="_blank" class="item-logo">
-            <div class="img-box"><img src="https://logospng.org/wp-content/uploads/o-boticario.png"></div>
-            <span>Boticário</span>
-        </a>
-        <a href="https://www.eudora.com.br/guia-virtual/" target="_blank" class="item-logo">
-            <div class="img-box"><img src="https://logodownload.org/wp-content/uploads/2018/02/eudora-logo.png"></div>
-            <span>Eudora</span>
-        </a>
-        <a href="https://www.ouiparis.com/guia-virtual" target="_blank" class="item-logo">
-            <div class="img-box"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR6A6R_A6y9_7hDk6_8_2-V-uY6m2l0R4x2qg&s"></div>
-            <span>O.U.i</span>
-        </a>
+    <div class="area-catalogos">
+        <p class="titulo-secao">Catálogos Digitais</p>
+        <div class="grade-logos">
+            <a href="https://encurtador.naturaavon.com/hTUzboh" target="_blank" class="item-logo">
+                <div class="img-box"><img src="https://upload.wikimedia.org/wikipedia/pt/thumb/b/b3/Natura_Logo.png/200px-Natura_Logo.png"></div>
+                <span>Natura</span>
+            </a>
+            <a href="https://minhaloja.boticario.com.br/aline-nascimento?utm_source=app_divulgar&utm_medium=divulgar_catalogo&utm_campaign=ciclo_atual" target="_blank" class="item-logo">
+                <div class="img-box"><img src="https://logospng.org/wp-content/uploads/o-boticario.png"></div>
+                <span>Boticário</span>
+            </a>
+            <a href="https://minhaloja.eudora.com.br/aline-nascimento?utm_source=app_divulgar&utm_medium=divulgar_catalogo&utm_campaign=ciclo_atual" target="_blank" class="item-logo">
+                <div class="img-box"><img src="https://logodownload.org/wp-content/uploads/2018/02/eudora-logo.png"></div>
+                <span>Eudora</span>
+            </a>
+            <a href="https://minhaloja.ouiparis.com/aline-nascimento?utm_source=app_divulgar&utm_medium=divulgar_catalogo&utm_campaign=ciclo_atual" target="_blank" class="item-logo">
+                <div class="img-box"><img src="https://res.cloudinary.com/beleza-na-web/image/upload/f_auto,fl_progressive,q_auto:best/v1/brands/oui/oui-logo.png"></div>
+                <span>O.U.i</span>
+            </a>
+        </div>
     </div>
-</div>
 
-<div class="container-full">
     <div class="nav-categorias" id="filtro-marcas">
         <button class="cat-btn active" onclick="filtrar('TODOS', this)">Todos</button>
     </div>
-
-    <div id="loading" style="text-align:center; padding:40px; font-size: 0.8rem;">Carregando Vitrine...</div>
-    <div class="vitrine" id="vitrine" style="display:none;"></div>
 </div>
+
+<div id="loading" style="text-align:center; padding:50px; font-size: 0.8rem; color: #666;">Carregando produtos...</div>
+<div class="vitrine" id="vitrine" style="display:none;"></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
 <script>
@@ -93,8 +100,8 @@ function carregarDados() {
             window.PRODUTOS = results.data.map(item => {
                 const v = Object.values(item);
                 return {
-                    marca: v[1] || "",
-                    nome: v[3] || "",
+                    marca: (v[1] || "").trim(),
+                    nome: (v[3] || "").trim(),
                     preco: v[4] || "0,00",
                     img: v[5] || "",
                     estoque: parseInt(v[6]) || 0
@@ -121,7 +128,7 @@ function render(filtro) {
     const v = document.getElementById('vitrine');
     const filtrados = filtro === 'TODOS' ? window.PRODUTOS : window.PRODUTOS.filter(p => p.marca === filtro);
     v.innerHTML = filtrados.map(p => `
-        <div class="p-card">
+        <div class="p-card" style="opacity: ${p.estoque > 0 ? 1 : 0.6}">
             <img src="${p.img}" onerror="this.src='https://via.placeholder.com/150?text=Sem+Foto'">
             <div class="p-nome">${p.nome}</div>
             <div class="p-preco">R$ ${p.preco}</div>
