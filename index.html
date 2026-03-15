@@ -42,10 +42,10 @@
         #modal-resumo { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 4000; align-items: center; justify-content: center; }
         .modal-content { background: white; width: 90%; max-width: 400px; border-radius: 15px; padding: 20px; max-height: 80vh; overflow-y: auto; }
         .modal-header { border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; }
-        .item-resumo { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; font-size: 0.9rem; }
+        .item-resumo { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; font-size: 0.85rem; }
         .total-resumo { border-top: 2px solid #eee; padding-top: 10px; margin-top: 10px; font-weight: bold; font-size: 1.1rem; display: flex; justify-content: space-between; }
         .btn-confirmar { background: var(--whatsapp); color: white; width: 100%; border: none; padding: 15px; border-radius: 10px; font-weight: bold; margin-top: 20px; cursor: pointer; font-size: 1rem; }
-        .btn-remove { color: #d9534f; cursor: pointer; font-size: 18px; }
+        .btn-remove { color: #d9534f; cursor: pointer; font-size: 18px; margin-left: 10px; }
     </style>
 </head>
 <body>
@@ -119,7 +119,13 @@ function carregarDados() {
         complete: function(results) {
             window.PRODUTOS = results.data.map(item => {
                 const v = Object.values(item);
-                return { marca: v[1], nome: v[3], preco: v[4], img: v[5], estoque: parseInt(v[6]) || 0 };
+                return { 
+                    marca: (v[1] || "").trim(), 
+                    nome: (v[3] || "").trim(), 
+                    precoStr: v[4] || "0,00",
+                    img: v[5] || "", 
+                    estoque: parseInt(v[6]) || 0 
+                };
             }).filter(p => p.nome);
             
             const marcas = [...new Set(window.PRODUTOS.map(p => p.marca))].filter(Boolean);
@@ -143,16 +149,24 @@ function render(filtro) {
         <div class="p-card" style="opacity: ${p.estoque > 0 ? 1 : 0.6}">
             <img src="${p.img}" onerror="this.src='https://via.placeholder.com/150?text=Sem+Foto'">
             <div class="p-nome">${p.nome}</div>
-            <div class="p-preco">R$ ${p.preco}</div>
+            <div class="p-preco">R$ ${p.precoStr}</div>
             <div class="p-estoque">Estoque: ${p.estoque}</div>
-            <button class="btn-add" onclick="addCart('${p.nome}', '${p.preco}')" ${p.estoque <= 0 ? 'disabled style="background:#ccc"' : ''}>
+            <button class="btn-add" onclick="addCart('${p.nome}', '${p.precoStr}', ${p.estoque})" ${p.estoque <= 0 ? 'disabled style="background:#ccc"' : ''}>
                 <i class="material-icons" style="font-size:18px">add_shopping_cart</i> ADICIONAR
             </button>
         </div>`).join('');
 }
 
-function addCart(nome, preco) {
-    carrinho.push({nome, preco});
+function addCart(nome, precoStr, estoqueMax) {
+    // Contar quantos desse item já estão no carrinho
+    const qtdNoCart = carrinho.filter(i => i.nome === nome).length;
+    
+    if (qtdNoCart >= estoqueMax) {
+        alert("Desculpe! Você já atingiu o limite disponível no estoque para este produto.");
+        return;
+    }
+
+    carrinho.push({nome, precoStr});
     document.getElementById('cart-count').innerText = carrinho.length;
 }
 
@@ -164,21 +178,25 @@ function removeCart(index) {
 }
 
 function abrirResumo() {
-    if(carrinho.length === 0) return alert("Adicione produtos primeiro!");
+    if(carrinho.length === 0) return alert("Seu carrinho está vazio!");
     const lista = document.getElementById('lista-resumo');
-    let total = 0;
+    let totalCents = 0; // Usar centavos para evitar erro de soma decimal
+    
     lista.innerHTML = carrinho.map((i, index) => {
-        const valor = parseFloat(i.preco.replace(',', '.'));
-        total += valor;
+        // Converter "129,90" para 12990 (centavos)
+        const valorCents = Math.round(parseFloat(i.precoStr.replace('.', '').replace(',', '.')) * 100);
+        totalCents += valorCents;
         return `<div class="item-resumo">
             <span>${i.nome}</span>
-            <div>
-                <b>R$ ${i.preco}</b>
+            <div style="display:flex; align-items:center;">
+                <b>R$ ${i.precoStr}</b>
                 <i class="material-icons btn-remove" onclick="removeCart(${index})">delete_outline</i>
             </div>
         </div>`;
     }).join('');
-    document.getElementById('valor-total').innerText = `R$ ${total.toFixed(2).replace('.', ',')}`;
+
+    const totalFinal = (totalCents / 100).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
+    document.getElementById('valor-total').innerText = `R$ ${totalFinal}`;
     document.getElementById('modal-resumo').style.display = 'flex';
 }
 
@@ -186,12 +204,16 @@ function fecharResumo() { document.getElementById('modal-resumo').style.display 
 
 function enviarWhatsapp() {
     let texto = "Olá Aline! Gostaria de fazer este pedido:\n\n";
-    let total = 0;
+    let totalCents = 0;
+    
     carrinho.forEach(i => {
-        texto += `✅ ${i.nome} - R$ ${i.preco}\n`;
-        total += parseFloat(i.preco.replace(',', '.'));
+        texto += `✅ ${i.nome} - R$ ${i.precoStr}\n`;
+        totalCents += Math.round(parseFloat(i.precoStr.replace('.', '').replace(',', '.')) * 100);
     });
-    texto += `\n💰 *Total: R$ ${total.toFixed(2).replace('.', ',')}*`;
+    
+    const totalFinal = (totalCents / 100).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
+    texto += `\n💰 *Total: R$ ${totalFinal}*`;
+    
     const fone = "5571992795085"; 
     window.open(`https://wa.me/${fone}?text=${encodeURIComponent(texto)}`);
 }
