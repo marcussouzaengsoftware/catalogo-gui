@@ -15,7 +15,7 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
         body { background-color: var(--fundo); padding-top: 290px; padding-bottom: 80px; color: var(--texto); overflow-x: hidden; }
 
-        /* TOPO FIXO */
+        /* HEADER E TOPO FIXO */
         .topo-fixo { position: fixed; top: 0; left: 0; width: 100%; z-index: 2000; background: white; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
         header { background: var(--primaria); color: white; padding: 25px 15px; text-align: center; border-bottom: 6px solid var(--detalhe); position: relative; }
         header h1 { font-family: 'Playfair Display', serif; font-size: 2.1rem; color: var(--detalhe); text-transform: uppercase; }
@@ -24,6 +24,7 @@
         .soma-topo { background: rgba(255,255,255,0.2); border: 1px solid var(--detalhe); color: white; padding: 4px 10px; border-radius: 6px; font-weight: 800; font-size: 0.8rem; }
         .btn-cart-topo { background: var(--whatsapp); color: white; border: none; padding: 8px 12px; border-radius: 8px; display: flex; align-items: center; gap: 5px; cursor: pointer; font-weight: 800; font-size: 0.7rem; }
 
+        /* ÁREA DE MARCAS E FILTROS */
         .area-catalogos { background: white; padding: 12px 0; border-bottom: 1px solid #f0f0f0; text-align: center; }
         .grade-logos { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
         .item-logo { text-decoration: none; display: flex; flex-direction: column; align-items: center; width: 65px; }
@@ -32,45 +33,33 @@
         .item-logo span { font-size: 8px; font-weight: 800; color: #666; text-transform: uppercase; }
 
         .filtros { display: flex; gap: 8px; overflow-x: auto; padding: 12px; background: #fbfbfb; border-bottom: 1px solid #eee; scrollbar-width: none; }
-        .btn-filtro { background: white; border: 1px solid #ddd; padding: 8px 16px; border-radius: 20px; font-size: 10px; font-weight: 800; cursor: pointer; color: #666; text-transform: uppercase; }
+        .btn-filtro { background: white; border: 1px solid #ddd; padding: 8px 16px; border-radius: 20px; font-size: 10px; font-weight: 800; cursor: pointer; color: #666; text-transform: uppercase; white-space: nowrap; }
         .btn-filtro.active { background: var(--primaria); color: white; border-color: var(--primaria); }
 
-        /* BANNERS ROTATIVOS */
+        /* BANNERS */
         #banner-container { margin: 15px; position: relative; display: none; }
         .banner-promo { 
             background: linear-gradient(135deg, #b31217 0%, #e67e22 100%); 
             border-radius: 15px; padding: 25px 20px; color: white; 
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); border: 2px solid var(--detalhe);
             display: none; flex-direction: row; align-items: center; justify-content: center; gap: 20px; position: relative; overflow: hidden;
         }
-        .img-banner-promo { width: 140px; height: 140px; object-fit: contain; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.4)); }
-        .conteudo-banner-promo { flex: 1; display: flex; flex-direction: column; align-items: flex-start; gap: 2px; }
-        .banner-promo h4 { font-size: 0.65rem; text-transform: uppercase; font-weight: 800; color: var(--detalhe); }
-        .banner-promo h2 { font-size: 0.95rem; font-weight: 800; line-height: 1.2; margin: 4px 0; }
-        .banner-promo .preco-banner { font-size: 1.5rem; font-weight: 900; color: #fff; margin-bottom: 5px; }
-        
-        .btn-banner-add { background: white; color: #b31217; border: none; padding: 10px 15px; border-radius: 8px; font-weight: 800; cursor: pointer; font-size: 0.75rem; width: fit-content; box-shadow: 0 4px 0 var(--detalhe); }
-        .btn-banner-add:disabled { background: #ccc !important; color: #666 !important; box-shadow: none; cursor: not-allowed; }
+        .img-banner-promo { width: 140px; height: 140px; object-fit: contain; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.3)); }
+        .conteudo-banner-promo { flex: 1; display: flex; flex-direction: column; align-items: flex-start; }
+        .preco-banner { font-size: 1.5rem; font-weight: 900; color: #fff; margin-bottom: 5px; }
+        .btn-banner-add { background: white; color: #b31217; border: none; padding: 10px 15px; border-radius: 8px; font-weight: 800; cursor: pointer; }
+        .btn-banner-add:disabled { background: #ccc !important; color: #666 !important; cursor: not-allowed; }
 
-        /* ALERTA DE ESTOQUE */
-        .alerta-estoque { 
-            font-size: 10px; font-weight: 800; color: #fff; 
-            background: var(--erro); padding: 2px 8px; border-radius: 4px; 
-            text-transform: uppercase; margin-top: 5px; display: inline-block;
-        }
-        .estoque-vazio { height: 15px; display: block; margin-bottom: 8px; }
-
-        .dots-container { display: flex; justify-content: center; gap: 8px; margin-top: 10px; }
-        .dot { width: 8px; height: 8px; background: #ccc; border-radius: 50%; }
-        .dot.active { background: var(--primaria); width: 20px; border-radius: 10px; }
+        /* ESTOQUE */
+        .info-estoque { font-size: 10px; font-weight: 700; margin-bottom: 8px; color: #777; min-height: 15px; }
+        .alerta-estoque { color: var(--erro); font-weight: 900; text-transform: uppercase; }
 
         /* VITRINE */
         .vitrine { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; padding: 12px; }
-        .p-card { background: white; border: 1px solid #eee; padding: 15px; text-align: center; border-radius: 12px; display: flex; flex-direction: column; height: 100%; position: relative; }
+        .p-card { background: white; border: 1px solid #eee; padding: 15px; text-align: center; border-radius: 12px; display: flex; flex-direction: column; height: 100%; position: relative; transition: transform 0.2s; }
         .p-card img { width: 100%; height: 110px; object-fit: contain; margin-bottom: 10px; }
         .p-nome { font-size: 0.8rem; font-weight: 700; min-height: 35px; margin-bottom: 5px; }
         .p-preco-por { font-weight: 800; color: var(--primaria); font-size: 1.1rem; margin-bottom: 5px; }
-        .btn-add { background: var(--primaria); color: white; border: none; padding: 12px; border-radius: 8px; font-weight: 800; cursor: pointer; font-size: 0.85rem; }
+        .btn-add { background: var(--primaria); color: white; border: none; padding: 12px; border-radius: 8px; font-weight: 800; cursor: pointer; }
         .btn-add:disabled { background: #ccc !important; color: #666 !important; cursor: not-allowed; }
 
         /* MODAIS */
@@ -100,7 +89,6 @@
             <a href="https://encurtador.naturaavon.com/hTUzboh" target="_blank" class="item-logo"><div class="img-box"><img src="assets/natura.png"></div><span>Natura</span></a>
             <a href="https://minhaloja.boticario.com.br/aline-nascimento" target="_blank" class="item-logo"><div class="img-box"><img src="assets/boticario.png"></div><span>Boticário</span></a>
             <a href="https://minhaloja.eudora.com.br/aline-nascimento" target="_blank" class="item-logo"><div class="img-box"><img src="assets/eudora.jpeg"></div><span>Eudora</span></a>
-            <a href="https://minhaloja.ouiparis.com/aline-nascimento" target="_blank" class="item-logo"><div class="img-box"><img src="assets/oui.png"></div><span>O.U.i</span></a>
         </div>
     </div>
 
@@ -112,7 +100,6 @@
 
 <div id="banner-container">
     <div id="banners-wrapper"></div>
-    <div class="dots-container" id="dots-wrapper"></div>
 </div>
 
 <div id="loading" style="text-align:center; padding:50px; font-weight:800; color:var(--primaria);">CARREGANDO...</div>
@@ -120,9 +107,9 @@
 
 <div id="modal-resumo" class="modal">
     <div class="modal-content">
-        <h3 style="font-weight: 800; border-bottom: 2px solid #eee; padding-bottom: 10px; display: flex; justify-content: space-between;">
-            MEU PEDIDO
-            <span onclick="limparCarrinho()" style="font-size: 10px; color: var(--erro); cursor: pointer; text-decoration: underline;">LIMPAR TUDO</span>
+        <h3 style="display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #eee; padding-bottom:10px; font-weight:800;">
+            MEU PEDIDO 
+            <span onclick="limparCarrinho()" style="font-size:10px; color:var(--erro); cursor:pointer; text-decoration:underline;">LIMPAR TUDO</span>
         </h3>
         <div id="lista-resumo" style="margin:15px 0;"></div>
         <div id="modal-total" style="font-weight: 800; font-size: 1.5rem; text-align: right;">Total: R$ 0,00</div>
@@ -139,6 +126,7 @@ let carrinho = JSON.parse(localStorage.getItem('carrinho_gui')) || {};
 let categoriasUnicas = new Set();
 let bannerInterval;
 
+// Mantém precisão financeira
 function converterParaCentavos(valor) {
     if (!valor) return 0;
     let limpo = valor.toString().replace(/R\$/g, '').replace(/\s/g, '').replace(/\./g, '').replace(',', '.');
@@ -149,6 +137,7 @@ function formatarMoeda(centavos) {
     return (centavos / 100).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 }
 
+// Carregamento principal sem perdas
 function carregarDados() {
     Papa.parse(URL_CSV, {
         download: true, header: true, skipEmptyLines: true,
@@ -181,83 +170,63 @@ function carregarDados() {
     });
 }
 
-// Lógica de alerta crítico solicitada: apenas abaixo de 2 unidades
-function renderAlertaEstoque(qtd) {
-    if (qtd > 0 && qtd <= 2) {
-        return `<span class="alerta-estoque">APENAS ${qtd} RESTANTES!</span>`;
-    }
-    return "";
+// Lógica de Estoque: Sempre mostra quantidade, alerta se <= 2
+function formatarTextoEstoque(qtd) {
+    if (qtd <= 0) return `<span class="alerta-estoque">ESGOTADO</span>`;
+    if (qtd <= 2) return `<span class="alerta-estoque">RESTAM APENAS ${qtd} UN!</span>`;
+    return `Estoque: ${qtd} un.`;
 }
 
 function gerarBanners() {
     const ofertas = window.PRODUTOS.filter(p => p.emOferta);
-    const container = document.getElementById('banner-container');
     const wrapper = document.getElementById('banners-wrapper');
-    const dots = document.getElementById('dots-wrapper');
+    if (ofertas.length === 0) return;
+    document.getElementById('banner-container').style.display = 'block';
     
-    wrapper.innerHTML = ""; dots.innerHTML = "";
-    if (ofertas.length === 0) { container.style.display = 'none'; return; }
-    
-    container.style.display = 'block';
-    const topOfertas = ofertas.slice(0, 5);
-
-    topOfertas.forEach((p, idx) => {
-        const esgotado = p.estoqueAtual <= 0;
-        const alerta = renderAlertaEstoque(p.estoqueAtual);
-        const div = document.createElement('div');
-        div.className = 'banner-promo';
-        div.id = `banner-slide-${idx}`;
-        div.innerHTML = `
+    wrapper.innerHTML = ofertas.slice(0, 5).map((p, idx) => `
+        <div class="banner-promo" id="banner-slide-${idx}">
             <img class="img-banner-promo" src="${p.img}">
             <div class="conteudo-banner-promo">
-                <h4>Promoção do Dia</h4>
-                <h2>${p.nome}</h2>
+                <h4 style="font-size:0.6rem; text-transform:uppercase; color:var(--detalhe);">Destaque</h4>
+                <h2 style="font-size:0.9rem;">${p.nome}</h2>
                 <span class="preco-banner">R$ ${p.precoPromo}</span>
-                <button class="btn-banner-add" id="banner-btn-${p.id}" onclick="addCart(${p.id})" ${esgotado ? 'disabled' : ''}>
-                    ${esgotado ? 'ESGOTADO' : 'ADICIONAR'}
-                </button>
-                <div id="banner-alerta-${p.id}">${alerta}</div>
+                <div class="info-estoque" style="color:white; margin-bottom:10px;">${formatarTextoEstoque(p.estoqueAtual)}</div>
+                <button class="btn-banner-add" onclick="addCart(${p.id})" ${p.estoqueAtual <= 0 ? 'disabled' : ''}>ADICIONAR</button>
             </div>
-        `;
-        wrapper.appendChild(div);
-        const dot = document.createElement('div');
-        dot.className = 'dot' + (idx === 0 ? ' active' : '');
-        dot.id = `dot-${idx}`;
-        dots.appendChild(dot);
-    });
-
-    if (topOfertas.length > 1) {
-        let current = 0;
-        if(bannerInterval) clearInterval(bannerInterval);
+        </div>
+    `).join('');
+    
+    let current = 0;
+    const slides = document.querySelectorAll('.banner-promo');
+    if(slides.length > 0) slides[0].style.display = 'flex';
+    if(slides.length > 1) {
+        clearInterval(bannerInterval);
         bannerInterval = setInterval(() => {
-            document.querySelectorAll('.banner-promo').forEach(b => b.style.display = 'none');
-            document.querySelectorAll('.dot').forEach(d => d.classList.remove('active'));
-            current = (current + 1) % topOfertas.length;
-            if(document.getElementById(`banner-slide-${current}`)) {
-                document.getElementById(`banner-slide-${current}`).style.display = 'flex';
-                document.getElementById(`dot-${current}`).classList.add('active');
-            }
+            slides[current].style.display = 'none';
+            current = (current + 1) % slides.length;
+            slides[current].style.display = 'flex';
         }, 5000);
     }
-    if(document.getElementById('banner-slide-0')) document.getElementById('banner-slide-0').style.display = 'flex';
 }
 
 function render(lista) {
     const v = document.getElementById('vitrine');
     v.innerHTML = lista.map((p) => {
         const esgotado = p.estoqueAtual <= 0;
-        const alerta = renderAlertaEstoque(p.estoqueAtual);
         return `
         <div class="p-card">
             <img src="${p.img}" onerror="this.src='https://via.placeholder.com/150'">
             <div class="p-nome">${p.nome}</div>
             <div class="p-preco-por">R$ ${p.emOferta ? p.precoPromo : p.precoOriginal}</div>
-            <div class="estoque-vazio" id="vit-alerta-${p.id}">${alerta}</div>
-            <button class="btn-add" id="btn-${p.id}" onclick="addCart(${p.id})" ${esgotado ? 'disabled' : ''}>${esgotado ? 'ESGOTADO' : 'ADICIONAR'}</button>
+            <div class="info-estoque">${formatarTextoEstoque(p.estoqueAtual)}</div>
+            <button class="btn-add" onclick="addCart(${p.id})" ${esgotado ? 'disabled' : ''}>
+                ${esgotado ? 'ESGOTADO' : 'ADICIONAR'}
+            </button>
         </div>`;
     }).join('');
 }
 
+// Funções de Carrinho com Gestão de Inventário Completa
 function addCart(id) {
     const p = window.PRODUTOS.find(prod => prod.id === id);
     if (!p || p.estoqueAtual <= 0) return;
@@ -280,7 +249,7 @@ function removerUm(nome) {
 }
 
 function limparCarrinho() {
-    if (!confirm("Limpar todo o carrinho?")) return;
+    if (!confirm("Remover todos os itens do carrinho?")) return;
     for (let nome in carrinho) {
         const p = window.PRODUTOS.find(prod => prod.nome === nome);
         if (p) p.estoqueAtual += carrinho[nome].qtd;
@@ -301,36 +270,22 @@ function atualizarTudo() {
     document.getElementById('soma-topo').innerText = formatarMoeda(cents);
     document.getElementById('modal-total').innerText = `Total: ${formatarMoeda(cents)}`;
     document.getElementById('count-topo').innerText = itens;
-    
     render(window.PRODUTOS);
-    
-    // Atualizar banners em tempo real
-    window.PRODUTOS.filter(p => p.emOferta).slice(0, 5).forEach(p => {
-        const btnB = document.getElementById(`banner-btn-${p.id}`);
-        const alertaB = document.getElementById(`banner-alerta-${p.id}`);
-        if(btnB) {
-            btnB.disabled = p.estoqueAtual <= 0;
-            btnB.innerText = p.estoqueAtual <= 0 ? "ESGOTADO" : "ADICIONAR";
-        }
-        if(alertaB) {
-            alertaB.innerHTML = renderAlertaEstoque(p.estoqueAtual);
-        }
-    });
 }
 
 function abrirResumo() {
     const lista = document.getElementById('lista-resumo');
     const nomes = Object.keys(carrinho);
-    if(nomes.length === 0) { lista.innerHTML = "<p>Carrinho vazio.</p>"; }
-    else {
+    if(nomes.length === 0) { 
+        lista.innerHTML = "<p style='text-align:center; padding:20px;'>Seu carrinho está vazio.</p>"; 
+    } else {
         lista.innerHTML = nomes.map(nome => `
             <div class="item-carrinho">
-                <div>
-                    <div style="font-weight:800; font-size:0.8rem;">${nome}</div>
-                    <div style="font-size:0.7rem;">R$ ${carrinho[nome].exibirPreco}</div>
+                <div style="flex:1;">
+                    <div style="font-weight:800; font-size:0.8rem;">${carrinho[nome].qtd}x ${nome}</div>
+                    <div style="font-size:0.7rem; color:#666;">Unitário: R$ ${carrinho[nome].exibirPreco}</div>
                 </div>
                 <div class="controles-qtd">
-                    <span style="font-weight:800;">${carrinho[nome].qtd}x</span>
                     <i class="material-icons" style="color:var(--erro); cursor:pointer;" onclick="removerUm('${nome}')">remove_circle_outline</i>
                 </div>
             </div>`).join('');
@@ -341,7 +296,7 @@ function abrirResumo() {
 function filtrar(cat, btn) {
     document.querySelectorAll('.btn-filtro').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
-    let filtrados = cat === 'todos' ? window.PRODUTOS : (cat === 'promo' ? window.PRODUTOS.filter(p => p.emOferta) : window.PRODUTOS.filter(p => p.categoria === cat));
+    const filtrados = cat === 'todos' ? window.PRODUTOS : (cat === 'promo' ? window.PRODUTOS.filter(p => p.emOferta) : window.PRODUTOS.filter(p => p.categoria === cat));
     document.getElementById('banner-container').style.display = (cat === 'todos') ? 'block' : 'none';
     render(filtrados);
 }
@@ -357,12 +312,14 @@ function gerarBotoesFiltro() {
 }
 
 function fecharResumo() { document.getElementById('modal-resumo').style.display = 'none'; }
+
 function enviarWhatsapp() {
     let msg = `🛍️ *PEDIDO - GUI PERFUMARIA*\n\n`;
     for (let nome in carrinho) { msg += `✅ ${carrinho[nome].qtd}x ${nome}\n`; }
     msg += `\n💰 *TOTAL: ${document.getElementById('modal-total').innerText}*`;
     window.open(`https://wa.me/5571987692157?text=${encodeURIComponent(msg)}`, '_blank');
 }
+
 carregarDados();
 </script>
 </body>
