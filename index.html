@@ -8,17 +8,11 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <style>
         :root { 
-            --primaria: #6d2040; 
-            --detalhe: #d4af37; 
-            --whatsapp: #25d366; 
-            --fundo: #fff9fb; 
-            --erro: #d9534f; 
-            --promo: #e67e22; 
-            --texto: #333;
+            --primaria: #6d2040; --detalhe: #d4af37; --whatsapp: #25d366; 
+            --fundo: #fff9fb; --erro: #d9534f; --promo: #e67e22; --texto: #333;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; transition: background-color 0.4s, color 0.4s; }
-        
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; transition: background-color 0.4s; }
         body { background-color: var(--fundo); padding-top: 410px; padding-bottom: 80px; color: var(--texto); }
 
         /* TOPO FIXO */
@@ -27,9 +21,10 @@
         header h1 { font-family: 'Playfair Display', serif; font-size: 2.2rem; color: var(--detalhe); text-transform: uppercase; }
         
         .cart-superior { position: absolute; top: 10px; right: 10px; display: flex; flex-direction: column; align-items: flex-end; gap: 5px; }
-        .soma-topo { background: rgba(255,255,255,0.1); border: 1px solid var(--detalhe); color: var(--detalhe); padding: 4px 8px; border-radius: 6px; font-weight: 800; font-size: 0.8rem; }
-        .btn-cart-topo { background: var(--whatsapp); color: white; border: none; padding: 8px 10px; border-radius: 8px; display: flex; align-items: center; gap: 5px; cursor: pointer; font-weight: 800; font-size: 0.75rem; }
+        .soma-topo { background: rgba(255,255,255,0.2); border: 1px solid var(--detalhe); color: white; padding: 4px 10px; border-radius: 6px; font-weight: 800; font-size: 0.9rem; }
+        .btn-cart-topo { background: var(--whatsapp); color: white; border: none; padding: 8px 12px; border-radius: 8px; display: flex; align-items: center; gap: 5px; cursor: pointer; font-weight: 800; font-size: 0.8rem; }
 
+        /* MARCAS E FILTROS */
         .area-catalogos { background: white; padding: 15px 0; border-bottom: 1px solid #f0f0f0; text-align: center; }
         .grade-logos { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
         .item-logo { text-decoration: none; display: flex; flex-direction: column; align-items: center; width: 70px; }
@@ -40,50 +35,58 @@
         .filtros { display: flex; gap: 8px; overflow-x: auto; padding: 12px; background: #fbfbfb; border-bottom: 1px solid #eee; scrollbar-width: none; }
         .filtros::-webkit-scrollbar { display: none; }
         .btn-filtro { background: white; border: 1px solid #ddd; padding: 8px 16px; border-radius: 20px; font-size: 10px; font-weight: 800; white-space: nowrap; cursor: pointer; color: #666; text-transform: uppercase; }
-        .btn-filtro.active { background: var(--primaria); color: white; border-color: var(--primaria); transform: scale(1.05); }
+        .btn-filtro.active { background: var(--primaria); color: white; border-color: var(--primaria); }
+        .btn-promo { border-color: var(--promo); color: var(--promo); }
+        .btn-promo.active { background: var(--promo); border-color: var(--promo); }
 
+        /* VITRINE */
         .vitrine { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; padding: 12px; }
         .p-card { background: white; border: 1px solid #eee; padding: 15px; text-align: center; border-radius: 12px; display: flex; flex-direction: column; height: 100%; position: relative; }
         .selo-promo { position: absolute; top: 10px; right: 10px; background: var(--promo); color: white; font-size: 10px; padding: 5px 10px; border-radius: 20px; font-weight: 800; text-transform: uppercase; z-index: 10; }
-        .p-card img { width: 100%; height: 130px; object-fit: contain; margin-bottom: 10px; }
-        .p-nome { font-size: 0.9rem; font-weight: 700; min-height: 40px; margin-bottom: 5px; color: #333; }
         
+        /* Ajuste na imagem para indicar clique */
+        .p-card img { width: 100%; height: 130px; object-fit: contain; margin-bottom: 10px; cursor: zoom-in; }
+        
+        .p-nome { font-size: 0.9rem; font-weight: 700; min-height: 40px; margin-bottom: 5px; }
         .p-preco-de { font-size: 0.8rem; color: #999; text-decoration: line-through; height: 16px; }
         .p-preco-por { font-weight: 800; color: var(--primaria); font-size: 1.25rem; margin-bottom: 10px; }
         .p-preco-por.em-oferta { color: var(--promo); }
 
-        /* ESTOQUE E ESCASSEZ */
+        /* ESTOQUE */
         .area-escassez { margin-top: auto; padding-top: 5px; padding-bottom: 10px; }
         .txt-escassez { font-size: 11px; font-weight: 800; color: var(--erro); text-transform: uppercase; display: block; margin-bottom: 5px; animation: blink 1.5s infinite; }
         @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
-        
         .txt-estoque-normal { font-size: 11px; color: #666; font-weight: 700; display: block; margin-bottom: 5px; }
         .txt-esgotado { font-size: 11px; color: #999; font-weight: 800; text-transform: uppercase; display: block; margin-bottom: 5px; }
-        
         .barra-estoque { width: 100%; height: 7px; background: #eee; border-radius: 10px; overflow: hidden; margin-bottom: 10px; }
         .progresso-estoque { height: 100%; background: var(--erro); transition: width 0.5s; }
 
         .btn-add { background: var(--primaria); color: white; border: none; padding: 12px; border-radius: 8px; font-weight: 800; cursor: pointer; font-size: 0.9rem; }
-        .btn-add:disabled { background: #ccc !important; color: #666 !important; cursor: not-allowed; }
+        .btn-add:disabled { background: #ccc !important; color: #666 !important; }
 
-        .btn-suporte { position: fixed; bottom: 20px; left: 20px; background: white; color: #333; padding: 10px 15px; border-radius: 30px; display: flex; align-items: center; gap: 8px; text-decoration: none; font-weight: 800; font-size: 0.75rem; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border: 1px solid #eee; z-index: 3000; }
-        #modal-resumo { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 4000; align-items: center; justify-content: center; }
-        .modal-content { background: white; width: 95%; max-width: 450px; border-radius: 20px; padding: 25px; }
+        /* MODAIS */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 4000; align-items: center; justify-content: center; padding: 20px; }
+        .modal-content { background: white; width: 100%; max-width: 450px; border-radius: 20px; padding: 25px; position: relative; }
+        
+        /* ESTILO DO ZOOM */
+        #modal-zoom .modal-content { background: transparent; padding: 0; text-align: center; }
+        #img-ampliada { max-width: 100%; max-height: 80vh; border-radius: 15px; box-shadow: 0 0 30px rgba(0,0,0,0.5); }
+        .btn-fechar-zoom { color: white; position: absolute; top: -40px; right: 0; cursor: pointer; font-size: 30px; }
     </style>
 </head>
 <body>
 
 <div class="topo-fixo">
-    <header id="main-header">
+    <header>
         <div class="cart-superior" id="cart-ui" style="display:none;">
             <div class="soma-topo" id="soma-topo">R$ 0,00</div>
             <button class="btn-cart-topo" onclick="abrirResumo()">
-                <i class="material-icons" style="font-size:16px;">shopping_basket</i>
+                <i class="material-icons" style="font-size:18px;">shopping_basket</i>
                 (<span id="count-topo">0</span>)
             </button>
         </div>
         <h1>Gui Perfumaria</h1>
-        <p style="font-size: 0.9rem; opacity: 0.8;">Aline Nascimento • Consultora</p>
+        <p style="font-size: 0.8rem; opacity: 0.9;">Aline Nascimento • Consultora</p>
     </header>
 
     <div class="area-catalogos">
@@ -97,23 +100,28 @@
 
     <div class="filtros" id="lista-filtros">
         <button class="btn-filtro active" onclick="filtrar('todos', this)">TODOS</button>
+        <button class="btn-filtro btn-promo" onclick="filtrar('promo', this)">🔥 PROMOÇÕES</button>
     </div>
 </div>
 
-<div id="loading" style="text-align:center; padding:100px; font-weight:800;">CARREGANDO ESTOQUE...</div>
+<div id="loading" style="text-align:center; padding:100px; font-weight:800;">CARREGANDO...</div>
 <div class="vitrine" id="vitrine"></div>
 
-<a href="https://wa.me/5571987692157?text=Olá Aline! Tenho uma dúvida sobre o catálogo." target="_blank" class="btn-suporte">
-    <i class="material-icons" style="color:#25d366">whatsapp</i> DÚVIDAS?
-</a>
-
-<div id="modal-resumo">
+<div id="modal-resumo" class="modal">
     <div class="modal-content">
         <h3 style="font-weight: 800; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 15px;">MEU PEDIDO</h3>
         <div id="lista-resumo"></div>
         <div id="modal-total" style="font-weight: 800; font-size: 1.6rem; text-align: right; margin-top: 20px;">Total: R$ 0,00</div>
         <button style="background:var(--whatsapp); color:white; width:100%; border:none; padding:18px; border-radius:12px; font-weight:800; margin-top:20px; cursor:pointer;" onclick="enviarWhatsapp()">FINALIZAR NO WHATSAPP</button>
         <p onclick="fecharResumo()" style="text-align:center; margin-top:20px; cursor:pointer; color:#999; font-weight:800; font-size:12px;">VOLTAR</p>
+    </div>
+</div>
+
+<div id="modal-zoom" class="modal" onclick="fecharZoom()">
+    <div class="modal-content" onclick="event.stopPropagation()">
+        <span class="material-icons btn-fechar-zoom" onclick="fecharZoom()">close</span>
+        <img id="img-ampliada" src="">
+        <p id="nome-ampliado" style="color:white; margin-top:15px; font-weight:700;"></p>
     </div>
 </div>
 
@@ -124,14 +132,25 @@ const URL_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQZxhG0vIEsRAw4
 let carrinho = {}; 
 let categoriasUnicas = new Set();
 
-function converterParaCentavos(texto) {
-    if (!texto || texto === "") return 0;
-    let limpo = texto.toString().replace(/[R$\s.]/g, '').replace(',', '.');
-    return Math.round(parseFloat(limpo) * 100) || 0;
+function converterParaCentavos(valor) {
+    if (!valor) return 0;
+    let limpo = valor.toString().replace(/R\$/g, '').replace(/\s/g, '').replace(/\./g, '').replace(',', '.');
+    let numero = parseFloat(limpo);
+    return isNaN(numero) ? 0 : Math.round(numero * 100);
 }
 
 function formatarMoeda(centavos) {
     return (centavos / 100).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+}
+
+// FUNÇÕES DE ZOOM
+function abrirZoom(url, nome) {
+    document.getElementById('img-ampliada').src = url;
+    document.getElementById('nome-ampliado').innerText = nome;
+    document.getElementById('modal-zoom').style.display = 'flex';
+}
+function fecharZoom() {
+    document.getElementById('modal-zoom').style.display = 'none';
 }
 
 function aplicarTema(cat) {
@@ -140,6 +159,7 @@ function aplicarTema(cat) {
     if (n.includes('feminino')) { root.style.setProperty('--primaria', '#6d2040'); root.style.setProperty('--fundo', '#fff9fb'); } 
     else if (n.includes('masculino')) { root.style.setProperty('--primaria', '#1a2a3a'); root.style.setProperty('--fundo', '#f4f7f9'); } 
     else if (n.includes('cuidados') || n.includes('corpo')) { root.style.setProperty('--primaria', '#2d5a27'); root.style.setProperty('--fundo', '#f7fff6'); }
+    else if (n === 'promo') { root.style.setProperty('--primaria', '#e67e22'); root.style.setProperty('--fundo', '#fffcf9'); }
     else { root.style.setProperty('--primaria', '#0f2621'); root.style.setProperty('--fundo', '#fcfcfc'); }
 }
 
@@ -149,7 +169,7 @@ function carregarDados() {
         complete: function(results) {
             window.PRODUTOS = results.data.map((item, idx) => {
                 const v = Object.values(item);
-                const pNormal = String(v[4] || "0,00").trim();
+                const pNormal = String(v[4] || "0").trim();
                 const pPromo = String(v[7] || "").trim();
                 const cat = String(v[2] || "Geral").trim(); 
                 const estoqueInicial = parseInt(v[6]) || 0;
@@ -165,7 +185,8 @@ function carregarDados() {
                     precoVendaCents: pPromo !== "" ? converterParaCentavos(pPromo) : converterParaCentavos(pNormal),
                     img: String(v[5] || "").trim(), 
                     estoqueOriginal: estoqueInicial,
-                    estoqueAtual: estoqueInicial
+                    estoqueAtual: estoqueInicial,
+                    emOferta: pPromo !== ""
                 };
             }).filter(p => p.nome);
 
@@ -192,26 +213,30 @@ function filtrar(cat, btn) {
     document.querySelectorAll('.btn-filtro').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     aplicarTema(cat);
-    const filtrados = cat === 'todos' ? window.PRODUTOS : window.PRODUTOS.filter(p => p.categoria === cat);
+    
+    let filtrados;
+    if (cat === 'todos') filtrados = window.PRODUTOS;
+    else if (cat === 'promo') filtrados = window.PRODUTOS.filter(p => p.emOferta);
+    else filtrados = window.PRODUTOS.filter(p => p.categoria === cat);
+    
     render(filtrados);
 }
 
 function render(lista) {
     const v = document.getElementById('vitrine');
     v.innerHTML = lista.map((p) => {
-        const temPromo = p.precoPromo !== "";
         const critico = p.estoqueAtual > 0 && p.estoqueAtual <= 3;
         const esgotado = p.estoqueAtual <= 0;
         const porcentagem = p.estoqueOriginal > 0 ? (p.estoqueAtual / p.estoqueOriginal) * 100 : 0;
 
         return `
         <div class="p-card">
-            ${temPromo ? '<div class="selo-promo">Oferta</div>' : ''}
-            <img src="${p.img}" onerror="this.src='https://via.placeholder.com/150?text=Produto'">
+            ${p.emOferta ? '<div class="selo-promo">Oferta</div>' : ''}
+            <img src="${p.img}" onclick="abrirZoom('${p.img}', '${p.nome}')" onerror="this.src='https://via.placeholder.com/150?text=Produto'">
             <div class="p-nome">${p.nome}</div>
-            <div class="p-preco-de">${temPromo ? 'De: R$ ' + p.precoOriginal : ''}</div>
-            <div class="p-preco-por ${temPromo ? 'em-oferta' : ''}">
-                ${temPromo ? 'Por: R$ ' + p.precoPromo : 'R$ ' + p.precoOriginal}
+            <div class="p-preco-de">${p.emOferta ? 'De: R$ ' + p.precoOriginal : ''}</div>
+            <div class="p-preco-por ${p.emOferta ? 'em-oferta' : ''}">
+                ${p.emOferta ? 'Por: R$ ' + p.precoPromo : 'R$ ' + p.precoOriginal}
             </div>
             <div class="area-escassez" id="area-stock-${p.id}">
                 ${esgotado ? '<span class="txt-esgotado">ESGOTADO</span>' : 
@@ -228,13 +253,9 @@ function render(lista) {
 function addCart(id) {
     const p = window.PRODUTOS.find(prod => prod.id === id);
     if (p.estoqueAtual <= 0) return;
-    
     if (!carrinho[p.nome]) {
-        carrinho[p.nome] = { precoCents: p.precoVendaCents, exibirPreco: p.precoPromo !== "" ? p.precoPromo : p.precoOriginal, qtd: 1, id: id };
-    } else { 
-        carrinho[p.nome].qtd++; 
-    }
-    
+        carrinho[p.nome] = { precoCents: p.precoVendaCents, exibirPreco: p.emOferta ? p.precoPromo : p.precoOriginal, qtd: 1, id: id };
+    } else { carrinho[p.nome].qtd++; }
     p.estoqueAtual--;
     atualizarTudo();
 }
@@ -242,52 +263,26 @@ function addCart(id) {
 function atualizarTudo() {
     let totalCents = 0, totalItens = 0;
     for (let nome in carrinho) {
-        totalCents += carrinho[nome].precoCents * carrinho[nome].qtd;
+        totalCents += (carrinho[nome].precoCents * carrinho[nome].qtd);
         totalItens += carrinho[nome].qtd;
     }
     document.getElementById('soma-topo').innerText = formatarMoeda(totalCents);
+    document.getElementById('modal-total').innerText = `Total: ${formatarMoeda(totalCents)}`;
     document.getElementById('count-topo').innerText = totalItens;
 
     window.PRODUTOS.forEach(p => {
         const prog = document.getElementById(`prog-${p.id}`);
         const btn = document.getElementById(`btn-${p.id}`);
-        const areaStock = document.getElementById(`area-stock-${p.id}`);
-        
         if (prog) prog.style.width = `${p.estoqueOriginal > 0 ? (p.estoqueAtual / p.estoqueOriginal) * 100 : 0}%`;
-        
-        if (btn) {
-            if (p.estoqueAtual <= 0) {
-                btn.disabled = true;
-                btn.innerText = "ESGOTADO";
-                if (areaStock) areaStock.innerHTML = '<span class="txt-esgotado">ESGOTADO</span><div class="barra-estoque"><div class="progresso-estoque" style="width: 0%"></div></div>';
-            } else {
-                btn.disabled = false;
-                btn.innerText = "ADICIONAR";
-                // Atualiza o texto de escassez sem dar flash na tela toda
-                if (areaStock) {
-                    if (p.estoqueAtual <= 3) {
-                        areaStock.querySelector('span').className = 'txt-escassez';
-                        areaStock.querySelector('span').innerText = `🔥 Só restam ${p.estoqueAtual}!`;
-                    } else {
-                        areaStock.querySelector('span').className = 'txt-estoque-normal';
-                        areaStock.querySelector('span').innerText = `Estoque: ${p.estoqueAtual}`;
-                    }
-                }
-            }
-        }
+        if (btn && p.estoqueAtual <= 0) { btn.disabled = true; btn.innerText = "ESGOTADO"; }
     });
 }
 
 function mudarQtd(nome, delta) {
     const item = carrinho[nome];
     const p = window.PRODUTOS.find(prod => prod.id === item.id);
-    if (delta > 0) {
-        if (p.estoqueAtual <= 0) return;
-        item.qtd++; p.estoqueAtual--;
-    } else {
-        item.qtd--; p.estoqueAtual++;
-        if (item.qtd <= 0) delete carrinho[nome];
-    }
+    if (delta > 0) { if (p.estoqueAtual <= 0) return; item.qtd++; p.estoqueAtual--; }
+    else { item.qtd--; p.estoqueAtual++; if (item.qtd <= 0) delete carrinho[nome]; }
     atualizarTudo();
     if (Object.keys(carrinho).length === 0) fecharResumo();
 }
@@ -297,7 +292,7 @@ function enviarWhatsapp() {
     let total = 0;
     for (let nome in carrinho) {
         msg += `✅ ${carrinho[nome].qtd}x ${nome} (R$ ${carrinho[nome].exibirPreco})\n`;
-        total += carrinho[nome].precoCents * carrinho[nome].qtd;
+        total += (carrinho[nome].precoCents * carrinho[nome].qtd);
     }
     msg += `\n*TOTAL: ${formatarMoeda(total)}*`;
     window.open(`https://wa.me/5571987692157?text=${encodeURIComponent(msg)}`, '_blank');
@@ -320,7 +315,6 @@ function abrirResumo() {
     document.getElementById('modal-resumo').style.display = 'flex';
 }
 function fecharResumo() { document.getElementById('modal-resumo').style.display = 'none'; }
-
 carregarDados();
 </script>
 </body>
