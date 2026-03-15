@@ -43,20 +43,17 @@
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); border: 2px solid var(--detalhe);
             display: none; flex-direction: row; align-items: center; justify-content: center; gap: 20px; position: relative; overflow: hidden;
         }
-        .img-banner-promo { width: 150px; height: 150px; object-fit: contain; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.4)); }
+        .img-banner-promo { width: 140px; height: 140px; object-fit: contain; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.4)); }
         .conteudo-banner-promo { flex: 1; display: flex; flex-direction: column; align-items: flex-start; gap: 2px; }
         .banner-promo h4 { font-size: 0.65rem; text-transform: uppercase; font-weight: 800; color: var(--detalhe); }
         .banner-promo h2 { font-size: 0.95rem; font-weight: 800; line-height: 1.2; margin: 4px 0; }
-        .banner-promo .preco-banner { font-size: 1.6rem; font-weight: 900; color: #fff; margin-bottom: 5px; }
+        .banner-promo .preco-banner { font-size: 1.5rem; font-weight: 900; color: #fff; margin-bottom: 5px; }
         
         .btn-banner-add { background: white; color: #b31217; border: none; padding: 10px 15px; border-radius: 8px; font-weight: 800; cursor: pointer; font-size: 0.75rem; width: fit-content; box-shadow: 0 4px 0 var(--detalhe); }
         .btn-banner-add:disabled { background: #ccc !important; color: #666 !important; box-shadow: none; cursor: not-allowed; }
 
-        .barra-estoque { width: 100%; height: 6px; background: rgba(255,255,255,0.2); border-radius: 10px; overflow: hidden; margin-top: 10px; max-width: 150px; }
-        .progresso-estoque { height: 100%; background: var(--detalhe); transition: width 0.5s; }
-        .tarja { position: absolute; top: 10px; left: -30px; background: var(--detalhe); color: var(--primaria); padding: 5px 35px; font-weight: 900; font-size: 0.7rem; transform: rotate(-35deg); z-index: 5; }
+        .estoque-texto { font-size: 9px; font-weight: 800; text-transform: uppercase; margin-top: 5px; opacity: 0.9; }
 
-        /* DOTS */
         .dots-container { display: flex; justify-content: center; gap: 8px; margin-top: 10px; }
         .dot { width: 8px; height: 8px; background: #ccc; border-radius: 50%; }
         .dot.active { background: var(--primaria); width: 20px; border-radius: 10px; }
@@ -64,19 +61,18 @@
         /* VITRINE */
         .vitrine { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; padding: 12px; }
         .p-card { background: white; border: 1px solid #eee; padding: 15px; text-align: center; border-radius: 12px; display: flex; flex-direction: column; height: 100%; position: relative; }
-        .p-card img { width: 100%; height: 130px; object-fit: contain; margin-bottom: 10px; }
-        .p-nome { font-size: 0.85rem; font-weight: 700; min-height: 40px; }
-        .p-preco-por { font-weight: 800; color: var(--primaria); font-size: 1.2rem; margin-bottom: 10px; }
-        
-        .barra-vitrine { width: 100%; height: 6px; background: #eee; border-radius: 10px; overflow: hidden; margin-bottom: 10px; }
-        .progresso-vitrine { height: 100%; background: var(--erro); transition: width 0.5s; }
-
+        .p-card img { width: 100%; height: 110px; object-fit: contain; margin-bottom: 10px; }
+        .p-nome { font-size: 0.8rem; font-weight: 700; min-height: 35px; margin-bottom: 5px; }
+        .p-preco-por { font-weight: 800; color: var(--primaria); font-size: 1.1rem; margin-bottom: 5px; }
         .btn-add { background: var(--primaria); color: white; border: none; padding: 12px; border-radius: 8px; font-weight: 800; cursor: pointer; font-size: 0.85rem; }
         .btn-add:disabled { background: #ccc !important; color: #666 !important; cursor: not-allowed; }
 
         /* MODAIS */
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 4000; align-items: center; justify-content: center; padding: 20px; }
         .modal-content { background: white; width: 100%; max-width: 450px; border-radius: 20px; padding: 25px; max-height: 90vh; overflow-y: auto; }
+        
+        .item-carrinho { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #eee; }
+        .controles-qtd { display: flex; align-items: center; gap: 10px; }
     </style>
 </head>
 <body>
@@ -119,7 +115,10 @@
 
 <div id="modal-resumo" class="modal">
     <div class="modal-content">
-        <h3 style="font-weight: 800; border-bottom: 2px solid #eee; padding-bottom: 10px;">MEU PEDIDO</h3>
+        <h3 style="font-weight: 800; border-bottom: 2px solid #eee; padding-bottom: 10px; display: flex; justify-content: space-between;">
+            MEU PEDIDO
+            <span onclick="limparCarrinho()" style="font-size: 10px; color: var(--erro); cursor: pointer; text-decoration: underline;">LIMPAR TUDO</span>
+        </h3>
         <div id="lista-resumo" style="margin:15px 0;"></div>
         <div id="modal-total" style="font-weight: 800; font-size: 1.5rem; text-align: right;">Total: R$ 0,00</div>
         <button style="background:var(--whatsapp); color:white; width:100%; border:none; padding:18px; border-radius:12px; font-weight:800; cursor:pointer; margin-top:10px;" onclick="enviarWhatsapp()">FINALIZAR NO WHATSAPP</button>
@@ -133,7 +132,6 @@ const URL_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQZxhG0vIEsRAw4
 
 let carrinho = JSON.parse(localStorage.getItem('carrinho_gui')) || {}; 
 let categoriasUnicas = new Set();
-let bannerIndex = 0;
 let bannerInterval;
 
 function converterParaCentavos(valor) {
@@ -153,26 +151,26 @@ function carregarDados() {
         complete: function(results) {
             window.PRODUTOS = results.data.map((item, idx) => {
                 const v = Object.values(item);
-                const pNormal = String(v[4] || "0").trim();
-                const pPromo = String(v[7] || "").trim();
-                const cat = String(v[2] || "Geral").trim(); 
-                if(cat && cat !== "Categoria") categoriasUnicas.add(cat);
+                const nome = String(v[3] || "").trim();
+                const estoqueOriginal = parseInt(v[6]) || 0;
                 
-                let estoqueOrig = parseInt(v[6]) || 0;
-                // Abatendo estoque do que já está no carrinho salvo
-                let noCarrinho = carrinho[String(v[3]).trim()] ? carrinho[String(v[3]).trim()].qtd : 0;
+                // Calcula estoque atual abatendo o que já está no carrinho salvo
+                const qtdNoCarrinho = carrinho[nome] ? carrinho[nome].qtd : 0;
 
                 return { 
-                    id: idx, nome: String(v[3] || "").trim(), categoria: cat,
-                    precoOriginal: pNormal, precoPromo: pPromo,
-                    precoVendaCents: pPromo !== "" ? converterParaCentavos(pPromo) : converterParaCentavos(pNormal),
+                    id: idx, nome: nome, categoria: String(v[2] || "Geral").trim(),
+                    precoOriginal: String(v[4] || "0").trim(), 
+                    precoPromo: String(v[7] || "").trim(),
+                    precoVendaCents: String(v[7] || "").trim() !== "" ? converterParaCentavos(v[7]) : converterParaCentavos(v[4]),
                     img: String(v[5] || "").trim(), 
-                    estoqueOriginal: estoqueOrig, 
-                    estoqueAtual: estoqueOrig - noCarrinho, 
-                    emOferta: pPromo !== ""
+                    estoqueOriginal: estoqueOriginal, 
+                    estoqueAtual: Math.max(0, estoqueOriginal - qtdNoCarrinho), 
+                    emOferta: String(v[7] || "").trim() !== ""
                 };
             }).filter(p => p.nome);
 
+            window.PRODUTOS.forEach(p => { if(p.categoria !== "Categoria") categoriasUnicas.add(p.categoria); });
+            
             gerarBanners();
             gerarBotoesFiltro();
             document.getElementById('loading').style.display = 'none';
@@ -196,21 +194,19 @@ function gerarBanners() {
 
     topOfertas.forEach((p, idx) => {
         const esgotado = p.estoqueAtual <= 0;
-        const perc = (p.estoqueAtual / p.estoqueOriginal) * 100;
         const div = document.createElement('div');
         div.className = 'banner-promo';
         div.id = `banner-slide-${idx}`;
         div.innerHTML = `
-            <div class="tarja">OFERTA</div>
             <img class="img-banner-promo" src="${p.img}">
             <div class="conteudo-banner-promo">
                 <h4>Promoção do Dia</h4>
                 <h2>${p.nome}</h2>
                 <span class="preco-banner">R$ ${p.precoPromo}</span>
                 <button class="btn-banner-add" id="banner-btn-${p.id}" onclick="addCart(${p.id})" ${esgotado ? 'disabled' : ''}>
-                    ${esgotado ? 'ESGOTADO' : 'Adicionar ao Carrinho'}
+                    ${esgotado ? 'ESGOTADO' : 'ADICIONAR'}
                 </button>
-                <div class="barra-estoque"><div class="progresso-estoque" id="banner-bar-${p.id}" style="width: ${perc}%"></div></div>
+                <div class="estoque-texto" id="banner-txt-est-${p.id}">Restam ${p.estoqueAtual} un.</div>
             </div>
         `;
         wrapper.appendChild(div);
@@ -219,39 +215,31 @@ function gerarBanners() {
         dot.id = `dot-${idx}`;
         dots.appendChild(dot);
     });
-    startBannerRotation(topOfertas.length);
-}
 
-function startBannerRotation(total) {
-    if (bannerInterval) clearInterval(bannerInterval);
-    if (total <= 1) { document.querySelector('.banner-promo').style.display = 'flex'; return; }
-    function showSlide(idx) {
-        document.querySelectorAll('.banner-promo').forEach(b => b.style.display = 'none');
-        document.querySelectorAll('.dot').forEach(d => d.classList.remove('active'));
-        if (document.getElementById(`banner-slide-${idx}`)) {
-            document.getElementById(`banner-slide-${idx}`).style.display = 'flex';
-            document.getElementById(`dot-${idx}`).classList.add('active');
-        }
+    if (topOfertas.length > 1) {
+        let current = 0;
+        if(bannerInterval) clearInterval(bannerInterval);
+        bannerInterval = setInterval(() => {
+            document.querySelectorAll('.banner-promo').forEach(b => b.style.display = 'none');
+            document.querySelectorAll('.dot').forEach(d => d.classList.remove('active'));
+            current = (current + 1) % topOfertas.length;
+            document.getElementById(`banner-slide-${current}`).style.display = 'flex';
+            document.getElementById(`dot-${current}`).classList.add('active');
+        }, 5000);
     }
-    showSlide(0);
-    bannerInterval = setInterval(() => {
-        bannerIndex = (bannerIndex + 1) % total;
-        showSlide(bannerIndex);
-    }, 5000);
+    document.getElementById('banner-slide-0').style.display = 'flex';
 }
 
 function render(lista) {
     const v = document.getElementById('vitrine');
     v.innerHTML = lista.map((p) => {
         const esgotado = p.estoqueAtual <= 0;
-        const porcentagem = p.estoqueOriginal > 0 ? (p.estoqueAtual / p.estoqueOriginal) * 100 : 0;
         return `
         <div class="p-card">
-            ${p.emOferta ? '<div style="position:absolute; top:10px; right:10px; background:var(--promo); color:white; font-size:9px; padding:4px 8px; border-radius:10px; font-weight:800;">OFERTA</div>' : ''}
             <img src="${p.img}" onerror="this.src='https://via.placeholder.com/150'">
             <div class="p-nome">${p.nome}</div>
-            <div class="p-preco-por" style="${p.emOferta ? 'color:var(--promo)' : ''}">${p.emOferta ? 'R$ ' + p.precoPromo : 'R$ ' + p.precoOriginal}</div>
-            <div class="barra-vitrine"><div class="progresso-vitrine" style="width: ${porcentagem}%"></div></div>
+            <div class="p-preco-por">R$ ${p.emOferta ? p.precoPromo : p.precoOriginal}</div>
+            <div class="estoque-texto" style="margin-bottom:8px;">Disponível: ${p.estoqueAtual}</div>
             <button class="btn-add" id="btn-${p.id}" onclick="addCart(${p.id})" ${esgotado ? 'disabled' : ''}>${esgotado ? 'ESGOTADO' : 'ADICIONAR'}</button>
         </div>`;
     }).join('');
@@ -268,6 +256,36 @@ function addCart(id) {
     }
     
     p.estoqueAtual--;
+    salvar();
+}
+
+function removerUm(nome) {
+    if (!carrinho[nome]) return;
+    const p = window.PRODUTOS.find(prod => prod.nome === nome);
+    
+    if (carrinho[nome].qtd > 1) {
+        carrinho[nome].qtd--;
+    } else {
+        delete carrinho[nome];
+    }
+    
+    if (p) p.estoqueAtual++;
+    salvar();
+    abrirResumo();
+}
+
+function limparCarrinho() {
+    if (!confirm("Deseja realmente limpar todo o carrinho?")) return;
+    for (let nome in carrinho) {
+        const p = window.PRODUTOS.find(prod => prod.nome === nome);
+        if (p) p.estoqueAtual += carrinho[nome].qtd;
+    }
+    carrinho = {};
+    salvar();
+    fecharResumo();
+}
+
+function salvar() {
     localStorage.setItem('carrinho_gui', JSON.stringify(carrinho));
     atualizarTudo();
 }
@@ -278,20 +296,42 @@ function atualizarTudo() {
         totalCents += (carrinho[nome].precoCents * carrinho[nome].qtd); 
         totalItens += carrinho[nome].qtd; 
     }
-    
     document.getElementById('soma-topo').innerText = formatarMoeda(totalCents);
     document.getElementById('modal-total').innerText = `Total: ${formatarMoeda(totalCents)}`;
     document.getElementById('count-topo').innerText = totalItens;
     
     render(window.PRODUTOS);
     
-    // Atualiza botões e barras nos banners
+    // Atualiza Banners
     window.PRODUTOS.filter(p => p.emOferta).slice(0, 5).forEach(p => {
         const btnB = document.getElementById(`banner-btn-${p.id}`);
-        const barB = document.getElementById(`banner-bar-${p.id}`);
-        if(btnB && p.estoqueAtual <= 0) { btnB.disabled = true; btnB.innerText = "ESGOTADO"; }
-        if(barB) { barB.style.width = (p.estoqueAtual / p.estoqueOriginal * 100) + "%"; }
+        const txtB = document.getElementById(`banner-txt-est-${p.id}`);
+        if(btnB) {
+            btnB.disabled = p.estoqueAtual <= 0;
+            btnB.innerText = p.estoqueAtual <= 0 ? "ESGOTADO" : "ADICIONAR";
+        }
+        if(txtB) txtB.innerText = `Restam ${p.estoqueAtual} un.`;
     });
+}
+
+function abrirResumo() {
+    const lista = document.getElementById('lista-resumo');
+    const nomes = Object.keys(carrinho);
+    if(nomes.length === 0) { lista.innerHTML = "<p>Seu carrinho está vazio.</p>"; }
+    else {
+        lista.innerHTML = nomes.map(nome => `
+            <div class="item-carrinho">
+                <div>
+                    <div style="font-weight:800; font-size:0.8rem;">${nome}</div>
+                    <div style="font-size:0.7rem;">R$ ${carrinho[nome].exibirPreco} cada</div>
+                </div>
+                <div class="controles-qtd">
+                    <span style="font-weight:800;">${carrinho[nome].qtd}x</span>
+                    <i class="material-icons" style="color:var(--erro); cursor:pointer;" onclick="removerUm('${nome}')">remove_circle_outline</i>
+                </div>
+            </div>`).join('');
+    }
+    document.getElementById('modal-resumo').style.display = 'flex';
 }
 
 function filtrar(cat, btn) {
@@ -311,28 +351,6 @@ function gerarBotoesFiltro() {
         btn.onclick = () => filtrar(cat, btn);
         div.appendChild(btn);
     });
-}
-
-function abrirResumo() {
-    const lista = document.getElementById('lista-resumo');
-    lista.innerHTML = Object.keys(carrinho).map(nome => `
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; font-size:0.9rem;">
-            <span>${carrinho[nome].qtd}x ${nome}</span>
-            <div style="display:flex; gap:10px; align-items:center;">
-                <b>R$ ${carrinho[nome].exibirPreco}</b>
-                <i class="material-icons" style="color:var(--erro); cursor:pointer; font-size:18px;" onclick="removerItem('${nome}')">delete</i>
-            </div>
-        </div>`).join('');
-    document.getElementById('modal-resumo').style.display = 'flex';
-}
-
-function removerItem(nome) {
-    const p = window.PRODUTOS.find(prod => prod.nome === nome);
-    if(p) p.estoqueAtual += carrinho[nome].qtd;
-    delete carrinho[nome];
-    localStorage.setItem('carrinho_gui', JSON.stringify(carrinho));
-    atualizarTudo();
-    abrirResumo();
 }
 
 function fecharResumo() { document.getElementById('modal-resumo').style.display = 'none'; }
