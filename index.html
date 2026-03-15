@@ -39,7 +39,7 @@
         
         .btn-share { background: white; color: var(--primaria); border: 1px solid var(--detalhe); padding: 5px 10px; border-radius: 20px; display: flex; align-items: center; gap: 4px; font-size: 0.65rem; font-weight: 800; cursor: pointer; text-transform: uppercase; }
 
-        /* ÁREA DE MARCAS COM LINKS PERSONALIZADOS */
+        /* ÁREA DE MARCAS */
         .area-catalogos { background: white; padding: 12px 0; border-bottom: 1px solid #f0f0f0; text-align: center; }
         .grade-logos { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
         .item-logo { text-decoration: none; display: flex; flex-direction: column; align-items: center; width: 65px; color: inherit; }
@@ -47,7 +47,7 @@
         .img-box img { width: 80%; height: 80%; object-fit: contain; }
         .item-logo span { font-size: 8px; font-weight: 800; color: #666; text-transform: uppercase; }
 
-        /* FILTROS E ORDENAÇÃO */
+        /* FILTROS */
         .controles-navegacao { background: #fbfbfb; border-bottom: 1px solid #eee; }
         .filtros { display: flex; gap: 8px; overflow-x: auto; padding: 12px 12px 5px 12px; scrollbar-width: none; }
         .btn-filtro { background: white; border: 1px solid #ddd; padding: 8px 16px; border-radius: 20px; font-size: 10px; font-weight: 800; cursor: pointer; color: #666; text-transform: uppercase; white-space: nowrap; }
@@ -56,20 +56,23 @@
         .barra-ordenacao { padding: 5px 12px 12px 12px; display: flex; justify-content: flex-end; }
         .select-ordem { padding: 5px; border-radius: 5px; border: 1px solid #ddd; font-size: 11px; font-weight: 600; color: #666; outline: none; }
 
-        /* BANNERS */
+        /* BANNERS COM PREÇO "DE/POR" */
         #banner-container { margin: 15px; position: relative; display: none; }
         .banner-promo { 
             background: linear-gradient(135deg, #b31217 0%, #e67e22 100%); 
             border-radius: 15px; padding: 25px 20px; color: white; 
             display: none; flex-direction: row; align-items: center; justify-content: center; gap: 20px; overflow: hidden;
+            position: relative;
         }
-        .img-banner-promo { width: 140px; height: 140px; object-fit: contain; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.3)); cursor: zoom-in; }
+        .etiqueta-oferta { position: absolute; top: 15px; left: 15px; background: var(--detalhe); color: var(--primaria); padding: 4px 10px; border-radius: 5px; font-weight: 900; font-size: 0.7rem; text-transform: uppercase; box-shadow: 0 4px 10px rgba(0,0,0,0.2); z-index: 10; }
+        .img-banner-promo { width: 140px; height: 140px; object-fit: contain; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.3)); cursor: zoom-in; position: relative; }
         .conteudo-banner-promo { flex: 1; display: flex; flex-direction: column; align-items: flex-start; }
-        .preco-banner { font-size: 1.5rem; font-weight: 900; color: #fff; margin-bottom: 5px; }
+        .preco-de-banner { font-size: 0.8rem; text-decoration: line-through; opacity: 0.8; margin-bottom: -5px; }
+        .preco-por-banner { font-size: 1.8rem; font-weight: 900; color: #fff; margin-bottom: 5px; }
         .btn-banner-add { background: white; color: #b31217; border: none; padding: 10px 15px; border-radius: 8px; font-weight: 800; cursor: pointer; }
         .btn-banner-add:disabled { background: #ccc !important; color: #666 !important; cursor: not-allowed; }
 
-        /* ESTOQUE E VITRINE */
+        /* VITRINE */
         .info-estoque { font-size: 10px; font-weight: 700; margin-bottom: 8px; color: #777; min-height: 15px; }
         .alerta-estoque { color: var(--erro); font-weight: 900; text-transform: uppercase; }
 
@@ -85,13 +88,11 @@
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 4000; align-items: center; justify-content: center; padding: 20px; }
         .modal-content { background: white; width: 100%; max-width: 450px; border-radius: 20px; padding: 25px; max-height: 90vh; overflow-y: auto; }
         .item-carrinho { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #eee; }
-        
         .controles-qtd { display: flex; align-items: center; gap: 10px; background: #f8f8f8; border-radius: 8px; padding: 4px 8px; }
-        .controles-qtd i { cursor: pointer; user-select: none; }
-
+        
         #zoom-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 5000; flex-direction: column; align-items: center; justify-content: center; cursor: zoom-out; }
         #zoom-img { max-width: 90%; max-height: 75%; border-radius: 10px; box-shadow: 0 0 30px rgba(0,0,0,0.5); margin-bottom: 20px; }
-        #zoom-caption { color: white; font-weight: 800; font-size: 1.2rem; text-align: center; padding: 0 20px; font-family: 'Montserrat', sans-serif; }
+        #zoom-caption { color: white; font-weight: 800; font-size: 1.2rem; text-align: center; padding: 0 20px; }
     </style>
 </head>
 <body>
@@ -254,10 +255,12 @@ function gerarBanners() {
     
     wrapper.innerHTML = ofertas.slice(0, 5).map((p, idx) => `
         <div class="banner-promo" id="banner-slide-${idx}">
+            <div class="etiqueta-oferta">Oferta</div>
             <img class="img-banner-promo" src="${p.img}" onclick="abrirZoom('${p.img}', '${p.nome}')">
             <div class="conteudo-banner-promo">
                 <h2 style="font-size:0.9rem;">${p.nome}</h2>
-                <span class="preco-banner">R$ ${p.precoPromo}</span>
+                <div class="preco-de-banner">De: R$ ${p.precoOriginal}</div>
+                <div class="preco-por-banner">Por: R$ ${p.precoPromo}</div>
                 <div class="info-estoque" style="color:white; margin-bottom:10px;">${formatarTextoEstoque(p.estoqueAtual)}</div>
                 <button class="btn-banner-add" onclick="addCart(${p.id})" ${p.estoqueAtual <= 0 ? 'disabled' : ''}>ADICIONAR</button>
             </div>
@@ -366,9 +369,7 @@ function abrirResumo() {
 function filtrar(cat, btn) {
     document.querySelectorAll('.btn-filtro').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
-    
     const containerBanner = document.getElementById('banner-container');
-    
     if (cat === 'promo') {
         listaAtual = window.PRODUTOS.filter(p => p.emOferta);
         containerBanner.style.display = 'none';
@@ -379,7 +380,6 @@ function filtrar(cat, btn) {
         listaAtual = window.PRODUTOS.filter(p => p.categoria === cat);
         containerBanner.style.display = 'block';
     }
-    
     ordenar(document.querySelector('.select-ordem').value);
 }
 
@@ -415,28 +415,23 @@ function fecharResumo() { document.getElementById('modal-resumo').style.display 
 function enviarWhatsapp() {
     const cliente = prompt("Por favor, informe seu nome:");
     if (!cliente || cliente.trim() === "") return alert("O nome é necessário para finalizar o pedido.");
-
     const agora = new Date();
     const dataF = agora.toLocaleDateString('pt-BR');
     const horaF = agora.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-
     let msg = `🛍️ *NOVO PEDIDO - GUI PERFUMARIA*\n`;
     msg += `━━━━━━━━━━━━━━━━━━━━\n`;
     msg += `👤 *CLIENTE:* ${cliente.toUpperCase()}\n`;
     msg += `📅 *DATA:* ${dataF} às ${horaF}\n`;
     msg += `━━━━━━━━━━━━━━━━━━━━\n\n`;
-
     for (let nome in carrinho) {
         let subtotal = formatarMoeda(carrinho[nome].precoCents * carrinho[nome].qtd);
         msg += `✨ *${carrinho[nome].qtd}x ${nome.toUpperCase()}*\n`;
         msg += `└ Vlr. Unit: R$ ${carrinho[nome].exibirPreco}\n`;
         msg += `└ Subtotal: ${subtotal}\n\n`;
     }
-
     msg += `━━━━━━━━━━━━━━━━━━━━\n`;
     msg += `💰 *VALOR TOTAL: ${document.getElementById('modal-total').innerText.replace('Total: ', '')}*\n\n`;
     msg += `Olá Aline! Acabo de montar meu pedido pelo catálogo. Aguardo seu retorno!`;
-
     fecharResumo();
     alert(`Obrigado! ${cliente} pela sua compra!`);
     carrinho = {};
