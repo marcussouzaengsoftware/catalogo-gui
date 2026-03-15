@@ -52,7 +52,13 @@
         .btn-banner-add { background: white; color: #b31217; border: none; padding: 10px 15px; border-radius: 8px; font-weight: 800; cursor: pointer; font-size: 0.75rem; width: fit-content; box-shadow: 0 4px 0 var(--detalhe); }
         .btn-banner-add:disabled { background: #ccc !important; color: #666 !important; box-shadow: none; cursor: not-allowed; }
 
-        .estoque-texto { font-size: 9px; font-weight: 800; text-transform: uppercase; margin-top: 5px; opacity: 0.9; }
+        /* ALERTA DE ESTOQUE */
+        .alerta-estoque { 
+            font-size: 10px; font-weight: 800; color: #fff; 
+            background: var(--erro); padding: 2px 8px; border-radius: 4px; 
+            text-transform: uppercase; margin-top: 5px; display: inline-block;
+        }
+        .estoque-vazio { height: 15px; display: block; margin-bottom: 8px; }
 
         .dots-container { display: flex; justify-content: center; gap: 8px; margin-top: 10px; }
         .dot { width: 8px; height: 8px; background: #ccc; border-radius: 50%; }
@@ -70,7 +76,6 @@
         /* MODAIS */
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 4000; align-items: center; justify-content: center; padding: 20px; }
         .modal-content { background: white; width: 100%; max-width: 450px; border-radius: 20px; padding: 25px; max-height: 90vh; overflow-y: auto; }
-        
         .item-carrinho { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #eee; }
         .controles-qtd { display: flex; align-items: center; gap: 10px; }
     </style>
@@ -137,8 +142,7 @@ let bannerInterval;
 function converterParaCentavos(valor) {
     if (!valor) return 0;
     let limpo = valor.toString().replace(/R\$/g, '').replace(/\s/g, '').replace(/\./g, '').replace(',', '.');
-    let numero = parseFloat(limpo);
-    return isNaN(numero) ? 0 : Math.round(numero * 100);
+    return Math.round(parseFloat(limpo) * 100) || 0;
 }
 
 function formatarMoeda(centavos) {
@@ -152,10 +156,8 @@ function carregarDados() {
             window.PRODUTOS = results.data.map((item, idx) => {
                 const v = Object.values(item);
                 const nome = String(v[3] || "").trim();
-                const estoqueOriginal = parseInt(v[6]) || 0;
-                
-                // Calcula estoque atual abatendo o que já está no carrinho salvo
-                const qtdNoCarrinho = carrinho[nome] ? carrinho[nome].qtd : 0;
+                const estOrig = parseInt(v[6]) || 0;
+                const qtdNoCart = carrinho[nome] ? carrinho[nome].qtd : 0;
 
                 return { 
                     id: idx, nome: nome, categoria: String(v[2] || "Geral").trim(),
@@ -163,14 +165,13 @@ function carregarDados() {
                     precoPromo: String(v[7] || "").trim(),
                     precoVendaCents: String(v[7] || "").trim() !== "" ? converterParaCentavos(v[7]) : converterParaCentavos(v[4]),
                     img: String(v[5] || "").trim(), 
-                    estoqueOriginal: estoqueOriginal, 
-                    estoqueAtual: Math.max(0, estoqueOriginal - qtdNoCarrinho), 
+                    estoqueOriginal: estOrig, 
+                    estoqueAtual: Math.max(0, estOrig - qtdNoCart), 
                     emOferta: String(v[7] || "").trim() !== ""
                 };
             }).filter(p => p.nome);
 
             window.PRODUTOS.forEach(p => { if(p.categoria !== "Categoria") categoriasUnicas.add(p.categoria); });
-            
             gerarBanners();
             gerarBotoesFiltro();
             document.getElementById('loading').style.display = 'none';
@@ -178,6 +179,14 @@ function carregarDados() {
             atualizarTudo();
         }
     });
+}
+
+// Lógica de alerta crítico solicitada: apenas abaixo de 2 unidades
+function renderAlertaEstoque(qtd) {
+    if (qtd > 0 && qtd <= 2) {
+        return `<span class="alerta-estoque">APENAS ${qtd} RESTANTES!</span>`;
+    }
+    return "";
 }
 
 function gerarBanners() {
@@ -194,6 +203,7 @@ function gerarBanners() {
 
     topOfertas.forEach((p, idx) => {
         const esgotado = p.estoqueAtual <= 0;
+        const alerta = renderAlertaEstoque(p.estoqueAtual);
         const div = document.createElement('div');
         div.className = 'banner-promo';
         div.id = `banner-slide-${idx}`;
@@ -206,7 +216,7 @@ function gerarBanners() {
                 <button class="btn-banner-add" id="banner-btn-${p.id}" onclick="addCart(${p.id})" ${esgotado ? 'disabled' : ''}>
                     ${esgotado ? 'ESGOTADO' : 'ADICIONAR'}
                 </button>
-                <div class="estoque-texto" id="banner-txt-est-${p.id}">Restam ${p.estoqueAtual} un.</div>
+                <div id="banner-alerta-${p.id}">${alerta}</div>
             </div>
         `;
         wrapper.appendChild(div);
@@ -223,23 +233,26 @@ function gerarBanners() {
             document.querySelectorAll('.banner-promo').forEach(b => b.style.display = 'none');
             document.querySelectorAll('.dot').forEach(d => d.classList.remove('active'));
             current = (current + 1) % topOfertas.length;
-            document.getElementById(`banner-slide-${current}`).style.display = 'flex';
-            document.getElementById(`dot-${current}`).classList.add('active');
+            if(document.getElementById(`banner-slide-${current}`)) {
+                document.getElementById(`banner-slide-${current}`).style.display = 'flex';
+                document.getElementById(`dot-${current}`).classList.add('active');
+            }
         }, 5000);
     }
-    document.getElementById('banner-slide-0').style.display = 'flex';
+    if(document.getElementById('banner-slide-0')) document.getElementById('banner-slide-0').style.display = 'flex';
 }
 
 function render(lista) {
     const v = document.getElementById('vitrine');
     v.innerHTML = lista.map((p) => {
         const esgotado = p.estoqueAtual <= 0;
+        const alerta = renderAlertaEstoque(p.estoqueAtual);
         return `
         <div class="p-card">
             <img src="${p.img}" onerror="this.src='https://via.placeholder.com/150'">
             <div class="p-nome">${p.nome}</div>
             <div class="p-preco-por">R$ ${p.emOferta ? p.precoPromo : p.precoOriginal}</div>
-            <div class="estoque-texto" style="margin-bottom:8px;">Disponível: ${p.estoqueAtual}</div>
+            <div class="estoque-vazio" id="vit-alerta-${p.id}">${alerta}</div>
             <button class="btn-add" id="btn-${p.id}" onclick="addCart(${p.id})" ${esgotado ? 'disabled' : ''}>${esgotado ? 'ESGOTADO' : 'ADICIONAR'}</button>
         </div>`;
     }).join('');
@@ -247,14 +260,12 @@ function render(lista) {
 
 function addCart(id) {
     const p = window.PRODUTOS.find(prod => prod.id === id);
-    if (p.estoqueAtual <= 0) return;
-    
+    if (!p || p.estoqueAtual <= 0) return;
     if (!carrinho[p.nome]) {
         carrinho[p.nome] = { precoCents: p.precoVendaCents, exibirPreco: p.emOferta ? p.precoPromo : p.precoOriginal, qtd: 1, id: id };
     } else { 
         carrinho[p.nome].qtd++; 
     }
-    
     p.estoqueAtual--;
     salvar();
 }
@@ -262,20 +273,14 @@ function addCart(id) {
 function removerUm(nome) {
     if (!carrinho[nome]) return;
     const p = window.PRODUTOS.find(prod => prod.nome === nome);
-    
-    if (carrinho[nome].qtd > 1) {
-        carrinho[nome].qtd--;
-    } else {
-        delete carrinho[nome];
-    }
-    
+    if (carrinho[nome].qtd > 1) { carrinho[nome].qtd--; } else { delete carrinho[nome]; }
     if (p) p.estoqueAtual++;
     salvar();
     abrirResumo();
 }
 
 function limparCarrinho() {
-    if (!confirm("Deseja realmente limpar todo o carrinho?")) return;
+    if (!confirm("Limpar todo o carrinho?")) return;
     for (let nome in carrinho) {
         const p = window.PRODUTOS.find(prod => prod.nome === nome);
         if (p) p.estoqueAtual += carrinho[nome].qtd;
@@ -291,39 +296,38 @@ function salvar() {
 }
 
 function atualizarTudo() {
-    let totalCents = 0, totalItens = 0;
-    for (let nome in carrinho) { 
-        totalCents += (carrinho[nome].precoCents * carrinho[nome].qtd); 
-        totalItens += carrinho[nome].qtd; 
-    }
-    document.getElementById('soma-topo').innerText = formatarMoeda(totalCents);
-    document.getElementById('modal-total').innerText = `Total: ${formatarMoeda(totalCents)}`;
-    document.getElementById('count-topo').innerText = totalItens;
+    let cents = 0, itens = 0;
+    for (let n in carrinho) { cents += (carrinho[n].precoCents * carrinho[n].qtd); itens += carrinho[n].qtd; }
+    document.getElementById('soma-topo').innerText = formatarMoeda(cents);
+    document.getElementById('modal-total').innerText = `Total: ${formatarMoeda(cents)}`;
+    document.getElementById('count-topo').innerText = itens;
     
     render(window.PRODUTOS);
     
-    // Atualiza Banners
+    // Atualizar banners em tempo real
     window.PRODUTOS.filter(p => p.emOferta).slice(0, 5).forEach(p => {
         const btnB = document.getElementById(`banner-btn-${p.id}`);
-        const txtB = document.getElementById(`banner-txt-est-${p.id}`);
+        const alertaB = document.getElementById(`banner-alerta-${p.id}`);
         if(btnB) {
             btnB.disabled = p.estoqueAtual <= 0;
             btnB.innerText = p.estoqueAtual <= 0 ? "ESGOTADO" : "ADICIONAR";
         }
-        if(txtB) txtB.innerText = `Restam ${p.estoqueAtual} un.`;
+        if(alertaB) {
+            alertaB.innerHTML = renderAlertaEstoque(p.estoqueAtual);
+        }
     });
 }
 
 function abrirResumo() {
     const lista = document.getElementById('lista-resumo');
     const nomes = Object.keys(carrinho);
-    if(nomes.length === 0) { lista.innerHTML = "<p>Seu carrinho está vazio.</p>"; }
+    if(nomes.length === 0) { lista.innerHTML = "<p>Carrinho vazio.</p>"; }
     else {
         lista.innerHTML = nomes.map(nome => `
             <div class="item-carrinho">
                 <div>
                     <div style="font-weight:800; font-size:0.8rem;">${nome}</div>
-                    <div style="font-size:0.7rem;">R$ ${carrinho[nome].exibirPreco} cada</div>
+                    <div style="font-size:0.7rem;">R$ ${carrinho[nome].exibirPreco}</div>
                 </div>
                 <div class="controles-qtd">
                     <span style="font-weight:800;">${carrinho[nome].qtd}x</span>
@@ -335,32 +339,4 @@ function abrirResumo() {
 }
 
 function filtrar(cat, btn) {
-    document.querySelectorAll('.btn-filtro').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    let filtrados = cat === 'todos' ? window.PRODUTOS : (cat === 'promo' ? window.PRODUTOS.filter(p => p.emOferta) : window.PRODUTOS.filter(p => p.categoria === cat));
-    document.getElementById('banner-container').style.display = (cat === 'todos') ? 'block' : 'none';
-    render(filtrados);
-}
-
-function gerarBotoesFiltro() {
-    const div = document.getElementById('lista-filtros');
-    categoriasUnicas.forEach(cat => {
-        const btn = document.createElement('button');
-        btn.className = 'btn-filtro';
-        btn.innerText = cat;
-        btn.onclick = () => filtrar(cat, btn);
-        div.appendChild(btn);
-    });
-}
-
-function fecharResumo() { document.getElementById('modal-resumo').style.display = 'none'; }
-function enviarWhatsapp() {
-    let msg = `🛍️ *PEDIDO - GUI PERFUMARIA*\n\n`;
-    for (let nome in carrinho) { msg += `✅ ${carrinho[nome].qtd}x ${nome}\n`; }
-    msg += `\n💰 *TOTAL: ${document.getElementById('modal-total').innerText}*`;
-    window.open(`https://wa.me/5571987692157?text=${encodeURIComponent(msg)}`, '_blank');
-}
-carregarDados();
-</script>
-</body>
-</html>
+    document.querySelectorAll('.btn-filtro
