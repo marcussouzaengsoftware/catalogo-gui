@@ -20,7 +20,9 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
-        body { background-color: var(--fundo); padding-top: 360px; padding-bottom: 80px; color: var(--texto); overflow-x: hidden; }
+        
+        /* AJUSTE: Aumentei o padding-top de 360px para 390px para o banner não ficar coberto */
+        body { background-color: var(--fundo); padding-top: 390px; padding-bottom: 80px; color: var(--texto); overflow-x: hidden; }
 
         /* HEADER E TOPO FIXO */
         .topo-fixo { position: fixed; top: 0; left: 0; width: 100%; z-index: 2000; background: white; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
@@ -56,7 +58,7 @@
         .barra-ordenacao { padding: 5px 12px 12px 12px; display: flex; justify-content: flex-end; }
         .select-ordem { padding: 5px; border-radius: 5px; border: 1px solid #ddd; font-size: 11px; font-weight: 600; color: #666; outline: none; }
 
-        /* BANNERS COM PREÇO "DE/POR" */
+        /* BANNERS */
         #banner-container { margin: 15px; position: relative; display: none; }
         .banner-promo { 
             background: linear-gradient(135deg, #b31217 0%, #e67e22 100%); 
