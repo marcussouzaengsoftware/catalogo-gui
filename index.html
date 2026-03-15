@@ -39,7 +39,7 @@
         
         .btn-share { background: white; color: var(--primaria); border: 1px solid var(--detalhe); padding: 5px 10px; border-radius: 20px; display: flex; align-items: center; gap: 4px; font-size: 0.65rem; font-weight: 800; cursor: pointer; text-transform: uppercase; }
 
-        /* ÁREA DE MARCAS COM LINKS */
+        /* ÁREA DE MARCAS COM LINKS PERSONALIZADOS */
         .area-catalogos { background: white; padding: 12px 0; border-bottom: 1px solid #f0f0f0; text-align: center; }
         .grade-logos { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
         .item-logo { text-decoration: none; display: flex; flex-direction: column; align-items: center; width: 65px; color: inherit; }
@@ -89,7 +89,6 @@
         .controles-qtd { display: flex; align-items: center; gap: 10px; background: #f8f8f8; border-radius: 8px; padding: 4px 8px; }
         .controles-qtd i { cursor: pointer; user-select: none; }
 
-        /* ZOOM MODAL COM LEGENDA */
         #zoom-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 5000; flex-direction: column; align-items: center; justify-content: center; cursor: zoom-out; }
         #zoom-img { max-width: 90%; max-height: 75%; border-radius: 10px; box-shadow: 0 0 30px rgba(0,0,0,0.5); margin-bottom: 20px; }
         #zoom-caption { color: white; font-weight: 800; font-size: 1.2rem; text-align: center; padding: 0 20px; font-family: 'Montserrat', sans-serif; }
@@ -118,19 +117,19 @@
 
     <div class="area-catalogos">
         <div class="grade-logos">
-            <a href="https://www.natura.com.br/consultoria/alinemnascimento" target="_blank" class="item-logo">
+            <a href="https://encurtador.naturaavon.com/hTUzboh" target="_blank" class="item-logo">
                 <div class="img-box"><img src="assets/natura.png"></div>
                 <span>Natura</span>
             </a>
-            <a href="https://www.boticario.com.br" target="_blank" class="item-logo">
+            <a href="https://minhaloja.boticario.com.br/aline-nascimento?utm_source=app_divulgar&utm_medium=divulgar_catalogo&utm_campaign=ciclo_atual" target="_blank" class="item-logo">
                 <div class="img-box"><img src="assets/boticario.png"></div>
                 <span>Boticário</span>
             </a>
-            <a href="https://www.eudora.com.br" target="_blank" class="item-logo">
+            <a href="https://minhaloja.eudora.com.br/aline-nascimento?utm_source=app_divulgar&utm_medium=divulgar_catalogo&utm_campaign=ciclo_atual" target="_blank" class="item-logo">
                 <div class="img-box"><img src="assets/eudora.jpeg"></div>
                 <span>Eudora</span>
             </a>
-            <a href="https://www.ouiparis.com" target="_blank" class="item-logo">
+            <a href="https://minhaloja.ouiparis.com/aline-nascimento?utm_source=app_divulgar&utm_medium=divulgar_catalogo&utm_campaign=ciclo_atual" target="_blank" class="item-logo">
                 <div class="img-box"><img src="assets/oui.png"></div>
                 <span>O.U.I Paris</span>
             </a>
@@ -205,7 +204,6 @@ function carregarDados() {
                 const estOrig = parseInt(v[6]) || 0;
                 const qtdNoCart = carrinho[nome] ? carrinho[nome].qtd : 0;
 
-                // Automação: Captura categorias novas da planilha
                 if (categoria && categoria !== "Categoria") {
                     categoriasUnicas.add(categoria);
                 }
