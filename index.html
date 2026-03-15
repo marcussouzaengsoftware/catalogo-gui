@@ -36,23 +36,40 @@
         .filtros::-webkit-scrollbar { display: none; }
         .btn-filtro { background: white; border: 1px solid #ddd; padding: 8px 16px; border-radius: 20px; font-size: 10px; font-weight: 800; white-space: nowrap; cursor: pointer; color: #666; text-transform: uppercase; }
         .btn-filtro.active { background: var(--primaria); color: white; border-color: var(--primaria); }
-        .btn-promo { border-color: var(--promo); color: var(--promo); }
-        .btn-promo.active { background: var(--promo); border-color: var(--promo); }
 
-        /* NOVO: ESTILO DO BANNER DE PROMOÇÃO */
+        /* BANNER COM 50% A MAIS DE TAMANHO E TARJA */
         .banner-promo { 
             display: none; 
-            margin: 12px; 
-            background: linear-gradient(45deg, var(--promo), #ffb347); 
-            border-radius: 12px; 
-            padding: 20px; 
+            margin: 15px; 
+            background: linear-gradient(135deg, #b31217 0%, #e67e22 100%); 
+            border-radius: 15px; 
+            padding: 35px 20px; 
             color: white; 
             text-align: center; 
-            box-shadow: 0 4px 10px rgba(230, 126, 34, 0.3);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
             cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid var(--detalhe);
         }
-        .banner-promo h2 { font-size: 1.4rem; font-weight: 800; letter-spacing: 1px; }
-        .banner-promo p { font-size: 0.8rem; font-weight: 600; opacity: 0.9; margin-top: 5px; }
+        .banner-promo h2 { font-size: 2.1rem; font-weight: 900; letter-spacing: -1px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
+        .banner-promo .preco-banner { font-size: 2.8rem; font-weight: 900; display: block; margin: 10px 0; color: #fff; }
+        .banner-promo p { font-size: 1.1rem; font-weight: 600; text-transform: uppercase; opacity: 0.9; }
+        
+        /* TARJA DE PROMOÇÃO */
+        .tarja {
+            position: absolute;
+            top: 15px;
+            left: -35px;
+            background: var(--detalhe);
+            color: var(--primaria);
+            padding: 8px 40px;
+            font-weight: 900;
+            font-size: 0.9rem;
+            transform: rotate(-35deg);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            text-transform: uppercase;
+        }
 
         /* VITRINE */
         .vitrine { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; padding: 12px; }
@@ -61,14 +78,11 @@
         .p-card img { width: 100%; height: 130px; object-fit: contain; margin-bottom: 10px; cursor: zoom-in; }
         .p-nome { font-size: 0.9rem; font-weight: 700; min-height: 40px; margin-bottom: 5px; }
         .p-preco-por { font-weight: 800; color: var(--primaria); font-size: 1.25rem; margin-bottom: 10px; }
-        .p-preco-por.em-oferta { color: var(--promo); }
 
         /* ESTOQUE */
         .area-escassez { margin-top: auto; padding-top: 5px; padding-bottom: 10px; }
         .txt-escassez { font-size: 11px; font-weight: 800; color: var(--erro); text-transform: uppercase; display: block; margin-bottom: 5px; animation: blink 1.5s infinite; }
         @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
-        .txt-estoque-normal { font-size: 11px; color: #666; font-weight: 700; display: block; margin-bottom: 5px; }
-        .txt-esgotado { font-size: 11px; color: #999; font-weight: 800; text-transform: uppercase; display: block; margin-bottom: 5px; }
         .barra-estoque { width: 100%; height: 7px; background: #eee; border-radius: 10px; overflow: hidden; margin-bottom: 10px; }
         .progresso-estoque { height: 100%; background: var(--erro); transition: width 0.5s; }
 
@@ -78,7 +92,6 @@
         /* MODAIS */
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 4000; align-items: center; justify-content: center; padding: 20px; }
         .modal-content { background: white; width: 100%; max-width: 450px; border-radius: 20px; padding: 25px; position: relative; max-height: 90vh; overflow-y: auto; }
-        
         .campo-cliente { margin: 20px 0; }
         .campo-cliente label { font-size: 11px; font-weight: 800; color: var(--primaria); display: block; margin-bottom: 5px; }
         .campo-cliente input { width: 100%; padding: 15px; border: 2px solid #eee; border-radius: 10px; font-size: 1rem; font-weight: 600; outline: none; }
@@ -113,13 +126,15 @@
     </div>
 
     <div class="filtros" id="lista-filtros">
-        <button class="btn-filtro active" id="btn-todos" onclick="filtrar('todos', this)">TODOS</button>
-        <button class="btn-filtro btn-promo" id="btn-promo-filtro" onclick="filtrar('promo', this)">🔥 PROMOÇÕES</button>
+        <button class="btn-filtro active" onclick="filtrar('todos', this)">TODOS</button>
+        <button class="btn-filtro" id="btn-promo-filtro" style="border-color: var(--promo); color: var(--promo);" onclick="filtrar('promo', this)">🔥 PROMOÇÕES</button>
     </div>
 
     <div class="banner-promo" id="banner-destaque" onclick="document.getElementById('btn-promo-filtro').click()">
-        <h2>OFERTAS IMPERDÍVEIS</h2>
-        <p>Clique aqui e confira os produtos com desconto!</p>
+        <div class="tarja">PROMOÇÃO</div>
+        <h2>OFERTAS DO DIA</h2>
+        <span class="preco-banner" id="banner-preco-min">R$ 0,00</span>
+        <p>Toque para aproveitar agora!</p>
     </div>
 </div>
 
@@ -173,16 +188,6 @@ function abrirZoom(url, nome) {
 }
 function fecharZoom() { document.getElementById('modal-zoom').style.display = 'none'; }
 
-function aplicarTema(cat) {
-    const root = document.documentElement;
-    const n = cat.toLowerCase();
-    if (n.includes('feminino')) { root.style.setProperty('--primaria', '#6d2040'); root.style.setProperty('--fundo', '#fff9fb'); } 
-    else if (n.includes('masculino')) { root.style.setProperty('--primaria', '#1a2a3a'); root.style.setProperty('--fundo', '#f4f7f9'); } 
-    else if (n.includes('cuidados') || n.includes('corpo')) { root.style.setProperty('--primaria', '#2d5a27'); root.style.setProperty('--fundo', '#f7fff6'); }
-    else if (n === 'promo') { root.style.setProperty('--primaria', '#e67e22'); root.style.setProperty('--fundo', '#fffcf9'); }
-    else { root.style.setProperty('--primaria', '#0f2621'); root.style.setProperty('--fundo', '#fcfcfc'); }
-}
-
 function carregarDados() {
     Papa.parse(URL_CSV, {
         download: true, header: true, skipEmptyLines: true,
@@ -202,12 +207,13 @@ function carregarDados() {
                 };
             }).filter(p => p.nome);
 
-            // LOGICA DO BANNER: Só mostra se houver ofertas
-            const temPromo = window.PRODUTOS.some(p => p.emOferta);
-            if(temPromo) {
+            // LOGICA DO BANNER AMPLIADO
+            const ofertas = window.PRODUTOS.filter(p => p.emOferta);
+            if(ofertas.length > 0) {
+                const menorPrecoCents = Math.min(...ofertas.map(p => p.precoVendaCents));
+                document.getElementById('banner-preco-min').innerText = `A partir de ${formatarMoeda(menorPrecoCents)}`;
                 document.getElementById('banner-destaque').style.display = 'block';
-                // Ajusta o padding do body porque o topo fixo ficou maior com o banner
-                document.body.style.paddingTop = '520px';
+                document.body.style.paddingTop = '600px'; // Ajuste maior para o banner 50% maior
             }
 
             gerarBotoesFiltro();
@@ -232,25 +238,21 @@ function gerarBotoesFiltro() {
 function filtrar(cat, btn) {
     document.querySelectorAll('.btn-filtro').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
-    aplicarTema(cat);
     let filtrados = cat === 'todos' ? window.PRODUTOS : (cat === 'promo' ? window.PRODUTOS.filter(p => p.emOferta) : window.PRODUTOS.filter(p => p.categoria === cat));
     
-    // Se o usuário clicar em um filtro específico, escondemos o banner para dar espaço aos produtos
     if(cat !== 'todos') {
         document.getElementById('banner-destaque').style.display = 'none';
         document.body.style.paddingTop = '410px';
     } else if(window.PRODUTOS.some(p => p.emOferta)) {
         document.getElementById('banner-destaque').style.display = 'block';
-        document.body.style.paddingTop = '520px';
+        document.body.style.paddingTop = '600px';
     }
-
     render(filtrados);
 }
 
 function render(lista) {
     const v = document.getElementById('vitrine');
     v.innerHTML = lista.map((p) => {
-        const critico = p.estoqueAtual > 0 && p.estoqueAtual <= 3;
         const esgotado = p.estoqueAtual <= 0;
         const porcentagem = p.estoqueOriginal > 0 ? (p.estoqueAtual / p.estoqueOriginal) * 100 : 0;
         return `
@@ -258,11 +260,11 @@ function render(lista) {
             ${p.emOferta ? '<div class="selo-promo">Oferta</div>' : ''}
             <img src="${p.img}" onclick="abrirZoom('${p.img}', '${p.nome}')" onerror="this.src='https://via.placeholder.com/150?text=Produto'">
             <div class="p-nome">${p.nome}</div>
-            <div class="p-preco-de">${p.emOferta ? 'De: R$ ' + p.precoOriginal : ''}</div>
-            <div class="p-preco-por ${p.emOferta ? 'em-oferta' : ''}">${p.emOferta ? 'Por: R$ ' + p.precoPromo : 'R$ ' + p.precoOriginal}</div>
-            <div class="area-escassez" id="area-stock-${p.id}">
-                ${esgotado ? '<span class="txt-esgotado">ESGOTADO</span>' : (critico ? `<span class="txt-escassez">🔥 Só restam ${p.estoqueAtual}!</span>` : `<span class="txt-estoque-normal">Estoque: ${p.estoqueAtual}</span>`)}
-                <div class="barra-estoque"><div class="progresso-estoque" id="prog-${p.id}" style="width: ${porcentagem}%"></div></div>
+            <div class="p-preco-por" style="${p.emOferta ? 'color:var(--promo)' : ''}">
+                ${p.emOferta ? 'Por: R$ ' + p.precoPromo : 'R$ ' + p.precoOriginal}
+            </div>
+            <div class="area-escassez">
+                <div class="barra-estoque"><div class="progresso-estoque" style="width: ${porcentagem}%"></div></div>
             </div>
             <button class="btn-add" id="btn-${p.id}" onclick="addCart(${p.id})" ${esgotado ? 'disabled' : ''}>${esgotado ? 'ESGOTADO' : 'ADICIONAR'}</button>
         </div>`;
@@ -285,66 +287,27 @@ function atualizarTudo() {
     document.getElementById('soma-topo').innerText = formatarMoeda(totalCents);
     document.getElementById('modal-total').innerText = `Total: ${formatarMoeda(totalCents)}`;
     document.getElementById('count-topo').innerText = totalItens;
-    window.PRODUTOS.forEach(p => {
-        const prog = document.getElementById(`prog-${p.id}`);
-        const btn = document.getElementById(`btn-${p.id}`);
-        if (prog) prog.style.width = `${p.estoqueOriginal > 0 ? (p.estoqueAtual / p.estoqueOriginal) * 100 : 0}%`;
-        if (btn && p.estoqueAtual <= 0) { btn.disabled = true; btn.innerText = "ESGOTADO"; }
-    });
-}
-
-function mudarQtd(nome, delta) {
-    const item = carrinho[nome];
-    const p = window.PRODUTOS.find(prod => prod.id === item.id);
-    if (delta > 0) { if (p.estoqueAtual <= 0) return; item.qtd++; p.estoqueAtual--; }
-    else { item.qtd--; p.estoqueAtual++; if (item.qtd <= 0) delete carrinho[nome]; }
-    atualizarTudo();
-    if (Object.keys(carrinho).length === 0) fecharResumo();
 }
 
 function enviarWhatsapp() {
     const nomeCliente = document.getElementById('nome-cliente').value.trim();
-    if (nomeCliente === "") { alert("Por favor, digite seu nome!"); document.getElementById('nome-cliente').focus(); return; }
-
-    const agora = new Date();
-    const dataFormatada = agora.toLocaleDateString('pt-BR');
-    const horaFormatada = agora.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-
-    let msg = `🛍️ *NOVO PEDIDO - GUI PERFUMARIA*\n`;
-    msg += `━━━━━━━━━━━━━━━━━━━━\n`;
-    msg += `👤 *CLIENTE:* ${nomeCliente.toUpperCase()}\n`;
-    msg += `📅 *DATA:* ${dataFormatada} às ${horaFormatada}\n`;
-    msg += `━━━━━━━━━━━━━━━━━━━━\n\n`;
-    
+    if (nomeCliente === "") { alert("Digite seu nome!"); return; }
+    let msg = `🛍️ *PEDIDO - GUI PERFUMARIA*\n👤 *CLIENTE:* ${nomeCliente.toUpperCase()}\n\n`;
     let totalCents = 0;
     for (let nome in carrinho) {
-        const item = carrinho[nome];
-        const subtotalCents = item.precoCents * item.qtd;
-        totalCents += subtotalCents;
-        msg += `✨ *${item.qtd}x* ${nome.toUpperCase()}\n`;
-        msg += `└ _Vlr. Unit: R$ ${item.exibirPreco}_\n`;
-        msg += `└ _Subtotal: ${formatarMoeda(subtotalCents)}_\n\n`;
+        msg += `✅ ${carrinho[nome].qtd}x ${nome} (R$ ${carrinho[nome].exibirPreco})\n`;
+        totalCents += (carrinho[nome].precoCents * carrinho[nome].qtd);
     }
-    
-    msg += `━━━━━━━━━━━━━━━━━━━━\n`;
-    msg += `💰 *VALOR TOTAL: ${formatarMoeda(totalCents)}*\n\n`;
-    msg += `Olá Aline! Acabo de montar meu pedido pelo catálogo. Aguardo seu retorno!`;
-
+    msg += `\n💰 *TOTAL: ${formatarMoeda(totalCents)}*`;
     window.open(`https://wa.me/5571987692157?text=${encodeURIComponent(msg)}`, '_blank');
 }
 
 function abrirResumo() {
     const lista = document.getElementById('lista-resumo');
-    const nomes = Object.keys(carrinho);
-    if (nomes.length === 0) return;
-    lista.innerHTML = nomes.map(nome => `
-        <div style="display:flex; justify-content:space-between; align-items:center; padding:12px 0; border-bottom:1px solid #eee;">
-            <div><b>${nome}</b><br><small>R$ ${carrinho[nome].exibirPreco}</small></div>
-            <div style="display:flex; align-items:center; gap:10px;">
-                <i class="material-icons" style="cursor:pointer; color:var(--erro)" onclick="mudarQtd('${nome}', -1)">remove_circle</i>
-                <b>${carrinho[nome].qtd}</b>
-                <i class="material-icons" style="cursor:pointer; color:var(--primaria)" onclick="mudarQtd('${nome}', 1)">add_circle</i>
-            </div>
+    lista.innerHTML = Object.keys(carrinho).map(nome => `
+        <div style="display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid #eee;">
+            <span>${carrinho[nome].qtd}x ${nome}</span>
+            <b>R$ ${carrinho[nome].exibirPreco}</b>
         </div>`).join('');
     document.getElementById('modal-resumo').style.display = 'flex';
 }
