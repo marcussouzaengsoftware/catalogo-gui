@@ -13,11 +13,9 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; transition: background-color 0.4s; }
-        
-        /* O padding agora é fixo apenas para o cabeçalho e filtros (aprox 280px) */
         body { background-color: var(--fundo); padding-top: 290px; padding-bottom: 80px; color: var(--texto); }
 
-        /* TOPO FIXO (Apenas Identidade e Filtros) */
+        /* TOPO FIXO */
         .topo-fixo { position: fixed; top: 0; left: 0; width: 100%; z-index: 2000; background: white; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
         header { background: var(--primaria); color: white; padding: 25px 15px; text-align: center; border-bottom: 6px solid var(--detalhe); position: relative; }
         header h1 { font-family: 'Playfair Display', serif; font-size: 2.1rem; color: var(--detalhe); text-transform: uppercase; }
@@ -38,7 +36,7 @@
         .btn-filtro { background: white; border: 1px solid #ddd; padding: 8px 16px; border-radius: 20px; font-size: 10px; font-weight: 800; white-space: nowrap; cursor: pointer; color: #666; text-transform: uppercase; }
         .btn-filtro.active { background: var(--primaria); color: white; border-color: var(--primaria); }
 
-        /* BANNER (FORA DO TOPO FIXO PARA SUBIR COM A ROLAGEM) */
+        /* BANNER DINÂMICO QUE ROLA COM A PÁGINA */
         .banner-promo { 
             display: none; 
             margin: 15px; 
@@ -46,30 +44,31 @@
             border-radius: 15px; 
             padding: 20px; 
             color: white; 
-            text-align: center; 
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-            cursor: pointer;
             position: relative;
             overflow: hidden;
             border: 2px solid var(--detalhe);
-            display: flex;
+            flex-direction: row;
             align-items: center;
-            justify-content: space-around;
+            justify-content: space-between;
             gap: 15px;
         }
         
         .img-banner-promo {
-            width: 180px; 
-            height: 180px;
+            width: 170px; 
+            height: 170px;
             object-fit: contain;
             filter: drop-shadow(0 4px 10px rgba(0,0,0,0.4));
         }
 
-        .conteudo-banner-promo { flex: 1; text-align: left; }
-        .banner-promo h2 { font-size: 1.6rem; font-weight: 900; letter-spacing: -1px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
-        .banner-promo .preco-banner { font-size: 2.2rem; font-weight: 900; display: block; margin: 5px 0; color: #fff; }
-        .banner-promo p { font-size: 0.8rem; font-weight: 600; text-transform: uppercase; opacity: 0.9; }
+        .conteudo-banner-promo { flex: 1; display: flex; flex-direction: column; gap: 5px; }
+        .banner-promo h4 { font-size: 0.75rem; text-transform: uppercase; font-weight: 800; opacity: 0.9; letter-spacing: 1px; }
+        .banner-promo h2 { font-size: 1.1rem; font-weight: 800; line-height: 1.2; margin-bottom: 5px; }
+        .banner-promo .preco-banner { font-size: 1.8rem; font-weight: 900; color: #fff; }
         
+        .btn-banner-add { background: white; color: #b31217; border: none; padding: 10px; border-radius: 8px; font-weight: 800; cursor: pointer; font-size: 0.8rem; width: 100%; margin-top: 10px; box-shadow: 0 4px 0 var(--detalhe); }
+        .btn-banner-add:active { transform: translateY(2px); box-shadow: 0 2px 0 var(--detalhe); }
+
         .tarja {
             position: absolute;
             top: 10px;
@@ -92,21 +91,17 @@
         .p-preco-por { font-weight: 800; color: var(--primaria); font-size: 1.2rem; margin-bottom: 10px; }
 
         /* ESTOQUE */
-        .barra-estoque { width: 100%; height: 6px; background: #eee; border-radius: 10px; overflow: hidden; margin-bottom: 10px; }
-        .progresso-estoque { height: 100%; background: var(--erro); transition: width 0.5s; }
+        .barra-estoque { width: 100%; height: 6px; background: rgba(0,0,0,0.1); border-radius: 10px; overflow: hidden; margin-top: 5px; }
+        .progresso-estoque { height: 100%; background: var(--detalhe); transition: width 0.5s; }
+        .barra-vitrine { background: #eee; }
+        .progresso-vitrine { background: var(--erro); }
 
         .btn-add { background: var(--primaria); color: white; border: none; padding: 12px; border-radius: 8px; font-weight: 800; cursor: pointer; font-size: 0.85rem; }
-        .btn-add:disabled { background: #ccc !important; }
+        .btn-add:disabled, .btn-banner-add:disabled { background: #ccc !important; color: #666 !important; box-shadow: none; cursor: not-allowed; }
 
         /* MODAIS */
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 4000; align-items: center; justify-content: center; padding: 20px; }
         .modal-content { background: white; width: 100%; max-width: 450px; border-radius: 20px; padding: 25px; position: relative; max-height: 90vh; overflow-y: auto; }
-        .campo-cliente { margin: 20px 0; }
-        .campo-cliente input { width: 100%; padding: 15px; border: 2px solid #eee; border-radius: 10px; font-size: 1rem; outline: none; }
-
-        #modal-zoom .modal-content { background: transparent; padding: 0; text-align: center; }
-        #img-ampliada { max-width: 100%; max-height: 80vh; border-radius: 15px; }
-        .btn-fechar-zoom { color: white; position: absolute; top: -40px; right: 0; cursor: pointer; font-size: 30px; }
     </style>
 </head>
 <body>
@@ -139,13 +134,17 @@
     </div>
 </div>
 
-<div class="banner-promo" id="banner-destaque" onclick="document.getElementById('btn-promo-filtro').click()">
-    <div class="tarja">PROMOÇÃO</div>
+<div class="banner-promo" id="banner-destaque">
+    <div class="tarja">OFERTA</div>
     <img id="banner-img-prod" class="img-banner-promo" src="" alt="Destaque">
     <div class="conteudo-banner-promo">
-        <h2>OFERTAS DO DIA</h2>
+        <h4>Promoção do Dia</h4>
+        <h2 id="banner-nome-prod">Nome do Produto</h2>
         <span class="preco-banner" id="banner-preco-min">R$ 0,00</span>
-        <p>Toque para ver tudo!</p>
+        <div class="barra-estoque">
+            <div class="progresso-estoque" id="banner-progresso"></div>
+        </div>
+        <button class="btn-banner-add" id="banner-btn-add" onclick="">ADICIONAR AO CARRINHO</button>
     </div>
 </div>
 
@@ -157,20 +156,8 @@
         <h3 style="font-weight: 800; border-bottom: 2px solid #eee; padding-bottom: 10px;">MEU PEDIDO</h3>
         <div id="lista-resumo" style="margin:15px 0;"></div>
         <div id="modal-total" style="font-weight: 800; font-size: 1.5rem; text-align: right;">Total: R$ 0,00</div>
-        <div class="campo-cliente">
-            <label style="font-size:11px; font-weight:800;">SEU NOME:</label>
-            <input type="text" id="nome-cliente" placeholder="Como te chamamos?">
-        </div>
-        <button style="background:var(--whatsapp); color:white; width:100%; border:none; padding:18px; border-radius:12px; font-weight:800; cursor:pointer;" onclick="enviarWhatsapp()">ENVIAR PARA WHATSAPP</button>
+        <button style="background:var(--whatsapp); color:white; width:100%; border:none; padding:18px; border-radius:12px; font-weight:800; cursor:pointer; margin-top:10px;" onclick="enviarWhatsapp()">FINALIZAR NO WHATSAPP</button>
         <p onclick="fecharResumo()" style="text-align:center; margin-top:15px; cursor:pointer; font-weight:800; font-size:12px; color:#999;">FECHAR</p>
-    </div>
-</div>
-
-<div id="modal-zoom" class="modal" onclick="fecharZoom()">
-    <div class="modal-content" onclick="event.stopPropagation()">
-        <span class="material-icons btn-fechar-zoom" onclick="fecharZoom()">close</span>
-        <img id="img-ampliada" src="">
-        <p id="nome-ampliado" style="color:white; margin-top:10px; font-weight:700;"></p>
     </div>
 </div>
 
@@ -210,20 +197,37 @@ function carregarDados() {
                 };
             }).filter(p => p.nome);
 
-            const ofertas = window.PRODUTOS.filter(p => p.emOferta);
-            if(ofertas.length > 0) {
-                document.getElementById('banner-img-prod').src = ofertas[0].img;
-                const menorPrecoCents = Math.min(...ofertas.map(p => p.precoVendaCents));
-                document.getElementById('banner-preco-min').innerText = `A partir de ${formatarMoeda(menorPrecoCents)}`;
-                document.getElementById('banner-destaque').style.display = 'flex';
-            }
-
+            configurarBannerDestaque();
             gerarBotoesFiltro();
             document.getElementById('loading').style.display = 'none';
             document.getElementById('cart-ui').style.display = 'flex';
             render(window.PRODUTOS);
         }
     });
+}
+
+function configurarBannerDestaque() {
+    const ofertas = window.PRODUTOS.filter(p => p.emOferta && p.estoqueAtual > 0);
+    const banner = document.getElementById('banner-destaque');
+    
+    if(ofertas.length > 0) {
+        const p = ofertas[0]; // Pega o primeiro item em oferta
+        document.getElementById('banner-img-prod').src = p.img;
+        document.getElementById('banner-nome-prod').innerText = p.nome;
+        document.getElementById('banner-preco-min').innerText = `R$ ${p.precoPromo}`;
+        
+        const perc = (p.estoqueAtual / p.estoqueOriginal) * 100;
+        document.getElementById('banner-progresso').style.width = perc + "%";
+        
+        const btn = document.getElementById('banner-btn-add');
+        btn.onclick = () => addCart(p.id);
+        btn.innerText = "ADICIONAR AO CARRINHO";
+        btn.disabled = false;
+        
+        banner.style.display = 'flex';
+    } else {
+        banner.style.display = 'none';
+    }
 }
 
 function gerarBotoesFiltro() {
@@ -241,10 +245,7 @@ function filtrar(cat, btn) {
     document.querySelectorAll('.btn-filtro').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     let filtrados = cat === 'todos' ? window.PRODUTOS : (cat === 'promo' ? window.PRODUTOS.filter(p => p.emOferta) : window.PRODUTOS.filter(p => p.categoria === cat));
-    
-    // O banner agora some quando filtra, para dar destaque aos produtos da categoria
     document.getElementById('banner-destaque').style.display = (cat === 'todos' && window.PRODUTOS.some(p => p.emOferta)) ? 'flex' : 'none';
-    
     render(filtrados);
 }
 
@@ -256,10 +257,10 @@ function render(lista) {
         return `
         <div class="p-card">
             ${p.emOferta ? '<div style="position:absolute; top:10px; right:10px; background:var(--promo); color:white; font-size:9px; padding:4px 8px; border-radius:10px; font-weight:800;">OFERTA</div>' : ''}
-            <img src="${p.img}" onclick="abrirZoom('${p.img}', '${p.nome}')" onerror="this.src='https://via.placeholder.com/150'">
+            <img src="${p.img}" onerror="this.src='https://via.placeholder.com/150'">
             <div class="p-nome">${p.nome}</div>
             <div class="p-preco-por" style="${p.emOferta ? 'color:var(--promo)' : ''}">${p.emOferta ? 'R$ ' + p.precoPromo : 'R$ ' + p.precoOriginal}</div>
-            <div class="barra-estoque"><div class="progresso-estoque" style="width: ${porcentagem}%"></div></div>
+            <div class="barra-estoque barra-vitrine"><div class="progresso-estoque progresso-vitrine" style="width: ${porcentagem}%"></div></div>
             <button class="btn-add" id="btn-${p.id}" onclick="addCart(${p.id})" ${esgotado ? 'disabled' : ''}>${esgotado ? 'ESGOTADO' : 'ADICIONAR'}</button>
         </div>`;
     }).join('');
@@ -281,15 +282,10 @@ function atualizarTudo() {
     document.getElementById('soma-topo').innerText = formatarMoeda(totalCents);
     document.getElementById('modal-total').innerText = `Total: ${formatarMoeda(totalCents)}`;
     document.getElementById('count-topo').innerText = totalItens;
-}
-
-function enviarWhatsapp() {
-    const nomeCliente = document.getElementById('nome-cliente').value.trim();
-    if (nomeCliente === "") { alert("Digite seu nome!"); return; }
-    let msg = `🛍️ *PEDIDO - GUI PERFUMARIA*\n👤 *CLIENTE:* ${nomeCliente.toUpperCase()}\n\n`;
-    for (let nome in carrinho) { msg += `✅ ${carrinho[nome].qtd}x ${nome}\n`; }
-    msg += `\n💰 *TOTAL: ${document.getElementById('modal-total').innerText}*`;
-    window.open(`https://wa.me/5571987692157?text=${encodeURIComponent(msg)}`, '_blank');
+    
+    // Atualiza barras de estoque na vitrine e no banner
+    render(window.PRODUTOS);
+    configurarBannerDestaque();
 }
 
 function abrirResumo() {
@@ -298,8 +294,12 @@ function abrirResumo() {
     document.getElementById('modal-resumo').style.display = 'flex';
 }
 function fecharResumo() { document.getElementById('modal-resumo').style.display = 'none'; }
-function abrirZoom(url, nome) { document.getElementById('img-ampliada').src = url; document.getElementById('nome-ampliado').innerText = nome; document.getElementById('modal-zoom').style.display = 'flex'; }
-function fecharZoom() { document.getElementById('modal-zoom').style.display = 'none'; }
+function enviarWhatsapp() {
+    let msg = `🛍️ *NOVO PEDIDO - GUI PERFUMARIA*\n\n`;
+    for (let nome in carrinho) { msg += `✅ ${carrinho[nome].qtd}x ${nome}\n`; }
+    msg += `\n💰 *TOTAL: ${document.getElementById('modal-total').innerText}*`;
+    window.open(`https://wa.me/5571987692157?text=${encodeURIComponent(msg)}`, '_blank');
+}
 carregarDados();
 </script>
 </body>
