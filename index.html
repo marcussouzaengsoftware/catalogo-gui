@@ -9,61 +9,48 @@
         :root { --primaria: #0f2621; --detalhe: #d4af37; --whatsapp: #25d366; --fundo: #fcfcfc; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
         body { background-color: var(--fundo); padding-bottom: 80px; color: #333; }
-        
         header { background: var(--primaria); color: white; padding: 25px 20px; text-align: center; position: sticky; top: 0; z-index: 1000; border-bottom: 3px solid var(--detalhe); }
         .logo h1 { font-size: 1.6rem; letter-spacing: 3px; text-transform: uppercase; color: var(--detalhe); border: 2px solid var(--detalhe); display: inline-block; padding: 5px 20px; margin-bottom: 5px; }
-        
-        /* Links dos Catálogos Anteriores */
-        .catalogos-externos { display: flex; overflow-x: auto; gap: 10px; padding: 15px; background: #fff; border-bottom: 1px solid #eee; }
-        .btn-pdf { background: #f8f9fa; border: 1px solid #ddd; padding: 10px 15px; border-radius: 8px; text-decoration: none; color: #333; font-size: 0.8rem; display: flex; align-items: center; gap: 5px; white-space: nowrap; }
-        .btn-pdf i { color: #d9534f; }
-
-        .nav-categorias { background: white; padding: 10px; overflow-x: auto; white-space: nowrap; display: flex; gap: 10px; border-bottom: 1px solid #eee; position: sticky; top: 110px; z-index: 999; }
+        .marcas-logos { display: flex; overflow-x: auto; gap: 20px; padding: 20px; background: white; border-bottom: 1px solid #eee; scrollbar-width: none; }
+        .logo-link { flex: 0 0 auto; text-align: center; text-decoration: none; color: #666; font-size: 10px; font-weight: bold; }
+        .logo-link img { width: 60px; height: 60px; object-fit: contain; display: block; margin-bottom: 5px; border-radius: 50%; border: 1px solid #eee; padding: 5px; background: #fff; }
+        .nav-categorias { background: white; padding: 10px; overflow-x: auto; white-space: nowrap; display: flex; gap: 10px; border-bottom: 1px solid #eee; position: sticky; top: 110px; z-index: 999; scrollbar-width: none; }
         .cat-btn { padding: 8px 15px; border-radius: 20px; border: 1px solid var(--primaria); background: transparent; color: var(--primaria); font-size: 0.8rem; font-weight: bold; cursor: pointer; }
         .cat-btn.active { background: var(--primaria); color: white; }
-
-        .badge-estoque { background: #fff3cd; color: #856404; text-align: center; padding: 10px; font-size: 0.8rem; font-weight: bold; text-transform: uppercase; }
-        #loading { text-align: center; padding: 60px; font-weight: bold; color: var(--primaria); }
-        
-        .vitrine { max-width: 1100px; margin: 15px auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 15px; padding: 0 15px; }
-        .p-card { background: white; border: 1px solid #eee; padding: 15px; text-align: center; border-radius: 12px; display: flex; flex-direction: column; transition: 0.3s; position: relative; }
-        .p-card.esgotado { opacity: 0.6; }
-        .p-card img { width: 100%; height: 140px; object-fit: contain; margin-bottom: 10px; border-radius: 8px; }
-        
-        .tag-marca { font-size: 10px; font-weight: bold; color: white; background: var(--detalhe); padding: 2px 8px; border-radius: 10px; position: absolute; top: 10px; left: 10px; text-transform: uppercase; }
-        .p-nome { font-weight: 600; font-size: 0.9rem; height: 40px; overflow: hidden; margin-bottom: 10px; color: var(--primaria); }
-        .p-preco { font-size: 1.1rem; font-weight: 800; color: #333; margin: 5px 0; }
-        
-        .btn-add { background: var(--primaria); color: white; border: none; padding: 12px; cursor: pointer; font-weight: bold; border-radius: 6px; text-transform: uppercase; width: 100%; }
-        .btn-add:disabled { background: #ccc; cursor: not-allowed; }
-
-        .cart-icon { position: absolute; right: 15px; top: 25px; background: var(--detalhe); color: white; border: none; border-radius: 50%; width: 42px; height: 42px; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 3px 10px rgba(0,0,0,0.2); }
+        .vitrine { max-width: 1100px; margin: 15px auto; display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px; padding: 0 15px; }
+        .p-card { background: white; border: 1px solid #eee; padding: 15px; text-align: center; border-radius: 12px; display: flex; flex-direction: column; justify-content: space-between; height: 100%; position: relative; }
+        .p-card img { width: 100%; height: 140px; object-fit: contain; margin-bottom: 10px; }
+        .tag-marca { font-size: 9px; font-weight: bold; color: white; background: var(--detalhe); padding: 2px 6px; border-radius: 4px; position: absolute; top: 8px; left: 8px; text-transform: uppercase; }
+        .p-nome { font-weight: 600; font-size: 0.85rem; line-height: 1.2; margin-bottom: 10px; color: var(--primaria); min-height: 40px; display: flex; align-items: center; justify-content: center; }
+        .p-preco { font-size: 1.1rem; font-weight: 800; color: #333; margin: 8px 0; }
+        .btn-add { background: var(--primaria); color: white; border: none; padding: 12px; cursor: pointer; font-weight: bold; border-radius: 6px; text-transform: uppercase; width: 100%; font-size: 0.75rem; }
+        .cart-icon { position: absolute; right: 15px; top: 25px; background: var(--detalhe); color: white; border: none; border-radius: 50%; width: 42px; height: 42px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
         #side-cart { position: fixed; right: -100%; top: 0; width: 100%; max-width: 360px; height: 100%; background: white; z-index: 2001; transition: 0.4s; padding: 25px; display: flex; flex-direction: column; box-shadow: -5px 0 20px rgba(0,0,0,0.1); }
         #side-cart.open { right: 0; }
-        .c-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #f5f5f5; }
-        @keyframes spin { 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
-
 <header>
     <div class="logo"><h1>Gui Perfumaria</h1></div>
-    <p style="font-size: 0.8rem; opacity: 0.9;">Consultora: Aline Souza</p>
+    <p style="font-size: 0.8rem;">Consultora: Aline Souza</p>
     <button class="cart-icon" onclick="toggleCart()">
         <span class="material-icons">shopping_bag</span>
         <span id="c-count" style="position:absolute; top:-5px; right:-5px; background:#d9534f; border-radius:50%; width:20px; height:20px; font-size:11px; display:flex; align-items:center; justify-content:center; border:2px solid white">0</span>
     </button>
 </header>
 
-<div class="catalogos-externos">
-    <a href="https://www.natura.com.br/c/tudo-em-promocao?consultoria=guiparfumaria" target="_blank" class="btn-pdf">
-        <i class="material-icons" style="font-size:18px">Menu</i> Natura Online
+<div class="marcas-logos">
+    <a href="https://www.natura.com.br/consultoria/guiparfumaria" target="_blank" class="logo-link">
+        <img src="https://logodownload.org/wp-content/uploads/2014/10/natura-logo-2.png">NATURA
     </a>
-    <a href="https://catalogo.oboticario.com.br/" target="_blank" class="btn-pdf">
-        <i class="material-icons" style="font-size:18px">picture_as_pdf</i> Catálogo Boticário
+    <a href="https://catalogo.oboticario.com.br/" target="_blank" class="logo-link">
+        <img src="https://logodownload.org/wp-content/uploads/2014/10/o-boticario-logo-8.png">BOTICÁRIO
     </a>
-    <a href="https://www.eudora.com.br/guia-virtual/" target="_blank" class="btn-pdf">
-        <i class="material-icons" style="font-size:18px">picture_as_pdf</i> Guia Eudora
+    <a href="https://www.eudora.com.br/guia-virtual/" target="_blank" class="logo-link">
+        <img src="https://logodownload.org/wp-content/uploads/2018/02/eudora-logo.png">EUDORA
+    </a>
+    <a href="https://www.ouiparis.com/guia-virtual" target="_blank" class="logo-link">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR6A6R_A6y9_7hDk6_8_2-V-uY6m2l0R4x2qg&s">O.U.i PARIS
     </a>
 </div>
 
@@ -71,55 +58,40 @@
     <button class="cat-btn active" onclick="filtrar('TODOS', this)">Todos</button>
 </div>
 
-<div class="badge-estoque">📦 Pronta Entrega - Salvador / BA</div>
-
-<div id="loading"><span class="material-icons" style="animation: spin 2s linear infinite;">sync</span><br>Sincronizando com Planilha...</div>
-
+<div id="loading" style="text-align:center; padding:50px;">Carregando produtos...</div>
 <div class="vitrine" id="vitrine" style="display:none;"></div>
 
 <div id="side-cart">
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-        <h3>🛍️ Meu Pedido</h3>
-        <span class="material-icons" onclick="toggleCart()" style="cursor:pointer; color:#999">close</span>
-    </div>
-    <div id="cart-list" style="flex-grow:1; overflow-y:auto;"></div>
-    <div style="border-top:2px solid #f0f0f0; padding-top:15px;">
-        <p style="font-size: 1.1rem; margin-bottom: 15px;">Total: <b>R$ <span id="cart-total">0,00</span></b></p>
-        <button onclick="send()" style="background:var(--whatsapp); color:white; border:none; width:100%; padding:18px; border-radius:10px; font-weight:bold; cursor:pointer;">FINALIZAR NO WHATSAPP</button>
-    </div>
+    <h3>🛍️ Meu Pedido</h3>
+    <div id="cart-list" style="flex-grow:1; overflow-y:auto; margin:20px 0;"></div>
+    <p>Total: <b>R$ <span id="cart-total">0,00</span></b></p>
+    <button onclick="send()" style="background:var(--whatsapp); color:white; border:none; width:100%; padding:18px; border-radius:10px; font-weight:bold; cursor:pointer; margin-top:10px;">FINALIZAR WHATSAPP</button>
+    <button onclick="toggleCart()" style="margin-top:10px; background:none; border:none; color:#999; cursor:pointer;">Fechar</button>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
 <script>
 const URL_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQZxhG0vIEsRAw40jA4v1vMauSy16U-qKuvOmzVTYHIdKLz89jzHvaKxbDA2NQI2xnYRgn2a-DFdUjc/pub?output=csv';
 const WHATSAPP_NUM = "5571987692157";
-
-let PRODUTOS = [];
-let cart = {};
-let filtroAtual = "TODOS";
+let PRODUTOS = [], cart = {}, filtroAtual = "TODOS";
 
 function carregarDados() {
     Papa.parse(URL_CSV, {
-        download: true,
-        header: true,
-        skipEmptyLines: true,
+        download: true, header: true, skipEmptyLines: true,
         complete: function(results) {
             PRODUTOS = results.data.map((item, index) => {
-                const valores = Object.values(item);
-                if (valores.length < 5) return null;
+                const v = Object.values(item);
+                if (v.length < 5) return null;
                 const limpar = (t) => t ? t.replace(/^"|"$/g, '').trim() : "";
-                const precoLimpo = limpar(valores[4]).replace('R$', '').replace(/\./g, '').replace(',', '.').trim();
                 return {
-                    id: limpar(valores[0]) || index,
-                    marca: limpar(valores[1]),
-                    categoria: limpar(valores[2]),
-                    nome: limpar(valores[3]),
-                    preco: parseFloat(precoLimpo) || 0,
-                    img: limpar(valores[5]),
-                    estoque: parseInt(limpar(valores[6])) || 0
+                    id: limpar(v[0]) || index,
+                    marca: limpar(v[1]),
+                    nome: limpar(v[3]),
+                    preco: parseFloat(limpar(v[4]).replace('R$', '').replace(/\./g, '').replace(',', '.')) || 0,
+                    img: limpar(v[5]),
+                    estoque: parseInt(limpar(v[6])) || 0
                 };
             }).filter(p => p && p.nome);
-
             gerarFiltros();
             document.getElementById('loading').style.display = 'none';
             document.getElementById('vitrine').style.display = 'grid';
@@ -130,14 +102,11 @@ function carregarDados() {
 
 function gerarFiltros() {
     const marcas = [...new Set(PRODUTOS.map(p => p.marca))].filter(Boolean);
-    const container = document.getElementById('filtro-marcas');
-    marcas.forEach(m => {
-        container.innerHTML += `<button class="cat-btn" onclick="filtrar('${m}', this)">${m}</button>`;
-    });
+    marcas.forEach(m => document.getElementById('filtro-marcas').innerHTML += `<button class="cat-btn" onclick="filtrar('${m}', this)">${m}</button>`);
 }
 
-function filtrar(marca, btn) {
-    filtroAtual = marca;
+function filtrar(m, btn) {
+    filtroAtual = m;
     document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     render();
@@ -145,39 +114,32 @@ function filtrar(marca, btn) {
 
 function render() {
     const v = document.getElementById('vitrine');
-    const produtosFiltrados = filtroAtual === "TODOS" ? PRODUTOS : PRODUTOS.filter(p => p.marca === filtroAtual);
-    
-    v.innerHTML = produtosFiltrados.map(p => {
-        const temEstoque = p.estoque > 0;
-        return `
-        <div class="p-card ${temEstoque ? '' : 'esgotado'}">
+    const filtrados = filtroAtual === "TODOS" ? PRODUTOS : PRODUTOS.filter(p => p.marca.toUpperCase().includes(filtroAtual.toUpperCase()));
+    v.innerHTML = filtrados.map(p => `
+        <div class="p-card" style="opacity: ${p.estoque > 0 ? 1 : 0.6}">
             <span class="tag-marca">${p.marca}</span>
             <img src="${p.img}" onerror="this.src='https://via.placeholder.com/200?text=Sem+Foto'">
             <div class="p-nome">${p.nome}</div>
-            <div style="font-size:11px; font-weight:bold; color:${temEstoque ? '#28a745' : '#dc3545'}">
-                ${temEstoque ? 'Estoque: ' + p.estoque : 'Esgotado'}
-            </div>
             <div class="p-preco">R$ ${p.preco.toFixed(2).replace('.',',')}</div>
-            <button class="btn-add" onclick="add('${p.id}')" ${temEstoque ? '' : 'disabled'}>
-                ${temEstoque ? 'ADICIONAR' : 'INDISPONÍVEL'}
+            <button class="btn-add" onclick="add('${p.id}')" ${p.estoque > 0 ? '' : 'disabled'}>
+                ${p.estoque > 0 ? 'Adicionar' : 'Esgotado'}
             </button>
-        </div>`}).join('');
+        </div>`).join('');
 }
 
 function add(id) {
     const p = PRODUTOS.find(x => x.id == id);
-    if (cart[id]) {
-        if (cart[id].q < p.estoque) cart[id].q++; else alert("Limite de estoque atingido!");
-    } else { cart[id] = { ...p, q: 1 }; }
+    if (cart[id]) { if (cart[id].q < p.estoque) cart[id].q++; else alert("Sem estoque!"); } 
+    else { cart[id] = { ...p, q: 1 }; }
     upd();
 }
 
 function upd() {
     const l = document.getElementById('cart-list');
-    let t = 0; let c = 0; l.innerHTML = '';
+    let t = 0, c = 0; l.innerHTML = '';
     for (let id in cart) {
         const p = cart[id]; t += p.preco * p.q; c += p.q;
-        l.innerHTML += `<div class="c-item"><span>${p.nome} (${p.q}x)</span> <b>R$ ${(p.preco * p.q).toFixed(2).replace('.',',')}</b></div>`;
+        l.innerHTML += `<div style="display:flex; justify-content:space-between; margin-bottom:10px;"><span>${p.nome} (x${p.q})</span><b>R$ ${(p.preco * p.q).toFixed(2).replace('.',',')}</b></div>`;
     }
     document.getElementById('cart-total').innerText = t.toFixed(2).replace('.',',');
     document.getElementById('c-count').innerText = c;
@@ -187,7 +149,7 @@ function toggleCart() { document.getElementById('side-cart').classList.toggle('o
 
 function send() {
     const itens = Object.values(cart); if (!itens.length) return;
-    let txt = `🛍️ *NOVO PEDIDO - GUI PERFUMARIA*\n\n`;
+    let txt = `🛍️ *NOVO PEDIDO*\n\n`;
     itens.forEach(p => txt += `✅ ${p.q}x ${p.nome}\n`);
     txt += `\n💰 *TOTAL: R$ ${document.getElementById('cart-total').innerText}*`;
     window.open(`https://wa.me/${WHATSAPP_NUM}?text=${encodeURIComponent(txt)}`);
