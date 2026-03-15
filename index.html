@@ -39,6 +39,21 @@
         .btn-promo { border-color: var(--promo); color: var(--promo); }
         .btn-promo.active { background: var(--promo); border-color: var(--promo); }
 
+        /* NOVO: ESTILO DO BANNER DE PROMOÇÃO */
+        .banner-promo { 
+            display: none; 
+            margin: 12px; 
+            background: linear-gradient(45deg, var(--promo), #ffb347); 
+            border-radius: 12px; 
+            padding: 20px; 
+            color: white; 
+            text-align: center; 
+            box-shadow: 0 4px 10px rgba(230, 126, 34, 0.3);
+            cursor: pointer;
+        }
+        .banner-promo h2 { font-size: 1.4rem; font-weight: 800; letter-spacing: 1px; }
+        .banner-promo p { font-size: 0.8rem; font-weight: 600; opacity: 0.9; margin-top: 5px; }
+
         /* VITRINE */
         .vitrine { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; padding: 12px; }
         .p-card { background: white; border: 1px solid #eee; padding: 15px; text-align: center; border-radius: 12px; display: flex; flex-direction: column; height: 100%; position: relative; }
@@ -64,11 +79,9 @@
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 4000; align-items: center; justify-content: center; padding: 20px; }
         .modal-content { background: white; width: 100%; max-width: 450px; border-radius: 20px; padding: 25px; position: relative; max-height: 90vh; overflow-y: auto; }
         
-        /* CAMPO DE NOME */
         .campo-cliente { margin: 20px 0; }
         .campo-cliente label { font-size: 11px; font-weight: 800; color: var(--primaria); display: block; margin-bottom: 5px; }
         .campo-cliente input { width: 100%; padding: 15px; border: 2px solid #eee; border-radius: 10px; font-size: 1rem; font-weight: 600; outline: none; }
-        .campo-cliente input:focus { border-color: var(--detalhe); }
 
         #modal-zoom .modal-content { background: transparent; padding: 0; text-align: center; }
         #img-ampliada { max-width: 100%; max-height: 80vh; border-radius: 15px; }
@@ -100,8 +113,13 @@
     </div>
 
     <div class="filtros" id="lista-filtros">
-        <button class="btn-filtro active" onclick="filtrar('todos', this)">TODOS</button>
-        <button class="btn-filtro btn-promo" onclick="filtrar('promo', this)">🔥 PROMOÇÕES</button>
+        <button class="btn-filtro active" id="btn-todos" onclick="filtrar('todos', this)">TODOS</button>
+        <button class="btn-filtro btn-promo" id="btn-promo-filtro" onclick="filtrar('promo', this)">🔥 PROMOÇÕES</button>
+    </div>
+
+    <div class="banner-promo" id="banner-destaque" onclick="document.getElementById('btn-promo-filtro').click()">
+        <h2>OFERTAS IMPERDÍVEIS</h2>
+        <p>Clique aqui e confira os produtos com desconto!</p>
     </div>
 </div>
 
@@ -111,18 +129,13 @@
 <div id="modal-resumo" class="modal">
     <div class="modal-content">
         <h3 style="font-weight: 800; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 15px;">MEU PEDIDO</h3>
-        
         <div id="lista-resumo"></div>
-
         <div id="modal-total" style="font-weight: 800; font-size: 1.6rem; text-align: right; margin-top: 20px;">Total: R$ 0,00</div>
-
         <div class="campo-cliente">
             <label>SEU NOME COMPLETO:</label>
             <input type="text" id="nome-cliente" placeholder="Como podemos te chamar?">
         </div>
-
         <button id="btn-finalizar" style="background:var(--whatsapp); color:white; width:100%; border:none; padding:18px; border-radius:12px; font-weight:800; cursor:pointer;" onclick="enviarWhatsapp()">ENVIAR PARA WHATSAPP</button>
-        
         <p onclick="fecharResumo()" style="text-align:center; margin-top:20px; cursor:pointer; color:#999; font-weight:800; font-size:12px;">VOLTAR AO CATÁLOGO</p>
     </div>
 </div>
@@ -188,6 +201,15 @@ function carregarDados() {
                     img: String(v[5] || "").trim(), estoqueOriginal: estoqueInicial, estoqueAtual: estoqueInicial, emOferta: pPromo !== ""
                 };
             }).filter(p => p.nome);
+
+            // LOGICA DO BANNER: Só mostra se houver ofertas
+            const temPromo = window.PRODUTOS.some(p => p.emOferta);
+            if(temPromo) {
+                document.getElementById('banner-destaque').style.display = 'block';
+                // Ajusta o padding do body porque o topo fixo ficou maior com o banner
+                document.body.style.paddingTop = '520px';
+            }
+
             gerarBotoesFiltro();
             document.getElementById('loading').style.display = 'none';
             document.getElementById('cart-ui').style.display = 'flex';
@@ -212,6 +234,16 @@ function filtrar(cat, btn) {
     btn.classList.add('active');
     aplicarTema(cat);
     let filtrados = cat === 'todos' ? window.PRODUTOS : (cat === 'promo' ? window.PRODUTOS.filter(p => p.emOferta) : window.PRODUTOS.filter(p => p.categoria === cat));
+    
+    // Se o usuário clicar em um filtro específico, escondemos o banner para dar espaço aos produtos
+    if(cat !== 'todos') {
+        document.getElementById('banner-destaque').style.display = 'none';
+        document.body.style.paddingTop = '410px';
+    } else if(window.PRODUTOS.some(p => p.emOferta)) {
+        document.getElementById('banner-destaque').style.display = 'block';
+        document.body.style.paddingTop = '520px';
+    }
+
     render(filtrados);
 }
 
@@ -272,12 +304,7 @@ function mudarQtd(nome, delta) {
 
 function enviarWhatsapp() {
     const nomeCliente = document.getElementById('nome-cliente').value.trim();
-    
-    if (nomeCliente === "") {
-        alert("Por favor, digite seu nome para que possamos te identificar!");
-        document.getElementById('nome-cliente').focus();
-        return;
-    }
+    if (nomeCliente === "") { alert("Por favor, digite seu nome!"); document.getElementById('nome-cliente').focus(); return; }
 
     const agora = new Date();
     const dataFormatada = agora.toLocaleDateString('pt-BR');
@@ -294,7 +321,6 @@ function enviarWhatsapp() {
         const item = carrinho[nome];
         const subtotalCents = item.precoCents * item.qtd;
         totalCents += subtotalCents;
-        
         msg += `✨ *${item.qtd}x* ${nome.toUpperCase()}\n`;
         msg += `└ _Vlr. Unit: R$ ${item.exibirPreco}_\n`;
         msg += `└ _Subtotal: ${formatarMoeda(subtotalCents)}_\n\n`;
