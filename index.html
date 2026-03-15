@@ -24,21 +24,22 @@
         .topo-fixo { position: fixed; top: 0; left: 0; width: 100%; z-index: 2000; background: white; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
         header { background: var(--primaria); color: white; padding: 35px 15px; text-align: center; border-bottom: 6px solid var(--detalhe); position: relative; }
         
-        /* GUI PERFUMARIA AUMENTADO */
         header h1 { font-family: 'Playfair Display', serif; font-size: 3.5rem; color: var(--detalhe); text-transform: uppercase; line-height: 1; margin-bottom: 10px; }
-        
-        /* NOME DA CONSULTORA AUMENTADO */
         .nome-consultora { font-size: 1.2rem; font-weight: 600; opacity: 1; color: white; letter-spacing: 1px; }
 
         .assinatura-markito { position: absolute; top: 10px; left: 15px; font-family: 'Comic Sans MS', 'Comic Sans', cursive; font-size: 0.9rem; color: var(--detalhe); font-weight: 800; opacity: 0.9; }
 
-        .cart-superior { position: absolute; top: 10px; right: 10px; display: flex; flex-direction: column; align-items: flex-end; gap: 5px; }
+        /* AÇÕES DO TOPO */
+        .acoes-topo { position: absolute; top: 10px; right: 10px; display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+        .cart-superior { display: flex; flex-direction: column; align-items: flex-end; gap: 5px; }
         .soma-topo { background: rgba(255,255,255,0.2); border: 1px solid var(--detalhe); color: white; padding: 4px 10px; border-radius: 6px; font-weight: 800; font-size: 0.8rem; }
         .btn-cart-topo { background: var(--whatsapp); color: white; border: none; padding: 8px 12px; border-radius: 8px; display: flex; align-items: center; gap: 5px; cursor: pointer; font-weight: 800; font-size: 0.7rem; }
+        
+        .btn-share { background: white; color: var(--primaria); border: 1px solid var(--detalhe); padding: 5px 10px; border-radius: 20px; display: flex; align-items: center; gap: 4px; font-size: 0.65rem; font-weight: 800; cursor: pointer; text-transform: uppercase; }
 
         /* ÁREA DE MARCAS */
         .area-catalogos { background: white; padding: 12px 0; border-bottom: 1px solid #f0f0f0; text-align: center; }
-        .grade-logos { display: flex; justify(center; gap: 12px; flex-wrap: wrap; }
+        .grade-logos { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
         .item-logo { text-decoration: none; display: flex; flex-direction: column; align-items: center; width: 65px; }
         .img-box { width: 55px; height: 55px; border-radius: 50%; border: 2px solid #eee; display: flex; align-items: center; justify-content: center; background: white; overflow: hidden; margin-bottom: 5px; }
         .img-box img { width: 80%; height: 80%; object-fit: contain; }
@@ -86,7 +87,6 @@
         .controles-qtd { display: flex; align-items: center; gap: 10px; background: #f8f8f8; border-radius: 8px; padding: 4px 8px; }
         .controles-qtd i { cursor: pointer; user-select: none; }
 
-        /* ZOOM MODAL COM LEGENDA */
         #zoom-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 5000; flex-direction: column; align-items: center; justify-content: center; cursor: zoom-out; }
         #zoom-img { max-width: 90%; max-height: 75%; border-radius: 10px; box-shadow: 0 0 30px rgba(0,0,0,0.5); margin-bottom: 20px; }
         #zoom-caption { color: white; font-weight: 800; font-size: 1.2rem; text-align: center; padding: 0 20px; font-family: 'Montserrat', sans-serif; }
@@ -97,12 +97,17 @@
 <div class="topo-fixo">
     <header>
         <div class="assinatura-markito">by Markito Graveto</div>
-        <div class="cart-superior" id="cart-ui" style="display:none;">
-            <div class="soma-topo" id="soma-topo">R$ 0,00</div>
-            <button class="btn-cart-topo" onclick="abrirResumo()">
-                <i class="material-icons" style="font-size:16px;">shopping_basket</i>
-                (<span id="count-topo">0</span>)
+        <div class="acoes-topo">
+            <button class="btn-share" onclick="compartilharCatalogo()">
+                <i class="material-icons" style="font-size:14px;">share</i> Indicar
             </button>
+            <div class="cart-superior" id="cart-ui" style="display:none;">
+                <div class="soma-topo" id="soma-topo">R$ 0,00</div>
+                <button class="btn-cart-topo" onclick="abrirResumo()">
+                    <i class="material-icons" style="font-size:16px;">shopping_basket</i>
+                    (<span id="count-topo">0</span>)
+                </button>
+            </div>
         </div>
         <h1>Gui Perfumaria</h1>
         <p class="nome-consultora">Aline Nascimento • Consultora</p>
@@ -160,7 +165,6 @@ const URL_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQZxhG0vIEsRAw4
 
 let carrinho = JSON.parse(localStorage.getItem('carrinho_gui')) || {}; 
 let categoriasUnicas = new Set();
-let marcasUnicas = new Set();
 let bannerInterval;
 let listaAtual = [];
 
@@ -182,11 +186,17 @@ function carregarDados() {
                 const v = Object.values(item);
                 const nome = String(v[3] || "").trim();
                 const marca = String(v[1] || "").trim();
+                const categoria = String(v[2] || "Geral").trim();
                 const estOrig = parseInt(v[6]) || 0;
                 const qtdNoCart = carrinho[nome] ? carrinho[nome].qtd : 0;
 
+                // Aqui acontece a automação: se a categoria não estiver na lista, o Set adiciona
+                if (categoria && categoria !== "Categoria") {
+                    categoriasUnicas.add(categoria);
+                }
+
                 return { 
-                    id: idx, nome: nome, marca: marca, categoria: String(v[2] || "Geral").trim(),
+                    id: idx, nome: nome, marca: marca, categoria: categoria,
                     precoOriginal: String(v[4] || "0").trim(), 
                     precoPromo: String(v[7] || "").trim(),
                     precoVendaCents: String(v[7] || "").trim() !== "" ? converterParaCentavos(v[7]) : converterParaCentavos(v[4]),
@@ -197,11 +207,6 @@ function carregarDados() {
                 };
             }).filter(p => p.nome);
 
-            window.PRODUTOS.forEach(p => { 
-                if(p.categoria !== "Categoria") categoriasUnicas.add(p.categoria); 
-                if(p.marca && p.marca !== "Marca") marcasUnicas.add(p.marca);
-            });
-            
             listaAtual = [...window.PRODUTOS];
             gerarBanners();
             gerarBotoesFiltro();
@@ -384,9 +389,16 @@ function ordenar(tipo) {
     render(listaAtual);
 }
 
+function compartilharCatalogo() {
+    const msg = `Olá! Veja os produtos da *Gui Perfumaria* neste catálogo digital: ${window.location.href}`;
+    window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
+}
+
 function gerarBotoesFiltro() {
     const div = document.getElementById('lista-filtros');
-    categoriasUnicas.forEach(cat => {
+    // Transforma o Set em Array e ordena alfabeticamente
+    const cats = Array.from(categoriasUnicas).sort();
+    cats.forEach(cat => {
         const btn = document.createElement('button');
         btn.className = 'btn-filtro'; btn.innerText = cat;
         btn.onclick = () => filtrar(cat, btn);
