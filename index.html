@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gui Perfumaria | Catálogo Digital</title>
+    <link rel="icon" type="image/png" href="assets/favicon.png">
+    
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@800&family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <style>
@@ -37,10 +39,10 @@
         
         .btn-share { background: white; color: var(--primaria); border: 1px solid var(--detalhe); padding: 5px 10px; border-radius: 20px; display: flex; align-items: center; gap: 4px; font-size: 0.65rem; font-weight: 800; cursor: pointer; text-transform: uppercase; }
 
-        /* ÁREA DE MARCAS */
+        /* ÁREA DE MARCAS COM LINKS */
         .area-catalogos { background: white; padding: 12px 0; border-bottom: 1px solid #f0f0f0; text-align: center; }
         .grade-logos { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
-        .item-logo { text-decoration: none; display: flex; flex-direction: column; align-items: center; width: 65px; }
+        .item-logo { text-decoration: none; display: flex; flex-direction: column; align-items: center; width: 65px; color: inherit; }
         .img-box { width: 55px; height: 55px; border-radius: 50%; border: 2px solid #eee; display: flex; align-items: center; justify-content: center; background: white; overflow: hidden; margin-bottom: 5px; }
         .img-box img { width: 80%; height: 80%; object-fit: contain; }
         .item-logo span { font-size: 8px; font-weight: 800; color: #666; text-transform: uppercase; }
@@ -87,6 +89,7 @@
         .controles-qtd { display: flex; align-items: center; gap: 10px; background: #f8f8f8; border-radius: 8px; padding: 4px 8px; }
         .controles-qtd i { cursor: pointer; user-select: none; }
 
+        /* ZOOM MODAL COM LEGENDA */
         #zoom-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 5000; flex-direction: column; align-items: center; justify-content: center; cursor: zoom-out; }
         #zoom-img { max-width: 90%; max-height: 75%; border-radius: 10px; box-shadow: 0 0 30px rgba(0,0,0,0.5); margin-bottom: 20px; }
         #zoom-caption { color: white; font-weight: 800; font-size: 1.2rem; text-align: center; padding: 0 20px; font-family: 'Montserrat', sans-serif; }
@@ -115,10 +118,22 @@
 
     <div class="area-catalogos">
         <div class="grade-logos">
-            <a href="javascript:void(0)" onclick="filtrarMarca('Natura')" class="item-logo"><div class="img-box"><img src="assets/natura.png"></div><span>Natura</span></a>
-            <a href="javascript:void(0)" onclick="filtrarMarca('Boticário')" class="item-logo"><div class="img-box"><img src="assets/boticario.png"></div><span>Boticário</span></a>
-            <a href="javascript:void(0)" onclick="filtrarMarca('Eudora')" class="item-logo"><div class="img-box"><img src="assets/eudora.jpeg"></div><span>Eudora</span></a>
-            <a href="javascript:void(0)" onclick="filtrarMarca('O.U.I Paris')" class="item-logo"><div class="img-box"><img src="assets/oui.png"></div><span>O.U.I Paris</span></a>
+            <a href="https://www.natura.com.br/consultoria/alinemnascimento" target="_blank" class="item-logo">
+                <div class="img-box"><img src="assets/natura.png"></div>
+                <span>Natura</span>
+            </a>
+            <a href="https://www.boticario.com.br" target="_blank" class="item-logo">
+                <div class="img-box"><img src="assets/boticario.png"></div>
+                <span>Boticário</span>
+            </a>
+            <a href="https://www.eudora.com.br" target="_blank" class="item-logo">
+                <div class="img-box"><img src="assets/eudora.jpeg"></div>
+                <span>Eudora</span>
+            </a>
+            <a href="https://www.ouiparis.com" target="_blank" class="item-logo">
+                <div class="img-box"><img src="assets/oui.png"></div>
+                <span>O.U.I Paris</span>
+            </a>
         </div>
     </div>
 
@@ -190,7 +205,7 @@ function carregarDados() {
                 const estOrig = parseInt(v[6]) || 0;
                 const qtdNoCart = carrinho[nome] ? carrinho[nome].qtd : 0;
 
-                // Aqui acontece a automação: se a categoria não estiver na lista, o Set adiciona
+                // Automação: Captura categorias novas da planilha
                 if (categoria && categoria !== "Categoria") {
                     categoriasUnicas.add(categoria);
                 }
@@ -370,14 +385,6 @@ function filtrar(cat, btn) {
     ordenar(document.querySelector('.select-ordem').value);
 }
 
-function filtrarMarca(marca) {
-    document.querySelectorAll('.btn-filtro').forEach(b => b.classList.remove('active'));
-    document.getElementById('banner-container').style.display = 'block';
-    listaAtual = window.PRODUTOS.filter(p => p.marca.toLowerCase().includes(marca.toLowerCase()));
-    render(listaAtual);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
 function ordenar(tipo) {
     if (tipo === 'crescente') {
         listaAtual.sort((a, b) => a.precoVendaCents - b.precoVendaCents);
@@ -396,7 +403,6 @@ function compartilharCatalogo() {
 
 function gerarBotoesFiltro() {
     const div = document.getElementById('lista-filtros');
-    // Transforma o Set em Array e ordena alfabeticamente
     const cats = Array.from(categoriasUnicas).sort();
     cats.forEach(cat => {
         const btn = document.createElement('button');
