@@ -11,46 +11,35 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
         body { background-color: var(--fundo); padding-top: 310px; padding-bottom: 50px; } 
 
-        /* TOPO E CABEÇALHO */
         .topo-fixo { position: fixed; top: 0; left: 0; width: 100%; z-index: 2000; background: white; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        
         header { background: var(--primaria); color: white; padding: 35px 15px; text-align: center; border-bottom: 6px solid var(--detalhe); position: relative; }
-        header h1 { font-family: 'Playfair Display', serif; font-size: 3rem; color: var(--detalhe); text-transform: uppercase; letter-spacing: 2px; line-height: 1; }
-        header p { font-size: 1.2rem; font-weight: 400; color: #eee; margin-top: 8px; letter-spacing: 1px; }
+        header h1 { font-family: 'Playfair Display', serif; font-size: 3rem; color: var(--detalhe); text-transform: uppercase; letter-spacing: 2px; }
+        header p { font-size: 1.2rem; color: #eee; margin-top: 8px; }
 
-        /* CARRINHO NO TOPO DIREITO */
         .cart-superior { position: absolute; top: 15px; right: 15px; display: flex; flex-direction: column; align-items: flex-end; gap: 5px; }
-        .soma-topo { background: rgba(255,255,255,0.15); border: 1px solid var(--detalhe); color: var(--detalhe); padding: 5px 12px; border-radius: 8px; font-weight: 800; font-size: 1rem; backdrop-filter: blur(5px); }
-        .btn-cart-topo { background: var(--whatsapp); color: white; border: none; padding: 10px 15px; border-radius: 10px; display: flex; align-items: center; gap: 5px; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.3); font-weight: 800; font-size: 0.9rem; }
+        .soma-topo { background: rgba(255,255,255,0.15); border: 1px solid var(--detalhe); color: var(--detalhe); padding: 5px 12px; border-radius: 8px; font-weight: 800; font-size: 1rem; }
+        .btn-cart-topo { background: var(--whatsapp); color: white; border: none; padding: 10px 15px; border-radius: 10px; display: flex; align-items: center; gap: 5px; cursor: pointer; font-weight: 800; }
 
-        /* MARCAS E CATÁLOGOS */
         .area-catalogos { background: white; padding: 25px 0; border-bottom: 1px solid #eee; text-align: center; }
-        .label-catalogos { font-size: 0.9rem; font-weight: 800; color: #888; text-transform: uppercase; margin-bottom: 15px; display: block; letter-spacing: 2px; }
         .grade-logos { display: flex; justify-content: center; gap: 25px; flex-wrap: wrap; }
-        .item-logo { text-decoration: none; display: flex; flex-direction: column; align-items: center; width: 90px; transition: transform 0.2s; }
-        .item-logo:active { transform: scale(0.9); }
-        .img-box { width: 80px; height: 80px; border-radius: 50%; border: 3px solid #f0f0f0; display: flex; align-items: center; justify-content: center; background: white; overflow: hidden; margin-bottom: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.05); }
+        .item-logo { text-decoration: none; display: flex; flex-direction: column; align-items: center; width: 90px; }
+        .img-box { width: 80px; height: 80px; border-radius: 50%; border: 3px solid #f0f0f0; display: flex; align-items: center; justify-content: center; background: white; overflow: hidden; margin-bottom: 8px; }
         .img-box img { width: 85%; height: 85%; object-fit: contain; }
-        .item-logo span { font-size: 11px; font-weight: 800; color: var(--primaria); text-transform: uppercase; }
 
-        /* VITRINE */
         .vitrine { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; padding: 12px; }
-        .p-card { background: white; border: 1px solid #eee; padding: 15px; text-align: center; border-radius: 12px; display: flex; flex-direction: column; height: 100%; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
+        .p-card { background: white; border: 1px solid #eee; padding: 15px; text-align: center; border-radius: 12px; display: flex; flex-direction: column; height: 100%; }
         .p-card img { width: 100%; height: 130px; object-fit: contain; margin-bottom: 10px; }
-        .p-nome { font-size: 0.85rem; font-weight: 700; min-height: 40px; margin-bottom: 8px; color: #333; }
-        .p-preco { font-weight: 800; color: var(--primaria); font-size: 1.25rem; margin-bottom: 5px; }
+        .p-nome { font-size: 0.85rem; font-weight: 700; min-height: 40px; margin-bottom: 8px; }
+        .p-preco { font-weight: 800; color: var(--primaria); font-size: 1.25rem; }
         .p-estoque { font-size: 11px; color: var(--erro); font-weight: bold; margin-bottom: 12px; }
-        .btn-add { background: var(--primaria); color: white; border: none; padding: 12px; border-radius: 8px; font-weight: 800; cursor: pointer; margin-top: auto; transition: background 0.3s; }
+        .btn-add { background: var(--primaria); color: white; border: none; padding: 12px; border-radius: 8px; font-weight: 800; cursor: pointer; margin-top: auto; }
         .btn-add:disabled { background: #ccc; }
 
-        /* MODAL */
         #modal-resumo { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 4000; align-items: center; justify-content: center; }
-        .modal-content { background: white; width: 95%; max-width: 450px; border-radius: 20px; padding: 25px; position: relative; }
-        .header-resumo { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 2px solid #eee; padding-bottom: 10px; }
-        .btn-limpar { background: #fff5f5; border: 1px solid var(--erro); color: var(--erro); padding: 5px 10px; border-radius: 8px; font-size: 10px; cursor: pointer; font-weight: 800; display: flex; align-items: center; gap: 4px; }
+        .modal-content { background: white; width: 95%; max-width: 450px; border-radius: 20px; padding: 25px; }
         .item-resumo { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid #f9f9f9; }
-        .total-resumo { font-weight: 800; font-size: 1.6rem; text-align: right; margin-top: 20px; color: var(--primaria); }
-        .btn-confirmar { background: var(--whatsapp); color: white; width: 100%; border: none; padding: 18px; border-radius: 12px; font-weight: 800; margin-top: 20px; cursor: pointer; font-size: 1.1rem; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3); }
+        .btn-limpar { background: #fff5f5; border: 1px solid var(--erro); color: var(--erro); padding: 5px 10px; border-radius: 8px; cursor: pointer; font-weight: 800; }
+        .btn-confirmar { background: var(--whatsapp); color: white; width: 100%; border: none; padding: 18px; border-radius: 12px; font-weight: 800; margin-top: 20px; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -69,7 +58,6 @@
     </header>
 
     <div class="area-catalogos">
-        <span class="label-catalogos">Explore nossos catálogos</span>
         <div class="grade-logos">
             <a href="https://encurtador.naturaavon.com/hTUzboh" target="_blank" class="item-logo"><div class="img-box"><img src="assets/natura.png"></div><span>Natura</span></a>
             <a href="https://minhaloja.boticario.com.br/aline-nascimento" target="_blank" class="item-logo"><div class="img-box"><img src="assets/boticario.png"></div><span>Boticário</span></a>
@@ -79,27 +67,27 @@
     </div>
 </div>
 
-<div id="loading" style="text-align:center; padding:100px; font-weight:800; color:var(--primaria);">CARREGANDO FRAGRÂNCIAS...</div>
+<div id="loading" style="text-align:center; padding:100px; font-weight:800;">BUSCANDO NOVIDADES...</div>
 <div class="vitrine" id="vitrine"></div>
 
 <div id="modal-resumo">
     <div class="modal-content">
-        <div class="header-resumo">
-            <h3 style="font-weight: 800; color: var(--primaria);">MEU PEDIDO</h3>
-            <button class="btn-limpar" onclick="limparPedido()">
-                <i class="material-icons" style="font-size:16px;">delete_forever</i> LIMPAR
-            </button>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+            <h3 style="font-weight: 800;">MEU PEDIDO</h3>
+            <button class="btn-limpar" onclick="limparPedido()">LIMPAR TUDO</button>
         </div>
         <div id="lista-resumo"></div>
-        <div class="total-resumo" id="modal-total">Total: R$ 0,00</div>
-        <button class="btn-confirmar" onclick="enviarWhatsapp()">ENVIAR PARA O WHATSAPP</button>
-        <p onclick="fecharResumo()" style="text-align:center; margin-top:20px; cursor:pointer; color:#999; font-weight:600; font-size: 13px;">FECHAR RESUMO</p>
+        <div id="modal-total" style="font-weight: 800; font-size: 1.6rem; text-align: right; margin-top: 20px;">Total: R$ 0,00</div>
+        <button class="btn-confirmar" onclick="enviarWhatsapp()">CONCLUIR NO WHATSAPP</button>
+        <p onclick="fecharResumo()" style="text-align:center; margin-top:20px; cursor:pointer; color:#999; font-weight:800;">VOLTAR</p>
     </div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
 <script>
-const URL_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQZxhG0vIEsRAw40jA4v1vMauSy16U-qKuvOmzVTYHIdKLz89jzHvaKxbDA2NQI2xnYRgn2a-DFdUjc/pub?output=csv';
+// A URL agora tem um sufixo que muda a cada segundo para evitar cache
+const URL_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQZxhG0vIEsRAw40jA4v1vMauSy16U-qKuvOmzVTYHIdKLz89jzHvaKxbDA2NQI2xnYRgn2a-DFdUjc/pub?output=csv&cachebust=' + new Date().getTime();
+
 let carrinho = {}; 
 
 function converterParaCentavos(texto) {
@@ -172,7 +160,7 @@ function mudarQtd(nome, delta) {
 }
 
 function limparPedido() {
-    if(!confirm("Limpar todo o carrinho?")) return;
+    if(!confirm("Deseja limpar o pedido?")) return;
     for (let nome in carrinho) {
         window.PRODUTOS[carrinho[nome].id].estoqueAtual += carrinho[nome].qtd;
     }
@@ -205,13 +193,13 @@ function atualizarTudo() {
 function abrirResumo() {
     const lista = document.getElementById('lista-resumo');
     const nomes = Object.keys(carrinho);
-    if (nomes.length === 0) return alert("Carrinho vazio!");
+    if (nomes.length === 0) return;
     lista.innerHTML = nomes.map(nome => `
         <div class="item-resumo">
-            <div><b style="font-size: 0.9rem">${nome}</b><br><small>R$ ${carrinho[nome].precoOriginal}</small></div>
-            <div style="display:flex; align-items:center; gap:12px;">
+            <div><b>${nome}</b><br><small>R$ ${carrinho[nome].precoOriginal}</small></div>
+            <div style="display:flex; align-items:center; gap:10px;">
                 <i class="material-icons" style="cursor:pointer; color:var(--erro)" onclick="mudarQtd('${nome}', -1)">remove_circle</i>
-                <b style="font-size:1.2rem">${carrinho[nome].qtd}</b>
+                <b>${carrinho[nome].qtd}</b>
                 <i class="material-icons" style="cursor:pointer; color:var(--primaria)" onclick="mudarQtd('${nome}', 1)">add_circle</i>
             </div>
         </div>`).join('');
