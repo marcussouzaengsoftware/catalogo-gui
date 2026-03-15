@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <style>
         :root { 
-            /* Cores Iniciais (Padrão Feminino) */
+            /* Cores Iniciais */
             --primaria: #6d2040; 
             --detalhe: #d4af37; 
             --whatsapp: #25d366; 
@@ -50,22 +50,25 @@
         /* VITRINE */
         .vitrine { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; padding: 12px; }
         .p-card { background: white; border: 1px solid #eee; padding: 15px; text-align: center; border-radius: 12px; display: flex; flex-direction: column; height: 100%; position: relative; }
-        .selo-promo { position: absolute; top: 10px; right: 10px; background: var(--promo); color: white; font-size: 9px; padding: 4px 8px; border-radius: 20px; font-weight: 800; text-transform: uppercase; z-index: 10; }
-        .p-card img { width: 100%; height: 120px; object-fit: contain; margin-bottom: 10px; }
-        .p-nome { font-size: 0.8rem; font-weight: 700; min-height: 35px; margin-bottom: 5px; color: #333; }
+        .selo-promo { position: absolute; top: 10px; right: 10px; background: var(--promo); color: white; font-size: 10px; padding: 5px 10px; border-radius: 20px; font-weight: 800; text-transform: uppercase; z-index: 10; }
+        .p-card img { width: 100%; height: 130px; object-fit: contain; margin-bottom: 10px; }
+        .p-nome { font-size: 0.9rem; font-weight: 700; min-height: 40px; margin-bottom: 5px; color: #333; }
         
-        .p-preco-de { font-size: 0.7rem; color: #999; text-decoration: line-through; height: 14px; }
-        .p-preco-por { font-weight: 800; color: var(--primaria); font-size: 1.1rem; margin-bottom: 8px; }
+        .p-preco-de { font-size: 0.8rem; color: #999; text-decoration: line-through; height: 16px; }
+        .p-preco-por { font-weight: 800; color: var(--primaria); font-size: 1.25rem; margin-bottom: 10px; }
         .p-preco-por.em-oferta { color: var(--promo); }
 
-        /* ESTOQUE E ESCASSEZ */
-        .area-escassez { margin-top: auto; padding-top: 5px; }
-        .txt-escassez { font-size: 9px; font-weight: 800; color: var(--erro); text-transform: uppercase; display: block; margin-bottom: 4px; animation: blink 1.5s infinite; }
+        /* ESTOQUE E ESCASSEZ (AUMENTADO AQUI) */
+        .area-escassez { margin-top: auto; padding-top: 5px; padding-bottom: 10px; }
+        .txt-escassez { font-size: 11px; font-weight: 800; color: var(--erro); text-transform: uppercase; display: block; margin-bottom: 5px; animation: blink 1.5s infinite; letter-spacing: 0.5px; }
         @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
-        .barra-estoque { width: 100%; height: 5px; background: #eee; border-radius: 10px; overflow: hidden; margin-bottom: 8px; }
+        
+        .txt-estoque-normal { font-size: 11px; color: #666; font-weight: 700; display: block; margin-bottom: 5px; }
+        
+        .barra-estoque { width: 100%; height: 7px; background: #eee; border-radius: 10px; overflow: hidden; margin-bottom: 10px; }
         .progresso-estoque { height: 100%; background: var(--erro); transition: width 0.5s; }
 
-        .btn-add { background: var(--primaria); color: white; border: none; padding: 10px; border-radius: 8px; font-weight: 800; cursor: pointer; font-size: 0.85rem; }
+        .btn-add { background: var(--primaria); color: white; border: none; padding: 12px; border-radius: 8px; font-weight: 800; cursor: pointer; font-size: 0.9rem; }
         .btn-add:disabled { background: #ccc; }
 
         /* SUPORTE E MODAL */
@@ -82,7 +85,7 @@
             <div class="soma-topo" id="soma-topo">R$ 0,00</div>
             <button class="btn-cart-topo" onclick="abrirResumo()">
                 <i class="material-icons" style="font-size:16px;">shopping_basket</i>
-                (<span id="count-topo">0</span>)
+                PEDIDO (<span id="count-topo">0</span>)
             </button>
         </div>
         <h1>Gui Perfumaria</h1>
@@ -232,7 +235,7 @@ function render(lista) {
                 ${temPromo ? 'Por: R$ ' + p.precoPromo : 'R$ ' + p.precoOriginal}
             </div>
             <div class="area-escassez">
-                ${critico ? `<span class="txt-escassez">🔥 Só restam ${p.estoqueAtual}!</span>` : `<span style="font-size:9px; opacity:0.7; font-weight:700">Estoque: ${p.estoqueAtual}</span>`}
+                ${critico ? `<span class="txt-escassez">🔥 Só restam ${p.estoqueAtual}!</span>` : `<span class="txt-estoque-normal">Em estoque: ${p.estoqueAtual}</span>`}
                 <div class="barra-estoque"><div class="progresso-estoque" id="prog-${p.id}" style="width: ${porcentagem}%"></div></div>
             </div>
             <button class="btn-add" id="btn-${p.id}" onclick="addCart(${p.id})" ${p.estoqueAtual <= 0 ? 'disabled' : ''}>
