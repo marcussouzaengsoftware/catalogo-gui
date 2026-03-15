@@ -36,60 +36,48 @@
         .btn-filtro { background: white; border: 1px solid #ddd; padding: 8px 16px; border-radius: 20px; font-size: 10px; font-weight: 800; white-space: nowrap; cursor: pointer; color: #666; text-transform: uppercase; }
         .btn-filtro.active { background: var(--primaria); color: white; border-color: var(--primaria); }
 
-        /* CONTAINER DO BANNER (ROTAÇÃO) */
+        /* BANNERS ROTATIVOS */
         #banner-container { margin: 15px; position: relative; display: none; }
-        
         .banner-promo { 
             background: linear-gradient(135deg, #b31217 0%, #e67e22 100%); 
-            border-radius: 15px; 
-            padding: 25px 20px; 
-            color: white; 
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-            position: relative;
-            overflow: hidden;
-            border: 2px solid var(--detalhe);
-            display: none; /* Controlado pelo JS */
-            flex-direction: row;
-            align-items: center;
-            justify-content: center;
-            gap: 20px;
-            animation: fadeIn 0.5s ease;
+            border-radius: 15px; padding: 25px 20px; color: white; 
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); border: 2px solid var(--detalhe);
+            display: none; flex-direction: row; align-items: center; justify-content: center; gap: 20px; position: relative; overflow: hidden;
         }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        
         .img-banner-promo { width: 150px; height: 150px; object-fit: contain; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.4)); }
-
         .conteudo-banner-promo { flex: 1; display: flex; flex-direction: column; align-items: flex-start; gap: 2px; }
-        .banner-promo h4 { font-size: 0.65rem; text-transform: uppercase; font-weight: 800; color: var(--detalhe); letter-spacing: 1px; }
-        .banner-promo h2 { font-size: 0.95rem; font-weight: 800; line-height: 1.2; margin: 4px 0; height: 35px; overflow: hidden; }
-        .banner-promo .preco-banner { font-size: 1.6rem; font-weight: 900; color: #fff; margin-bottom: 8px; }
+        .banner-promo h4 { font-size: 0.65rem; text-transform: uppercase; font-weight: 800; color: var(--detalhe); }
+        .banner-promo h2 { font-size: 0.95rem; font-weight: 800; line-height: 1.2; margin: 4px 0; }
+        .banner-promo .preco-banner { font-size: 1.6rem; font-weight: 900; color: #fff; margin-bottom: 5px; }
         
         .btn-banner-add { background: white; color: #b31217; border: none; padding: 10px 15px; border-radius: 8px; font-weight: 800; cursor: pointer; font-size: 0.75rem; width: fit-content; box-shadow: 0 4px 0 var(--detalhe); }
-        .btn-banner-add:active { transform: translateY(2px); box-shadow: 0 2px 0 var(--detalhe); }
+        .btn-banner-add:disabled { background: #ccc !important; color: #666 !important; box-shadow: none; cursor: not-allowed; }
 
-        .btn-ver-mais-promo { background: var(--detalhe); color: var(--primaria); border: none; padding: 8px 12px; border-radius: 20px; font-weight: 800; font-size: 0.65rem; margin-top: 10px; cursor: pointer; text-transform: uppercase; }
+        .barra-estoque { width: 100%; height: 6px; background: rgba(255,255,255,0.2); border-radius: 10px; overflow: hidden; margin-top: 10px; max-width: 150px; }
+        .progresso-estoque { height: 100%; background: var(--detalhe); transition: width 0.5s; }
+        .tarja { position: absolute; top: 10px; left: -30px; background: var(--detalhe); color: var(--primaria); padding: 5px 35px; font-weight: 900; font-size: 0.7rem; transform: rotate(-35deg); z-index: 5; }
 
-        .tarja { position: absolute; top: 10px; left: -30px; background: var(--detalhe); color: var(--primaria); padding: 5px 35px; font-weight: 900; font-size: 0.7rem; transform: rotate(-35deg); z-index: 5; text-transform: uppercase; }
-
-        /* INDICADORES (BOLINHAS) */
+        /* INDICADORES */
         .dots-container { display: flex; justify-content: center; gap: 8px; margin-top: 10px; }
-        .dot { width: 8px; height: 8px; background: #ccc; border-radius: 50%; transition: 0.3s; }
+        .dot { width: 8px; height: 8px; background: #ccc; border-radius: 50%; }
         .dot.active { background: var(--primaria); width: 20px; border-radius: 10px; }
 
         /* VITRINE */
         .vitrine { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; padding: 12px; }
         .p-card { background: white; border: 1px solid #eee; padding: 15px; text-align: center; border-radius: 12px; display: flex; flex-direction: column; height: 100%; position: relative; }
         .p-card img { width: 100%; height: 130px; object-fit: contain; margin-bottom: 10px; }
-        .p-nome { font-size: 0.85rem; font-weight: 700; min-height: 40px; margin-bottom: 5px; }
+        .p-nome { font-size: 0.85rem; font-weight: 700; min-height: 40px; }
         .p-preco-por { font-weight: 800; color: var(--primaria); font-size: 1.2rem; margin-bottom: 10px; }
+        
+        .barra-vitrine { width: 100%; height: 6px; background: #eee; border-radius: 10px; overflow: hidden; margin-bottom: 10px; }
+        .progresso-vitrine { height: 100%; background: var(--erro); transition: width 0.5s; }
 
         .btn-add { background: var(--primaria); color: white; border: none; padding: 12px; border-radius: 8px; font-weight: 800; cursor: pointer; font-size: 0.85rem; }
-        .btn-add:disabled { background: #ccc !important; color: #666 !important; }
+        .btn-add:disabled { background: #ccc !important; color: #666 !important; cursor: not-allowed; }
 
-        /* MODAL */
+        /* MODAIS */
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 4000; align-items: center; justify-content: center; padding: 20px; }
-        .modal-content { background: white; width: 100%; max-width: 450px; border-radius: 20px; padding: 25px; position: relative; max-height: 90vh; overflow-y: auto; }
+        .modal-content { background: white; width: 100%; max-width: 450px; border-radius: 20px; padding: 25px; max-height: 90vh; overflow-y: auto; }
     </style>
 </head>
 <body>
@@ -147,6 +135,7 @@ const URL_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQZxhG0vIEsRAw4
 let carrinho = {}; 
 let categoriasUnicas = new Set();
 let bannerIndex = 0;
+let bannerInterval;
 
 function converterParaCentavos(valor) {
     if (!valor) return 0;
@@ -187,17 +176,20 @@ function carregarDados() {
 }
 
 function gerarBanners() {
-    const ofertas = window.PRODUTOS.filter(p => p.emOferta && p.estoqueAtual > 0);
+    const ofertas = window.PRODUTOS.filter(p => p.emOferta);
     const container = document.getElementById('banner-container');
     const wrapper = document.getElementById('banners-wrapper');
     const dots = document.getElementById('dots-wrapper');
     
-    if (ofertas.length === 0) return;
+    wrapper.innerHTML = ""; dots.innerHTML = ""; // Limpa anterior
+    if (ofertas.length === 0) { container.style.display = 'none'; return; }
     
     container.style.display = 'block';
-    const topOfertas = ofertas.slice(0, 5); // Pega até 5 produtos
+    const topOfertas = ofertas.slice(0, 5);
 
     topOfertas.forEach((p, idx) => {
+        const esgotado = p.estoqueAtual <= 0;
+        const perc = (p.estoqueAtual / p.estoqueOriginal) * 100;
         const div = document.createElement('div');
         div.className = 'banner-promo';
         div.id = `banner-slide-${idx}`;
@@ -208,10 +200,12 @@ function gerarBanners() {
                 <h4>Promoção do Dia</h4>
                 <h2>${p.nome}</h2>
                 <span class="preco-banner">R$ ${p.precoPromo}</span>
-                <button class="btn-banner-add" onclick="addCart(${p.id})">Adicionar ao Carrinho</button>
+                <button class="btn-banner-add" id="banner-btn-${p.id}" onclick="addCart(${p.id})" ${esgotado ? 'disabled' : ''}>
+                    ${esgotado ? 'ESGOTADO' : 'Adicionar ao Carrinho'}
+                </button>
+                <div class="barra-estoque"><div class="progresso-estoque" style="width: ${perc}%"></div></div>
                 ${ofertas.length > 5 && idx === topOfertas.length - 1 ? 
-                  `<button class="btn-ver-mais-promo" onclick="document.getElementById('btn-promo-filtro').click()">+ Ver todas as ${ofertas.length} ofertas</button>` 
-                  : ''}
+                  `<button class="btn-ver-mais-promo" style="background:var(--detalhe); border:none; padding:5px 10px; border-radius:10px; font-size:10px; font-weight:800; margin-top:10px;" onclick="document.getElementById('btn-promo-filtro').click()">+ Ver mais ${ofertas.length - 5}</button>` : ''}
             </div>
         `;
         wrapper.appendChild(div);
@@ -226,46 +220,23 @@ function gerarBanners() {
 }
 
 function startBannerRotation(total) {
-    if(total <= 1) {
-        document.querySelector('.banner-promo').style.display = 'flex';
-        return;
-    }
+    if (bannerInterval) clearInterval(bannerInterval);
+    if (total <= 1) { document.querySelector('.banner-promo').style.display = 'flex'; return; }
     
     function showSlide(idx) {
         document.querySelectorAll('.banner-promo').forEach(b => b.style.display = 'none');
         document.querySelectorAll('.dot').forEach(d => d.classList.remove('active'));
-        
-        document.getElementById(`banner-slide-${idx}`).style.display = 'flex';
-        document.getElementById(`dot-${idx}`).classList.add('active');
+        if (document.getElementById(`banner-slide-${idx}`)) {
+            document.getElementById(`banner-slide-${idx}`).style.display = 'flex';
+            document.getElementById(`dot-${idx}`).classList.add('active');
+        }
     }
 
     showSlide(0);
-    setInterval(() => {
+    bannerInterval = setInterval(() => {
         bannerIndex = (bannerIndex + 1) % total;
         showSlide(bannerIndex);
-    }, 5000); // Troca a cada 5 segundos
-}
-
-function gerarBotoesFiltro() {
-    const div = document.getElementById('lista-filtros');
-    categoriasUnicas.forEach(cat => {
-        const btn = document.createElement('button');
-        btn.className = 'btn-filtro';
-        btn.innerText = cat;
-        btn.onclick = () => filtrar(cat, btn);
-        div.appendChild(btn);
-    });
-}
-
-function filtrar(cat, btn) {
-    document.querySelectorAll('.btn-filtro').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    let filtrados = cat === 'todos' ? window.PRODUTOS : (cat === 'promo' ? window.PRODUTOS.filter(p => p.emOferta) : window.PRODUTOS.filter(p => p.categoria === cat));
-    
-    // Esconde banners se não estiver em "Todos"
-    document.getElementById('banner-container').style.display = (cat === 'todos') ? 'block' : 'none';
-    
-    render(filtrados);
+    }, 5000);
 }
 
 function render(lista) {
@@ -279,7 +250,7 @@ function render(lista) {
             <img src="${p.img}" onerror="this.src='https://via.placeholder.com/150'">
             <div class="p-nome">${p.nome}</div>
             <div class="p-preco-por" style="${p.emOferta ? 'color:var(--promo)' : ''}">${p.emOferta ? 'R$ ' + p.precoPromo : 'R$ ' + p.precoOriginal}</div>
-            <div class="barra-estoque" style="width:100%; height:6px; background:#eee; border-radius:10px; overflow:hidden; margin-bottom:10px;"><div style="height:100%; background:var(--erro); width:${porcentagem}%"></div></div>
+            <div class="barra-vitrine"><div class="progresso-vitrine" style="width: ${porcentagem}%"></div></div>
             <button class="btn-add" id="btn-${p.id}" onclick="addCart(${p.id})" ${esgotado ? 'disabled' : ''}>${esgotado ? 'ESGOTADO' : 'ADICIONAR'}</button>
         </div>`;
     }).join('');
@@ -288,20 +259,59 @@ function render(lista) {
 function addCart(id) {
     const p = window.PRODUTOS.find(prod => prod.id === id);
     if (p.estoqueAtual <= 0) return;
+    
     if (!carrinho[p.nome]) {
         carrinho[p.nome] = { precoCents: p.precoVendaCents, exibirPreco: p.emOferta ? p.precoPromo : p.precoOriginal, qtd: 1, id: id };
-    } else { carrinho[p.nome].qtd++; }
+    } else { 
+        carrinho[p.nome].qtd++; 
+    }
+    
     p.estoqueAtual--;
     atualizarTudo();
 }
 
 function atualizarTudo() {
     let totalCents = 0, totalItens = 0;
-    for (let nome in carrinho) { totalCents += (carrinho[nome].precoCents * carrinho[nome].qtd); totalItens += carrinho[nome].qtd; }
+    for (let nome in carrinho) { 
+        totalCents += (carrinho[nome].precoCents * carrinho[nome].qtd); 
+        totalItens += carrinho[nome].qtd; 
+    }
+    
     document.getElementById('soma-topo').innerText = formatarMoeda(totalCents);
     document.getElementById('modal-total').innerText = `Total: ${formatarMoeda(totalCents)}`;
     document.getElementById('count-topo').innerText = totalItens;
+    
+    // RE-RENDERIZA PARA ATUALIZAR BARRAS E BOTÕES (ESGOTADO)
     render(window.PRODUTOS);
+    
+    // ATUALIZA OS COMPONENTES DENTRO DO BANNER SEM REINICIAR O INTERVALO
+    const ofertas = window.PRODUTOS.filter(p => p.emOferta).slice(0, 5);
+    ofertas.forEach((p, idx) => {
+        const btnBanner = document.getElementById(`banner-btn-${p.id}`);
+        if(btnBanner && p.estoqueAtual <= 0) {
+            btnBanner.disabled = true;
+            btnBanner.innerText = "ESGOTADO";
+        }
+    });
+}
+
+function filtrar(cat, btn) {
+    document.querySelectorAll('.btn-filtro').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    let filtrados = cat === 'todos' ? window.PRODUTOS : (cat === 'promo' ? window.PRODUTOS.filter(p => p.emOferta) : window.PRODUTOS.filter(p => p.categoria === cat));
+    document.getElementById('banner-container').style.display = (cat === 'todos') ? 'block' : 'none';
+    render(filtrados);
+}
+
+function gerarBotoesFiltro() {
+    const div = document.getElementById('lista-filtros');
+    categoriasUnicas.forEach(cat => {
+        const btn = document.createElement('button');
+        btn.className = 'btn-filtro';
+        btn.innerText = cat;
+        btn.onclick = () => filtrar(cat, btn);
+        div.appendChild(btn);
+    });
 }
 
 function abrirResumo() {
