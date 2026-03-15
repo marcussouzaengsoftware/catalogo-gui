@@ -9,13 +9,15 @@
     <style>
         :root { --primaria: #0f2621; --detalhe: #d4af37; --whatsapp: #25d366; --fundo: #fcfcfc; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
-        body { background-color: var(--fundo); padding-top: 280px; padding-bottom: 100px; } 
+        body { background-color: var(--fundo); padding-top: 280px; padding-bottom: 120px; } 
 
+        /* CABEÇALHO LUXO */
         .topo-fixo { position: fixed; top: 0; left: 0; width: 100%; z-index: 2000; background: white; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
         header { background: var(--primaria); color: white; padding: 30px 10px; text-align: center; border-bottom: 5px solid var(--detalhe); }
         header h1 { font-family: 'Playfair Display', serif; font-size: 2.8rem; color: var(--detalhe); text-transform: uppercase; }
         header p { font-size: 1.3rem; font-weight: 700; color: #fff; margin-top: 5px; }
         
+        /* LOGOS DAS MARCAS */
         .area-catalogos { background: white; padding: 15px 0; border-bottom: 1px solid #eee; text-align: center; }
         .grade-logos { display: flex; justify-content: center; gap: 15px; }
         .item-logo { text-decoration: none; display: flex; flex-direction: column; align-items: center; width: 75px; }
@@ -23,29 +25,30 @@
         .img-box img { width: 100%; height: 100%; object-fit: contain; }
         .item-logo span { font-size: 10px; font-weight: 800; color: #333; margin-top: 5px; text-transform: uppercase; }
 
-        .nav-categorias { background: white; padding: 10px; overflow-x: auto; display: flex; gap: 8px; border-bottom: 1px solid #eee; }
-        .cat-btn { padding: 8px 18px; border-radius: 25px; border: 1px solid var(--primaria); background: transparent; font-size: 0.8rem; font-weight: bold; cursor: pointer; white-space: nowrap; }
-        .cat-btn.active { background: var(--primaria); color: white; }
-
+        /* VITRINE E PRODUTOS */
         .vitrine { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; padding: 12px; }
         .p-card { background: white; border: 1px solid #eee; padding: 15px; text-align: center; border-radius: 12px; display: flex; flex-direction: column; height: 100%; }
         .p-card img { width: 100%; height: 130px; object-fit: contain; margin-bottom: 10px; }
         .p-nome { font-size: 0.85rem; font-weight: 600; min-height: 40px; margin-bottom: 8px; color: #333; }
         .p-preco { font-weight: 800; color: var(--primaria); font-size: 1.15rem; margin-bottom: 5px; }
-        .p-estoque { font-size: 11px; color: #666; font-weight: bold; margin-bottom: 10px; }
+        .p-estoque { font-size: 11px; color: #d9534f; font-weight: bold; margin-bottom: 10px; }
         
         .btn-add { background: var(--primaria); color: white; border: none; padding: 10px; border-radius: 8px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 5px; margin-top: auto; }
 
-        .cart-fixo { position: fixed; bottom: 20px; right: 20px; background: var(--whatsapp); color: white; padding: 15px 25px; border-radius: 50px; display: flex; align-items: center; gap: 10px; box-shadow: 0 5px 20px rgba(0,0,0,0.3); z-index: 3000; cursor: pointer; border: none; }
+        /* CARRINHO FLUTUANTE COM SOMA VISÍVEL */
+        .cart-container { position: fixed; bottom: 20px; right: 20px; z-index: 3000; display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
+        .soma-flutuante { background: white; border: 2px solid var(--whatsapp); color: var(--whatsapp); padding: 5px 15px; border-radius: 20px; font-weight: 800; font-size: 1.1rem; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .cart-fixo { background: var(--whatsapp); color: white; padding: 15px 25px; border-radius: 50px; display: flex; align-items: center; gap: 10px; box-shadow: 0 5px 20px rgba(0,0,0,0.3); border: none; cursor: pointer; }
         .badge { background: white; color: var(--whatsapp); padding: 2px 8px; border-radius: 10px; font-weight: bold; }
 
+        /* MODAL RESUMO COM CONTROLES DE QUANTIDADE */
         #modal-resumo { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 4000; align-items: center; justify-content: center; }
-        .modal-content { background: white; width: 90%; max-width: 400px; border-radius: 15px; padding: 20px; max-height: 80vh; overflow-y: auto; }
-        .modal-header { border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; }
-        .item-resumo { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; font-size: 0.85rem; }
-        .total-resumo { border-top: 2px solid #eee; padding-top: 10px; margin-top: 10px; font-weight: bold; font-size: 1.1rem; display: flex; justify-content: space-between; }
-        .btn-confirmar { background: var(--whatsapp); color: white; width: 100%; border: none; padding: 15px; border-radius: 10px; font-weight: bold; margin-top: 20px; cursor: pointer; font-size: 1rem; }
-        .btn-remove { color: #d9534f; cursor: pointer; font-size: 18px; margin-left: 10px; }
+        .modal-content { background: white; width: 95%; max-width: 450px; border-radius: 15px; padding: 20px; max-height: 85vh; overflow-y: auto; }
+        .item-resumo { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #eee; }
+        .controles-qtd { display: flex; align-items: center; gap: 10px; background: #f8f9fa; padding: 5px 10px; border-radius: 8px; }
+        .btn-qtd { cursor: pointer; font-size: 20px; color: var(--primaria); user-select: none; }
+        .total-resumo { font-weight: bold; font-size: 1.3rem; text-align: right; margin-top: 20px; color: var(--primaria); }
+        .btn-confirmar { background: var(--whatsapp); color: white; width: 100%; border: none; padding: 15px; border-radius: 10px; font-weight: bold; margin-top: 20px; cursor: pointer; font-size: 1.1rem; }
     </style>
 </head>
 <body>
@@ -58,60 +61,41 @@
 
     <div class="area-catalogos">
         <div class="grade-logos">
-            <a href="https://encurtador.naturaavon.com/hTUzboh" target="_blank" class="item-logo">
-                <div class="img-box"><img src="assets/natura.png" alt="Natura"></div>
-                <span>Natura</span>
-            </a>
-            <a href="https://minhaloja.boticario.com.br/aline-nascimento?utm_source=app_divulgar&utm_medium=divulgar_catalogo&utm_campaign=ciclo_atual" target="_blank" class="item-logo">
-                <div class="img-box"><img src="assets/boticario.png" alt="Boticário"></div>
-                <span>Boticário</span>
-            </a>
-            <a href="https://minhaloja.eudora.com.br/aline-nascimento?utm_source=app_divulgar&utm_medium=divulgar_catalogo&utm_campaign=ciclo_atual" target="_blank" class="item-logo">
-                <div class="img-box"><img src="assets/eudora.jpeg" alt="Eudora"></div>
-                <span>Eudora</span>
-            </a>
-            <a href="https://minhaloja.ouiparis.com/aline-nascimento?utm_source=app_divulgar&utm_medium=divulgar_catalogo&utm_campaign=ciclo_atual" target="_blank" class="item-logo">
-                <div class="img-box"><img src="assets/oui.jpeg" alt="O.U.i"></div>
-                <span>O.U.i</span>
-            </a>
+            <a href="https://encurtador.naturaavon.com/hTUzboh" target="_blank" class="item-logo"><div class="img-box"><img src="assets/natura.png"></div><span>Natura</span></a>
+            <a href="https://minhaloja.boticario.com.br/aline-nascimento" target="_blank" class="item-logo"><div class="img-box"><img src="assets/boticario.png"></div><span>Boticário</span></a>
+            <a href="https://minhaloja.eudora.com.br/aline-nascimento" target="_blank" class="item-logo"><div class="img-box"><img src="assets/eudora.jpeg"></div><span>Eudora</span></a>
+            <a href="https://minhaloja.ouiparis.com/aline-nascimento" target="_blank" class="item-logo"><div class="img-box"><img src="assets/oui.jpeg"></div><span>O.U.i</span></a>
         </div>
     </div>
-
-    <div class="nav-categorias" id="filtro-marcas">
-        <button class="cat-btn active" onclick="filtrar('TODOS', this)">Todos</button>
-    </div>
+    <div class="nav-categorias" id="filtro-marcas"><button class="cat-btn active" onclick="filtrar('TODOS', this)">Todos</button></div>
 </div>
 
-<div id="loading" style="text-align:center; padding:100px; font-weight:bold; color:var(--primaria);">Sincronizando Vitrine...</div>
+<div id="loading" style="text-align:center; padding:100px;">Buscando novidades...</div>
 <div class="vitrine" id="vitrine"></div>
 
-<button class="cart-fixo" onclick="abrirResumo()">
-    <i class="material-icons">shopping_cart</i>
-    <span>Ver Pedido</span>
-    <span class="badge" id="cart-count">0</span>
-</button>
+<div class="cart-container" id="cart-container" style="display:none;">
+    <div class="soma-flutuante" id="soma-visivel">R$ 0,00</div>
+    <button class="cart-fixo" onclick="abrirResumo()">
+        <i class="material-icons">shopping_cart</i>
+        <span>Meu Pedido</span>
+        <span class="badge" id="cart-count">0</span>
+    </button>
+</div>
 
 <div id="modal-resumo">
     <div class="modal-content">
-        <div class="modal-header">
-            <h3>Seu Pedido</h3>
-            <i class="material-icons" style="cursor:pointer" onclick="fecharResumo()">close</i>
-        </div>
+        <h3>🛒 Resumo do Pedido</h3>
         <div id="lista-resumo"></div>
-        <div class="total-resumo">
-            <span>Total:</span>
-            <span id="valor-total">R$ 0,00</span>
-        </div>
-        <button class="btn-confirmar" onclick="enviarWhatsapp()">
-            CONCLUIR NO WHATSAPP
-        </button>
+        <div class="total-resumo" id="modal-total">Total: R$ 0,00</div>
+        <button class="btn-confirmar" onclick="enviarWhatsapp()">CONCLUIR NO WHATSAPP</button>
+        <p onclick="fecharResumo()" style="text-align:center; margin-top:15px; cursor:pointer; color:#666; font-size:14px;">Continuar Comprando</p>
     </div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
 <script>
 const URL_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQZxhG0vIEsRAw40jA4v1vMauSy16U-qKuvOmzVTYHIdKLz89jzHvaKxbDA2NQI2xnYRgn2a-DFdUjc/pub?output=csv';
-let carrinho = [];
+let carrinho = {}; // Formato: { "Nome do Produto": { precoStr, qtd, estoqueMax } }
 
 function carregarDados() {
     Papa.parse(URL_CSV, {
@@ -119,105 +103,89 @@ function carregarDados() {
         complete: function(results) {
             window.PRODUTOS = results.data.map(item => {
                 const v = Object.values(item);
-                return { 
-                    marca: (v[1] || "").trim(), 
-                    nome: (v[3] || "").trim(), 
-                    precoStr: v[4] || "0,00",
-                    img: v[5] || "", 
-                    estoque: parseInt(v[6]) || 0 
-                };
+                return { marca: v[1], nome: v[3], precoStr: v[4], img: v[5], estoque: parseInt(v[6]) || 0 };
             }).filter(p => p.nome);
-            
-            const marcas = [...new Set(window.PRODUTOS.map(p => p.marca))].filter(Boolean);
-            marcas.forEach(m => document.getElementById('filtro-marcas').innerHTML += `<button class="cat-btn" onclick="filtrar('${m}', this)">${m}</button>`);
             document.getElementById('loading').style.display = 'none';
+            document.getElementById('cart-container').style.display = 'flex';
             render('TODOS');
         }
     });
-}
-
-function filtrar(m, btn) {
-    document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    render(m);
 }
 
 function render(filtro) {
     const v = document.getElementById('vitrine');
     const filtrados = filtro === 'TODOS' ? window.PRODUTOS : window.PRODUTOS.filter(p => p.marca === filtro);
     v.innerHTML = filtrados.map(p => `
-        <div class="p-card" style="opacity: ${p.estoque > 0 ? 1 : 0.6}">
-            <img src="${p.img}" onerror="this.src='https://via.placeholder.com/150?text=Sem+Foto'">
+        <div class="p-card">
+            <img src="${p.img}" onerror="this.src='https://via.placeholder.com/150'">
             <div class="p-nome">${p.nome}</div>
             <div class="p-preco">R$ ${p.precoStr}</div>
-            <div class="p-estoque">Estoque: ${p.estoque}</div>
-            <button class="btn-add" onclick="addCart('${p.nome}', '${p.precoStr}', ${p.estoque})" ${p.estoque <= 0 ? 'disabled style="background:#ccc"' : ''}>
-                <i class="material-icons" style="font-size:18px">add_shopping_cart</i> ADICIONAR
-            </button>
+            <div class="p-estoque">${p.estoque > 0 ? 'Restam ' + p.estoque : 'ESGOTADO'}</div>
+            <button class="btn-add" onclick="addCart('${p.nome}', '${p.precoStr}', ${p.estoque})" ${p.estoque <= 0 ? 'disabled style="background:#ccc"' : ''}>ADICIONAR</button>
         </div>`).join('');
 }
 
 function addCart(nome, precoStr, estoqueMax) {
-    // Contar quantos desse item já estão no carrinho
-    const qtdNoCart = carrinho.filter(i => i.nome === nome).length;
-    
-    if (qtdNoCart >= estoqueMax) {
-        alert("Desculpe! Você já atingiu o limite disponível no estoque para este produto.");
-        return;
+    if (!carrinho[nome]) {
+        carrinho[nome] = { precoStr, qtd: 1, estoqueMax };
+    } else {
+        if (carrinho[nome].qtd >= estoqueMax) return alert("Limite de estoque atingido para este item!");
+        carrinho[nome].qtd++;
     }
-
-    carrinho.push({nome, precoStr});
-    document.getElementById('cart-count').innerText = carrinho.length;
+    atualizarInterface();
 }
 
-function removeCart(index) {
-    carrinho.splice(index, 1);
-    document.getElementById('cart-count').innerText = carrinho.length;
-    if(carrinho.length === 0) fecharResumo();
-    else abrirResumo();
+function mudarQtd(nome, delta) {
+    const item = carrinho[nome];
+    if (delta > 0 && item.qtd >= item.estoqueMax) return alert("Não temos mais em estoque!");
+    item.qtd += delta;
+    if (item.qtd <= 0) delete carrinho[nome];
+    atualizarInterface();
+    abrirResumo();
+}
+
+function atualizarInterface() {
+    let totalCents = 0;
+    let totalItens = 0;
+    for (let nome in carrinho) {
+        const precoCents = Math.round(parseFloat(carrinho[nome].precoStr.replace('.', '').replace(',', '.')) * 100);
+        totalCents += precoCents * carrinho[nome].qtd;
+        totalItens += carrinho[nome].qtd;
+    }
+    const totalFormatado = (totalCents / 100).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
+    document.getElementById('cart-count').innerText = totalItens;
+    document.getElementById('soma-visivel').innerText = `R$ ${totalFormatado}`;
+    document.getElementById('modal-total').innerText = `Total: R$ ${totalFormatado}`;
 }
 
 function abrirResumo() {
-    if(carrinho.length === 0) return alert("Seu carrinho está vazio!");
     const lista = document.getElementById('lista-resumo');
-    let totalCents = 0; // Usar centavos para evitar erro de soma decimal
-    
-    lista.innerHTML = carrinho.map((i, index) => {
-        // Converter "129,90" para 12990 (centavos)
-        const valorCents = Math.round(parseFloat(i.precoStr.replace('.', '').replace(',', '.')) * 100);
-        totalCents += valorCents;
-        return `<div class="item-resumo">
-            <span>${i.nome}</span>
-            <div style="display:flex; align-items:center;">
-                <b>R$ ${i.precoStr}</b>
-                <i class="material-icons btn-remove" onclick="removeCart(${index})">delete_outline</i>
+    if (Object.keys(carrinho).length === 0) return fecharResumo();
+    lista.innerHTML = Object.keys(carrinho).map(nome => `
+        <div class="item-resumo">
+            <div style="max-width:60%"><b>${nome}</b><br><small>R$ ${carrinho[nome].precoStr}</small></div>
+            <div class="controles-qtd">
+                <span class="btn-qtd" onclick="mudarQtd('${nome}', -1)">-</span>
+                <b>${carrinho[nome].qtd}</b>
+                <span class="btn-qtd" onclick="mudarQtd('${nome}', 1)">+</span>
             </div>
-        </div>`;
-    }).join('');
-
-    const totalFinal = (totalCents / 100).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
-    document.getElementById('valor-total').innerText = `R$ ${totalFinal}`;
+        </div>`).join('');
     document.getElementById('modal-resumo').style.display = 'flex';
 }
 
 function fecharResumo() { document.getElementById('modal-resumo').style.display = 'none'; }
 
 function enviarWhatsapp() {
-    let texto = "Olá Aline! Gostaria de fazer este pedido:\n\n";
+    let texto = "Olá Aline! Gostaria deste pedido:\n\n";
     let totalCents = 0;
-    
-    carrinho.forEach(i => {
-        texto += `✅ ${i.nome} - R$ ${i.precoStr}\n`;
-        totalCents += Math.round(parseFloat(i.precoStr.replace('.', '').replace(',', '.')) * 100);
-    });
-    
-    const totalFinal = (totalCents / 100).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
-    texto += `\n💰 *Total: R$ ${totalFinal}*`;
-    
-    const fone = "5571992795085"; 
-    window.open(`https://wa.me/${fone}?text=${encodeURIComponent(texto)}`);
+    for (let nome in carrinho) {
+        const item = carrinho[nome];
+        texto += `▪️ ${item.qtd}x ${nome} (R$ ${item.precoStr})\n`;
+        totalCents += Math.round(parseFloat(item.precoStr.replace('.', '').replace(',', '.')) * 100) * item.qtd;
+    }
+    texto += `\n💰 *Total: R$ ${(totalCents/100).toLocaleString('pt-BR', {minimumFractionDigits:2})}*`;
+    window.open(`https://wa.me/5571992795085?text=${encodeURIComponent(texto)}`);
 }
-
 carregarDados();
 </script>
 </body>
